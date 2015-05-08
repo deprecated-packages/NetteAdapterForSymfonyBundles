@@ -1,0 +1,21 @@
+language: php
+
+php:
+  - 5.5
+  - 5.6
+  - 7.0
+  - hhvm
+
+install:
+  - composer create-project --prefer-source --dev --no-interaction zenify/ci vendor/ci @dev
+  - . vendor/ci/travis/coverage-init.sh
+  - composer install --prefer-source
+
+before_script:
+  - . vendor/ci/travis/static-analysis.sh
+
+script:
+  - phpunit $PHPUNIT_FLAGS
+
+after_script:
+  - . vendor/ci/travis/coverage-send.sh

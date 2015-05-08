@@ -1,0 +1,5 @@
+extensions:
+	symfonyBundles: Symnedi\SymfonyBundlesExtension\DI\SymfonyBundlesExtension
+
+symfonyBundles:
+	- Hautelook\AliceBundle\HautelookAliceBundle

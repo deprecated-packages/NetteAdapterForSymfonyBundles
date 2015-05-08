@@ -1,0 +1,28 @@
+{
+	"name": "symnedi/symfony-bundles-extension",
+	"description": "Register Symfony Bundles as Nette Extensions with ease.",
+	"keywords": ["nette", "symfony", "dependency injection", "interoperability"],
+	"license": "MIT",
+	"authors": [
+		{ "name": "Tomáš Votruba", "email": "tomas.vot@gmail.com" }
+	],
+    "require": {
+		"php": ">=5.5",
+		"symfony/dependency-injection": "~2.6",
+		"nette/di": "~2.3"
+    },
+	"require-dev": {
+		"hautelook/alice-bundle": "0.2.*",
+		"nette/bootstrap": "~2.3"
+	},
+	"autoload": {
+		"psr-4": {
+			"Symnedi\\SymfonyBundlesExtension\\": "src"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Symnedi\\SymfonyBundlesExtension\\Tests\\": "tests"
+		}
+	}
+}
