@@ -6,6 +6,9 @@
 [![Downloads this Month](https://img.shields.io/packagist/dm/symnedi/symfony-bundles-extension.svg?style=flat-square)](https://packagist.org/packages/symnedi/symfony-bundles-extension)
 [![Latest stable](https://img.shields.io/packagist/v/symnedi/symfony-bundles-extension.svg?style=flat-square)](https://packagist.org/packages/symnedi/symfony-bundles-extension)
 
+Register Symfony Bundles as Nette Extensions with ease.
+
+
 ## Install
 
 Via Composer:
