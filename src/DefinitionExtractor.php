@@ -8,8 +8,6 @@
 namespace Symnedi\SymfonyBundlesExtension;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symnedi\SymfonyBundlesExtension\Contract\DefinitionExtractorInterface;
 
@@ -18,44 +16,42 @@ class DefinitionExtractor implements DefinitionExtractorInterface
 {
 
 	/**
+	 * @var ContainerBuilder
+	 */
+	private $containerBuilder;
+
+
+	public function __construct(ContainerBuilder $containerBuilder)
+	{
+		$this->containerBuilder = $containerBuilder;
+	}
+
+
+	/**
 	 * {@inheritdoc}
 	 */
 	public function extractFromBundles($bundles)
 	{
-		$serviceDefinitions = [];
 		foreach ($bundles as $bundleClass) {
 			if (class_exists($bundleClass)) {
 				/** @var Bundle $bundle */
 				$bundle = new $bundleClass;
-				$serviceDefinitions += $this->extractFromBundle($bundle);
+				$this->registerBundle($bundle);
 			}
 		}
-		return $serviceDefinitions;
+
+		$this->containerBuilder->compile();
+		return $this->containerBuilder->getDefinitions();
 	}
 
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function extractFromBundle(Bundle $bundle)
+	private function registerBundle(Bundle $bundle)
 	{
 		if ($extension = $bundle->getContainerExtension()) {
-			return $this->extractFromExtension($extension);
+			$this->containerBuilder->registerExtension($extension);
+			$this->containerBuilder->loadFromExtension($extension->getAlias());
 		}
 		return [];
-	}
-
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function extractFromExtension(ExtensionInterface $extension)
-	{
-		$symfonyContainerBuilder = new ContainerBuilder;
-		$symfonyContainerBuilder->registerExtension($extension);
-		$symfonyContainerBuilder->loadFromExtension($extension->getAlias());
-		$symfonyContainerBuilder->compile();
-		return $symfonyContainerBuilder->getDefinitions();
 	}
 
 }

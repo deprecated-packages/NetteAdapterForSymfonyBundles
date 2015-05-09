@@ -8,6 +8,7 @@
 namespace Symnedi\SymfonyBundlesExtension\DI;
 
 use Nette\DI\CompilerExtension;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symnedi\SymfonyBundlesExtension\Contract\DefinitionExtractorInterface;
 use Symnedi\SymfonyBundlesExtension\Contract\NetteServiceDefinitionFactoryInterface;
 use Symnedi\SymfonyBundlesExtension\DefinitionExtractor;
@@ -30,7 +31,7 @@ class SymfonyBundlesExtension extends CompilerExtension
 
 	public function __construct()
 	{
-		$this->definitionExtractor = new DefinitionExtractor;
+		$this->definitionExtractor = new DefinitionExtractor(new ContainerBuilder);
 		$this->netteServiceDefinitionFactory = new NetteServiceDefinitionFactory;
 	}
 
