@@ -7,6 +7,7 @@ use Hautelook\AliceBundle\Alice\Loader;
 use Nette\Configurator;
 use Nette\DI\Container;
 use PHPUnit_Framework_TestCase;
+use Symnedi\SymfonyBundlesExtension\Tests\ContainerSource\AutowiredService;
 
 
 class ContainerTest extends PHPUnit_Framework_TestCase
@@ -31,6 +32,14 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
 		/** @var Loader $loader */
 		$this->assertInstanceOf(ArrayCollection::class, $loader->getReferences());
+	}
+
+
+	public function testAutowiredService()
+	{
+		/** @var AutowiredService $autowiredService */
+		$autowiredService = $this->container->getByType(AutowiredService::class);
+		$this->assertInstanceOf(Loader::class, $autowiredService->getLoader());
 	}
 
 
