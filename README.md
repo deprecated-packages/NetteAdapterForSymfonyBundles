@@ -1,4 +1,4 @@
-# SymfonyBundlesExtensions
+# SymfonyBundlesExtension
 
 [![Build Status](https://img.shields.io/travis/Symnedi/SymfonyBundlesExtension.svg?style=flat-square)](https://travis-ci.org/Symnedi/SymfonyBundlesExtension)
 [![Quality Score](https://img.shields.io/scrutinizer/g/Symnedi/SymfonyBundlesExtension.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symnedi/SymfonyBundlesExtension)
