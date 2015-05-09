@@ -39,7 +39,10 @@ class DefinitionExtractor implements DefinitionExtractorInterface
 	 */
 	public function extractFromBundle(Bundle $bundle)
 	{
-		return $this->extractFromExtension($bundle->getContainerExtension());
+		if ($extension = $bundle->getContainerExtension()) {
+			return $this->extractFromExtension($extension);
+		}
+		return [];
 	}
 
 

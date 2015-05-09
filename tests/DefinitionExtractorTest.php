@@ -43,8 +43,7 @@ class DefinitionExtractorTest extends PHPUnit_Framework_TestCase
 
 	public function testExtractFromExtension()
 	{
-		$bundle = new HautelookAliceBundle;
-		$extension = $bundle->getContainerExtension();
+		$extension = (new HautelookAliceBundle)->getContainerExtension();
 
 		$definitions = $this->definitionExtractor->extractFromExtension($extension);
 		$this->assertCount(3, $definitions);

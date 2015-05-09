@@ -2,4 +2,5 @@ extensions:
 	symfonyBundles: Symnedi\SymfonyBundlesExtension\DI\SymfonyBundlesExtension
 
 symfonyBundles:
+	- Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle
 	- Hautelook\AliceBundle\HautelookAliceBundle
