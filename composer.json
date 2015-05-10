@@ -15,6 +15,7 @@
 		"doctrine/orm": "~2.5",
 		"hautelook/alice-bundle": "0.2.*",
 		"league/tactician-bundle": "0.2.*",
+		"mockery/mockery": "0.9.*",
 		"nette/bootstrap": "~2.3"
 	},
 	"autoload": {
