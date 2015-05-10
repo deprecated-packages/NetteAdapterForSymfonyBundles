@@ -21,7 +21,21 @@ class SymfonyBundlesExtensionTest extends PHPUnit_Framework_TestCase
 	protected function setUp()
 	{
 		$this->extension = new SymfonyBundlesExtension;
-		$this->extension->setCompiler(new Compiler(new ContainerBuilder), 'compiler');
+		$this->extension->setCompiler(new Compiler(new ContainerBuilder), 'symfonyBundles');
+	}
+
+
+	public function testPersisUniqueName()
+	{
+		$builder = $this->extension->getContainerBuilder();
+		$builder->addDefinition('doctrine.orm.entity_manager');
+
+		$bundles = (new Loader)->load(__DIR__ . '/SymfonyBundlesExtensionSource/bundles.neon');
+		$this->extension->setConfig($bundles);
+		$this->extension->loadConfiguration();
+
+		$this->assertTrue($builder->hasDefinition('doctrine.orm.entity_manager'));
+		$this->assertTrue($builder->hasDefinition('symfonyBundles.doctrine.orm.entity_manager'));
 	}
 
 
