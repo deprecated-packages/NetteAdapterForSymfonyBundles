@@ -8,13 +8,10 @@
 namespace Symnedi\SymfonyBundlesExtension\DI;
 
 use Nette\DI\CompilerExtension;
-use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symnedi\SymfonyBundlesExtension\Compiler\FakeReferencesPass;
 use Symnedi\SymfonyBundlesExtension\DefinitionExtractor;
+use Symnedi\SymfonyBundlesExtension\DefinitionExtractorFactory;
 use Symnedi\SymfonyBundlesExtension\SymfonyContainerAdapter;
-use Symnedi\SymfonyBundlesExtension\Transformer\ContainerBuilderTransformer;
 use Symnedi\SymfonyBundlesExtension\Transformer\ServiceDefinitionTransformer;
 
 
@@ -27,19 +24,21 @@ class SymfonyBundlesExtension extends CompilerExtension
 	private $definitionExtractor;
 
 	/**
-	 * @var ContainerBuilderTransformer
-	 */
-	private $containerBuilderTransformer;
-
-	/**
 	 * @var ServiceDefinitionTransformer
 	 */
 	private $serviceDefinitionTransformer;
 
+	/**
+	 * @var SymfonyContainerBuilder
+	 */
+	private $symfonyContainerBuilder;
+
+
 
 	public function __construct()
 	{
-		$this->initTransformers();
+		$this->symfonyContainerBuilder = new SymfonyContainerBuilder;
+		$this->serviceDefinitionTransformer = new ServiceDefinitionTransformer;
 	}
 
 
@@ -60,28 +59,11 @@ class SymfonyBundlesExtension extends CompilerExtension
 	}
 
 
-//	/**
-//	 * Process tagged services etc.
-//	 */
-//	public function beforeCompile()
-//	{
-//		$builder = $this->getContainerBuilder();
-
-//		$serviceDefinitions = $this->definitionExtractor->extractFromBundles($bundles);
-//		foreach ($serviceDefinitions as $name => $serviceDefinition) {
-//			$builder->addDefinition(
-//				$this->persistUniqueName($name),
-//				$this->serviceDefinitionTransformer->transformFromSymfonyToNette($serviceDefinition)
-//			);
-//		}
-//	}
-
-
-	private function initTransformers()
+	/**
+	 * Process tagged services etc.
+	 */
+	public function beforeCompile()
 	{
-		$this->containerBuilderTransformer = new ContainerBuilderTransformer;
-		$this->serviceDefinitionTransformer = new ServiceDefinitionTransformer;
-		$this->containerBuilderTransformer = new ContainerBuilderTransformer;
 	}
 
 
@@ -104,12 +86,9 @@ class SymfonyBundlesExtension extends CompilerExtension
 	private function getDefinitionExtractor()
 	{
 		if ($this->definitionExtractor === NULL) {
-//			$symfonyContainerBuilder = $this->containerBuilderTransformer->transformFromNetteToSymfony(
-//				$this->getContainerBuilder()
-//			);
-			$symfonyContainerBuilder = new ContainerBuilder;
-			$symfonyContainerBuilder->addCompilerPass(new FakeReferencesPass, PassConfig::TYPE_BEFORE_OPTIMIZATION);
-			$this->definitionExtractor = new DefinitionExtractor($symfonyContainerBuilder);
+			$this->definitionExtractor = (new DefinitionExtractorFactory())->create(
+				$this->getContainerBuilder(), $this->symfonyContainerBuilder
+			);
 		}
 		return $this->definitionExtractor;
 	}

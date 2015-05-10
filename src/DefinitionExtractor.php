@@ -8,11 +8,11 @@
 namespace Symnedi\SymfonyBundlesExtension;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Symnedi\SymfonyBundlesExtension\Contract\DefinitionExtractorInterface;
 
 
-class DefinitionExtractor implements DefinitionExtractorInterface
+class DefinitionExtractor
 {
 
 	/**
@@ -28,7 +28,8 @@ class DefinitionExtractor implements DefinitionExtractorInterface
 
 
 	/**
-	 * {@inheritdoc}
+	 * @param Bundle[] $bundles
+	 * @return Definition[]
 	 */
 	public function extractFromBundles($bundles)
 	{
