@@ -9,27 +9,38 @@ namespace Symnedi\SymfonyBundlesExtension\DI;
 
 use Nette\DI\CompilerExtension;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
+use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symnedi\SymfonyBundlesExtension\Compiler\FakeReferencesPass;
-use Symnedi\SymfonyBundlesExtension\Contract\DefinitionExtractorInterface;
-use Symnedi\SymfonyBundlesExtension\Contract\NetteServiceDefinitionFactoryInterface;
 use Symnedi\SymfonyBundlesExtension\DefinitionExtractor;
-use Symnedi\SymfonyBundlesExtension\NetteServiceDefinitionFactory;
 use Symnedi\SymfonyBundlesExtension\SymfonyContainerAdapter;
+use Symnedi\SymfonyBundlesExtension\Transformer\ContainerBuilderTransformer;
+use Symnedi\SymfonyBundlesExtension\Transformer\ServiceDefinitionTransformer;
 
 
 class SymfonyBundlesExtension extends CompilerExtension
 {
 
 	/**
-	 * @var DefinitionExtractorInterface
+	 * @var DefinitionExtractor
 	 */
 	private $definitionExtractor;
 
 	/**
-	 * @var NetteServiceDefinitionFactoryInterface
+	 * @var ContainerBuilderTransformer
 	 */
-	private $netteServiceDefinitionFactory;
+	private $containerBuilderTransformer;
+
+	/**
+	 * @var ServiceDefinitionTransformer
+	 */
+	private $serviceDefinitionTransformer;
+
+
+	public function __construct()
+	{
+		$this->initTransformers();
+	}
 
 
 	public function loadConfiguration()
@@ -41,11 +52,36 @@ class SymfonyBundlesExtension extends CompilerExtension
 		foreach ($serviceDefinitions as $name => $serviceDefinition) {
 			$builder->addDefinition(
 				$this->persistUniqueName($name),
-				$this->getNetteServiceDefinitionFactory()->create($serviceDefinition)
+				$this->serviceDefinitionTransformer->transformFromSymfonyToNette($serviceDefinition)
 			);
 		}
 
 		$this->addSymfonyContainerAdapter($builder);
+	}
+
+
+//	/**
+//	 * Process tagged services etc.
+//	 */
+//	public function beforeCompile()
+//	{
+//		$builder = $this->getContainerBuilder();
+
+//		$serviceDefinitions = $this->definitionExtractor->extractFromBundles($bundles);
+//		foreach ($serviceDefinitions as $name => $serviceDefinition) {
+//			$builder->addDefinition(
+//				$this->persistUniqueName($name),
+//				$this->serviceDefinitionTransformer->transformFromSymfonyToNette($serviceDefinition)
+//			);
+//		}
+//	}
+
+
+	private function initTransformers()
+	{
+		$this->containerBuilderTransformer = new ContainerBuilderTransformer;
+		$this->serviceDefinitionTransformer = new ServiceDefinitionTransformer;
+		$this->containerBuilderTransformer = new ContainerBuilderTransformer;
 	}
 
 
@@ -63,35 +99,26 @@ class SymfonyBundlesExtension extends CompilerExtension
 
 
 	/**
-	 * @return DefinitionExtractorInterface
+	 * @return DefinitionExtractor
 	 */
 	private function getDefinitionExtractor()
 	{
 		if ($this->definitionExtractor === NULL) {
-			$containerBuilder = new ContainerBuilder;
-			$containerBuilder->addCompilerPass(new FakeReferencesPass, PassConfig::TYPE_BEFORE_OPTIMIZATION);
-			$this->definitionExtractor = new DefinitionExtractor($containerBuilder);
+//			$symfonyContainerBuilder = $this->containerBuilderTransformer->transformFromNetteToSymfony(
+//				$this->getContainerBuilder()
+//			);
+			$symfonyContainerBuilder = new ContainerBuilder;
+			$symfonyContainerBuilder->addCompilerPass(new FakeReferencesPass, PassConfig::TYPE_BEFORE_OPTIMIZATION);
+			$this->definitionExtractor = new DefinitionExtractor($symfonyContainerBuilder);
 		}
 		return $this->definitionExtractor;
-	}
-
-
-	/**
-	 * @return NetteServiceDefinitionFactoryInterface
-	 */
-	private function getNetteServiceDefinitionFactory()
-	{
-		if ($this->netteServiceDefinitionFactory === NULL) {
-			$this->netteServiceDefinitionFactory = new NetteServiceDefinitionFactory;
-		}
-		return $this->netteServiceDefinitionFactory;
 	}
 
 
 	private function addSymfonyContainerAdapter()
 	{
 		$builder = $this->getContainerBuilder();
-		$builder->addDefinition('service_container')
+		$builder->addDefinition('service_container') // name of Symfony container service
 			->setClass(SymfonyContainerAdapter::class);
 	}
 
