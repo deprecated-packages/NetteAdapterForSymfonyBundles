@@ -37,6 +37,7 @@ class DefinitionExtractor implements DefinitionExtractorInterface
 				/** @var Bundle $bundle */
 				$bundle = new $bundleClass;
 				$this->registerBundle($bundle);
+				$bundle->build($this->containerBuilder);
 			}
 		}
 
@@ -51,7 +52,6 @@ class DefinitionExtractor implements DefinitionExtractorInterface
 			$this->containerBuilder->registerExtension($extension);
 			$this->containerBuilder->loadFromExtension($extension->getAlias());
 		}
-		return [];
 	}
 
 }
