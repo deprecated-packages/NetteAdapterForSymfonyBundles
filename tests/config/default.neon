@@ -1,4 +1,5 @@
 services:
+	- Symnedi\SymfonyBundlesExtension\Tests\ContainerSource\EntityManager
 	- Symnedi\SymfonyBundlesExtension\Tests\ContainerSource\AutowiredService
 
 extensions:
@@ -7,4 +8,4 @@ extensions:
 symfonyBundles:
 	- Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle
 	- Hautelook\AliceBundle\HautelookAliceBundle
-#	- League\Tactician\Bundle\TacticianBundle
+	- League\Tactician\Bundle\TacticianBundle

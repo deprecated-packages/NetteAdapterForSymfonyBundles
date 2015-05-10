@@ -32,7 +32,7 @@ class SymfonyBundlesExtensionTest extends PHPUnit_Framework_TestCase
 		$this->extension->loadConfiguration();
 
 		$builder = $this->extension->getContainerBuilder();
-		$this->assertCount(3, $builder->getDefinitions());
+		$this->assertCount(17, $builder->getDefinitions());
 	}
 
 }

@@ -4,8 +4,10 @@ namespace Symnedi\SymfonyBundlesExtension\Tests;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Hautelook\AliceBundle\Alice\Loader;
-use Nette\Configurator;
+use League\Tactician\CommandBus;
+use Nelmio\Alice\LoaderInterface;
 use Nette\DI\Container;
+use PHPUnit_Framework_Assert;
 use PHPUnit_Framework_TestCase;
 use Symnedi\SymfonyBundlesExtension\Tests\ContainerSource\AutowiredService;
 
@@ -21,7 +23,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
 	public function __construct()
 	{
-		$this->container = $this->createContainer();
+		$this->container = (new ContainerFactory)->create();
 	}
 
 
@@ -31,7 +33,19 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 		$this->assertInstanceOf(Loader::class, $loader);
 
 		/** @var Loader $loader */
+		$loaders = PHPUnit_Framework_Assert::getObjectAttribute($loader, 'loaders');
+		$this->assertCount(1, $loaders);
+		$this->assertArrayHasKey('yaml', $loaders);
+		$this->assertInstanceOf(LoaderInterface::class, $loaders['yaml']);
+
 		$this->assertInstanceOf(ArrayCollection::class, $loader->getReferences());
+	}
+
+
+	public function testReferenceToOtherService()
+	{
+		$commandBus = $this->container->getByType(CommandBus::class);
+		$this->assertInstanceOf(CommandBus::class, $commandBus);
 	}
 
 
@@ -40,18 +54,6 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 		/** @var AutowiredService $autowiredService */
 		$autowiredService = $this->container->getByType(AutowiredService::class);
 		$this->assertInstanceOf(Loader::class, $autowiredService->getLoader());
-	}
-
-
-	/**
-	 * @return Container
-	 */
-	private function createContainer()
-	{
-		$configurator = new Configurator;
-		$configurator->addConfig(__DIR__ . '/config/default.neon');
-		$configurator->setTempDirectory(TEMP_DIR);
-		return $configurator->createContainer();
 	}
 
 }
