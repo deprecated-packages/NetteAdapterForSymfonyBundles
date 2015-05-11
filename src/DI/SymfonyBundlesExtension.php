@@ -33,6 +33,14 @@ class SymfonyBundlesExtension extends CompilerExtension
 	 */
 	private $containerBuilderTransformer;
 
+	/**
+	 * @var array
+	 */
+	private $defaults = [
+		'bundles' => [],
+		'parameters' => []
+	];
+
 
 	public function __construct()
 	{
@@ -44,8 +52,8 @@ class SymfonyBundlesExtension extends CompilerExtension
 
 	public function loadConfiguration()
 	{
-		$bundles = (array) $this->getConfig();
-		$this->loadBundlesToSymfonyContainerBuilder($bundles);
+		$config = $this->getConfig($this->defaults);
+		$this->loadBundlesToSymfonyContainerBuilder($config['bundles'], $config['parameters']);
 	}
 
 
@@ -73,15 +81,19 @@ class SymfonyBundlesExtension extends CompilerExtension
 
 	/**
 	 * @param string[] $bundles
+	 * @param array[] $parameters
 	 */
-	private function loadBundlesToSymfonyContainerBuilder(array $bundles)
+	private function loadBundlesToSymfonyContainerBuilder(array $bundles, array $parameters)
 	{
-		foreach ($bundles as $bundleClass) {
+		foreach ($bundles as $name => $bundleClass) {
 			/** @var Bundle $bundle */
 			$bundle = new $bundleClass;
 			if ($extension = $bundle->getContainerExtension()) {
 				$this->symfonyContainerBuilder->registerExtension($extension);
-				$this->symfonyContainerBuilder->loadFromExtension($extension->getAlias());
+				$this->symfonyContainerBuilder->loadFromExtension(
+					$extension->getAlias(),
+					isset($parameters[$name]) ? $parameters[$name] : []
+				);
 			}
 			$bundle->build($this->symfonyContainerBuilder);
 		}

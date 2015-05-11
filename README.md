@@ -31,7 +31,13 @@ Register Symfony bundles just like Nette extensions:
 
 ```yaml
 symfonyBundles:
-	- Hautelook\AliceBundle\HautelookAliceBundle
+	bundles:    
+		# list all bundles
+		alice: Hautelook\AliceBundle\HautelookAliceBundle
+	parameters:
+		# and it's parameters (bound by same key name)
+		alice:
+			locale: cs_CZ
 ```
 
 That's it!
