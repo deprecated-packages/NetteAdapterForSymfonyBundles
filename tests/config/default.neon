@@ -13,9 +13,17 @@ extensions:
 
 symfonyBundles:
 	bundles:
-		alice: Hautelook\AliceBundle\HautelookAliceBundle
 		- Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle
-		- League\Tactician\Bundle\TacticianBundle
+		alice: Hautelook\AliceBundle\HautelookAliceBundle
+		tactician: League\Tactician\Bundle\TacticianBundle
+
 	parameters:
 		alice:
 			locale: cs_CZ
+
+		tactician:
+			commandbus:
+				default:
+					middleware:
+						- tactician.middleware.locking
+						- tactician.middleware.command_handler
