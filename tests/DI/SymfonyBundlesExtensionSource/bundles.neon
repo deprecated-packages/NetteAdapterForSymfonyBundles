@@ -1,2 +1,3 @@
-- Hautelook\AliceBundle\HautelookAliceBundle
-- League\Tactician\Bundle\TacticianBundle
+bundles:
+	- Hautelook\AliceBundle\HautelookAliceBundle
+	- League\Tactician\Bundle\TacticianBundle

@@ -12,6 +12,10 @@ extensions:
 	symfonyBundles: Symnedi\SymfonyBundlesExtension\DI\SymfonyBundlesExtension
 
 symfonyBundles:
-	- Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle
-	- Hautelook\AliceBundle\HautelookAliceBundle
-	- League\Tactician\Bundle\TacticianBundle
+	bundles:
+		alice: Hautelook\AliceBundle\HautelookAliceBundle
+		- Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle
+		- League\Tactician\Bundle\TacticianBundle
+	parameters:
+		alice:
+			locale: cs_CZ
