@@ -1,6 +1,11 @@
 services:
 	- Symnedi\SymfonyBundlesExtension\Tests\ContainerSource\EntityManager
 	- Symnedi\SymfonyBundlesExtension\Tests\ContainerSource\AutowiredService
+	-
+		class: Symnedi\SymfonyBundlesExtension\Tests\ContainerSource\SomeCommandHandler
+		tags:
+			tactician.handler:
+				- [command: SomeCommand]
 
 extensions:
 	symfonyBundles: Symnedi\SymfonyBundlesExtension\DI\SymfonyBundlesExtension

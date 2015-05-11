@@ -41,10 +41,11 @@ class ServiceDefinitionTransformer
 	{
 		$symfonyDefinition = (new Definition)
 			->setClass($netteDefinition->getClass())
-			->setArguments(
-				$this->argumentsTransformer->transformFromSymfonyToNette($netteDefinition->getFactory()->arguments)
-			)
 			->setTags($netteDefinition->getTags());
+
+		if ($netteDefinition->getFactory()) {
+			$symfonyDefinition->setArguments($netteDefinition->getFactory()->arguments);
+		}
 
 		return $symfonyDefinition;
 	}

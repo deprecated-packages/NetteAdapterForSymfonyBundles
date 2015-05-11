@@ -4,7 +4,9 @@ namespace Symnedi\SymfonyBundlesExtension\Tests;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Hautelook\AliceBundle\Alice\Loader;
+use League\Tactician\Bundle\Handler\ContainerBasedHandlerLocator;
 use League\Tactician\CommandBus;
+use League\Tactician\Handler\Locator\HandlerLocator;
 use Nelmio\Alice\LoaderInterface;
 use Nette\DI\Container;
 use PHPUnit_Framework_Assert;
@@ -54,6 +56,17 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 		/** @var AutowiredService $autowiredService */
 		$autowiredService = $this->container->getByType(AutowiredService::class);
 		$this->assertInstanceOf(Loader::class, $autowiredService->getLoader());
+	}
+
+
+	public function testTaggedServices()
+	{
+		/** @var HandlerLocator $handlerLocator */
+		$handlerLocator = $this->container->getByType(HandlerLocator::class);
+		$this->assertInstanceOf(HandlerLocator::class, $handlerLocator);
+		$this->assertInstanceOf(ContainerBasedHandlerLocator::class, $handlerLocator);
+
+		$this->assertCount(1, PHPUnit_Framework_Assert::getObjectAttribute($handlerLocator, 'commandToServiceId'));
 	}
 
 }
