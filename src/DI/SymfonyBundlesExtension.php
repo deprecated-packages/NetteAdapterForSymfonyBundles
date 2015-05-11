@@ -8,6 +8,7 @@
 namespace Symnedi\SymfonyBundlesExtension\DI;
 
 use Nette\DI\CompilerExtension;
+use Nette\DI\ServiceDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symnedi\SymfonyBundlesExtension\Compiler\FakeReferencesPass;
@@ -52,16 +53,6 @@ class SymfonyBundlesExtension extends CompilerExtension
 			$bundle->build($this->symfonyContainerBuilder);
 		}
 
-		$this->symfonyContainerBuilder->compile();
-		$serviceDefinitions = $this->symfonyContainerBuilder->getDefinitions();
-		foreach ($serviceDefinitions as $name => $serviceDefinition) {
-			$netteContainerBuilder->addDefinition(
-				$this->persistUniqueName($name),
-				$this->serviceDefinitionTransformer->transformFromSymfonyToNette($serviceDefinition)
-			);
-		}
-
-		$this->addSymfonyContainerAdapter($netteContainerBuilder);
 	}
 
 
@@ -70,19 +61,27 @@ class SymfonyBundlesExtension extends CompilerExtension
 	 */
 	public function beforeCompile()
 	{
-	}
+		$netteContainerBuilder = $this->getContainerBuilder();
 
+		$symfonyServiceDefinitions = array_map(function (ServiceDefinition $serviceDefinition) {
+			return $this->serviceDefinitionTransformer->transformFromNetteToSymfony($serviceDefinition);
+		}, $netteContainerBuilder->getDefinitions());
+		$this->symfonyContainerBuilder->addDefinitions($symfonyServiceDefinitions);
 
-	/**
-	 * @param string $name
-	 * @return string
-	 */
-	private function persistUniqueName($name)
-	{
-		if ($this->getContainerBuilder()->hasDefinition($name)) {
-			$name = $this->prefix($name);
+		$this->addSymfonyContainerAdapter($netteContainerBuilder);
+		$this->symfonyContainerBuilder->compile();
+
+		$serviceDefinitions = $this->symfonyContainerBuilder->getDefinitions();
+
+		foreach ($serviceDefinitions as $name => $serviceDefinition) {
+			$name = (string) $name;
+
+			if ( ! $netteContainerBuilder->getByType($serviceDefinition->getClass())) {
+				$netteContainerBuilder->addDefinition(
+					$name, $this->serviceDefinitionTransformer->transformFromSymfonyToNette($serviceDefinition)
+				);
+			}
 		}
-		return $name;
 	}
 
 
