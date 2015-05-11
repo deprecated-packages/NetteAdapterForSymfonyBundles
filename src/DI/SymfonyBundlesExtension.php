@@ -20,6 +20,11 @@ class SymfonyBundlesExtension extends CompilerExtension
 {
 
 	/**
+	 * @var string
+	 */
+	const SYMFONY_CONTAINER_SERVICE_NAME = 'service_container';
+
+	/**
 	 * @var SymfonyContainerBuilder
 	 */
 	private $symfonyContainerBuilder;
@@ -88,7 +93,7 @@ class SymfonyBundlesExtension extends CompilerExtension
 	private function addSymfonyContainerAdapter()
 	{
 		$builder = $this->getContainerBuilder();
-		$builder->addDefinition('service_container') // name of Symfony container service
+		$builder->addDefinition(self::SYMFONY_CONTAINER_SERVICE_NAME)
 			->setClass(SymfonyContainerAdapter::class);
 	}
 
