@@ -45,7 +45,7 @@ class SymfonyBundlesExtension extends CompilerExtension
 	public function loadConfiguration()
 	{
 		$bundles = (array) $this->getConfig();
-		$this->loadBundlesToSymfony($bundles);
+		$this->loadBundlesToSymfonyContainerBuilder($bundles);
 	}
 
 
@@ -74,7 +74,7 @@ class SymfonyBundlesExtension extends CompilerExtension
 	/**
 	 * @param string[] $bundles
 	 */
-	private function loadBundlesToSymfony(array $bundles)
+	private function loadBundlesToSymfonyContainerBuilder(array $bundles)
 	{
 		foreach ($bundles as $bundleClass) {
 			/** @var Bundle $bundle */

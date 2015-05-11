@@ -8,7 +8,6 @@
 namespace Symnedi\SymfonyBundlesExtension\Transformer;
 
 use Nette\DI\ContainerBuilder as NetteContainerBuilder;
-use Nette\DI\ServiceDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
 
 
@@ -27,21 +26,20 @@ class ContainerBuilderTransformer
 	}
 
 
-	/**
-	 * @return SymfonyContainerBuilder
-	 */
 	public function transformFromNetteToSymfony(
 		NetteContainerBuilder $netteContainerBuilder,
 		SymfonyContainerBuilder $symfonyContainerBuilder
 	) {
 		$netteServiceDefinitions = $netteContainerBuilder->getDefinitions();
 
-		$symfonyServiceDefinitions = array_map(function (ServiceDefinition $netteServiceDefinition) {
-			return $this->serviceDefinitionTransformer->transformFromNetteToSymfony($netteServiceDefinition);
-		}, $netteServiceDefinitions);
+		$symfonyServiceDefinitions = [];
+		foreach ($netteServiceDefinitions as $name => $serviceDefinition) {
+			$symfonyServiceDefinitions[$name] = $this->serviceDefinitionTransformer->transformFromNetteToSymfony(
+				$serviceDefinition
+			);
+		}
 
 		$symfonyContainerBuilder->addDefinitions($symfonyServiceDefinitions);
-		return $symfonyContainerBuilder;
 	}
 
 
