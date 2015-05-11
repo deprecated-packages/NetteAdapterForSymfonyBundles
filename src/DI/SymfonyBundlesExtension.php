@@ -45,7 +45,6 @@ class SymfonyBundlesExtension extends CompilerExtension
 
 	public function loadConfiguration()
 	{
-		$netteContainerBuilder = $this->getContainerBuilder();
 		$bundles = (array) $this->getConfig();
 
 		foreach ($bundles as $bundleClass) {
@@ -57,13 +56,9 @@ class SymfonyBundlesExtension extends CompilerExtension
 			}
 			$bundle->build($this->symfonyContainerBuilder);
 		}
-
 	}
 
 
-	/**
-	 * Process tagged services etc.
-	 */
 	public function beforeCompile()
 	{
 		$netteContainerBuilder = $this->getContainerBuilder();
@@ -79,8 +74,6 @@ class SymfonyBundlesExtension extends CompilerExtension
 		$serviceDefinitions = $this->symfonyContainerBuilder->getDefinitions();
 
 		foreach ($serviceDefinitions as $name => $serviceDefinition) {
-			$name = (string) $name;
-
 			if ( ! $netteContainerBuilder->getByType($serviceDefinition->getClass())) {
 				$netteContainerBuilder->addDefinition(
 					$name, $this->serviceDefinitionTransformer->transformFromSymfonyToNette($serviceDefinition)
@@ -92,8 +85,7 @@ class SymfonyBundlesExtension extends CompilerExtension
 
 	private function addSymfonyContainerAdapter()
 	{
-		$builder = $this->getContainerBuilder();
-		$builder->addDefinition(self::SYMFONY_CONTAINER_SERVICE_NAME)
+		$this->getContainerBuilder()->addDefinition(self::SYMFONY_CONTAINER_SERVICE_NAME)
 			->setClass(SymfonyContainerAdapter::class);
 	}
 
