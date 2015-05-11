@@ -14,6 +14,7 @@ use PHPUnit_Framework_Assert;
 use PHPUnit_Framework_TestCase;
 use Symnedi\SymfonyBundlesExtension\Tests\ContainerSource\AutowiredService;
 use Symnedi\SymfonyBundlesExtension\Tests\ContainerSource\EntityManager;
+use Symnedi\SymfonyBundlesExtension\Tests\ContainerSource\ParameterStorage;
 
 
 class ContainerTest extends PHPUnit_Framework_TestCase
@@ -73,6 +74,17 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 		$this->assertInstanceOf(ContainerBasedHandlerLocator::class, $handlerLocator);
 
 		$this->assertCount(1, PHPUnit_Framework_Assert::getObjectAttribute($handlerLocator, 'commandToServiceId'));
+	}
+
+
+	public function testParameters()
+	{
+		/** @var ParameterStorage $parameterStorage */
+		$parameterStorage = $this->container->getByType(ParameterStorage::class);
+		$this->assertInstanceOf(ParameterStorage::class, $parameterStorage);
+
+		$this->assertSame(1, $parameterStorage->getParameter());
+		$this->assertSame([2, 3], $parameterStorage->getGroupOfParameters());
 	}
 
 }
