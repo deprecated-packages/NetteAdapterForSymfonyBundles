@@ -8,12 +8,11 @@
 namespace Symnedi\SymfonyBundlesExtension\DI;
 
 use Nette\DI\CompilerExtension;
-use Nette\DI\ServiceDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symnedi\SymfonyBundlesExtension\Compiler\FakeReferencesPass;
 use Symnedi\SymfonyBundlesExtension\SymfonyContainerAdapter;
-use Symnedi\SymfonyBundlesExtension\Transformer\ServiceDefinitionTransformer;
+use Symnedi\SymfonyBundlesExtension\Transformer\ContainerBuilderTransformer;
 
 
 class SymfonyBundlesExtension extends CompilerExtension
@@ -30,23 +29,53 @@ class SymfonyBundlesExtension extends CompilerExtension
 	private $symfonyContainerBuilder;
 
 	/**
-	 * @var ServiceDefinitionTransformer
+	 * @var ContainerBuilderTransformer
 	 */
-	private $serviceDefinitionTransformer;
+	private $containerBuilderTransformer;
 
 
 	public function __construct()
 	{
 		$this->symfonyContainerBuilder = new SymfonyContainerBuilder;
 		$this->symfonyContainerBuilder->addCompilerPass(new FakeReferencesPass);
-		$this->serviceDefinitionTransformer = new ServiceDefinitionTransformer;
+		$this->containerBuilderTransformer = new ContainerBuilderTransformer;
 	}
 
 
 	public function loadConfiguration()
 	{
 		$bundles = (array) $this->getConfig();
+		$this->loadBundlesToSymfony($bundles);
+	}
 
+
+	public function beforeCompile()
+	{
+		$this->containerBuilderTransformer->transformFromNetteToSymfony(
+			$this->getContainerBuilder(), $this->symfonyContainerBuilder
+		);
+
+		$this->addSymfonyContainerAdapter();
+		$this->symfonyContainerBuilder->compile();
+
+		$this->containerBuilderTransformer->transformFromSymfonyToNette(
+			$this->symfonyContainerBuilder, $this->getContainerBuilder()
+		);
+	}
+
+
+	private function addSymfonyContainerAdapter()
+	{
+		$this->getContainerBuilder()->addDefinition(self::SYMFONY_CONTAINER_SERVICE_NAME)
+			->setClass(SymfonyContainerAdapter::class);
+	}
+
+
+	/**
+	 * @param string[] $bundles
+	 */
+	private function loadBundlesToSymfony(array $bundles)
+	{
 		foreach ($bundles as $bundleClass) {
 			/** @var Bundle $bundle */
 			$bundle = new $bundleClass;
@@ -56,37 +85,6 @@ class SymfonyBundlesExtension extends CompilerExtension
 			}
 			$bundle->build($this->symfonyContainerBuilder);
 		}
-	}
-
-
-	public function beforeCompile()
-	{
-		$netteContainerBuilder = $this->getContainerBuilder();
-
-		$symfonyServiceDefinitions = array_map(function (ServiceDefinition $serviceDefinition) {
-			return $this->serviceDefinitionTransformer->transformFromNetteToSymfony($serviceDefinition);
-		}, $netteContainerBuilder->getDefinitions());
-		$this->symfonyContainerBuilder->addDefinitions($symfonyServiceDefinitions);
-
-		$this->addSymfonyContainerAdapter($netteContainerBuilder);
-		$this->symfonyContainerBuilder->compile();
-
-		$serviceDefinitions = $this->symfonyContainerBuilder->getDefinitions();
-
-		foreach ($serviceDefinitions as $name => $serviceDefinition) {
-			if ( ! $netteContainerBuilder->getByType($serviceDefinition->getClass())) {
-				$netteContainerBuilder->addDefinition(
-					$name, $this->serviceDefinitionTransformer->transformFromSymfonyToNette($serviceDefinition)
-				);
-			}
-		}
-	}
-
-
-	private function addSymfonyContainerAdapter()
-	{
-		$this->getContainerBuilder()->addDefinition(self::SYMFONY_CONTAINER_SERVICE_NAME)
-			->setClass(SymfonyContainerAdapter::class);
 	}
 
 }

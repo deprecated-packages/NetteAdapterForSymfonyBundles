@@ -8,14 +8,22 @@
 namespace Symnedi\SymfonyBundlesExtension\Transformer;
 
 use Nette\DI\ContainerBuilder as NetteContainerBuilder;
+use Nette\DI\ServiceDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
 
 
 class ContainerBuilderTransformer
 {
 
-	public function transformFromSymfonyToNette(SymfonyContainerBuilder $symfonyContainerBuilder)
+	/**
+	 * @var ServiceDefinitionTransformer
+	 */
+	private $serviceDefinitionTransformer;
+
+
+	public function __construct()
 	{
+		$this->serviceDefinitionTransformer = new ServiceDefinitionTransformer;
 	}
 
 
@@ -23,11 +31,33 @@ class ContainerBuilderTransformer
 	 * @return SymfonyContainerBuilder
 	 */
 	public function transformFromNetteToSymfony(
-		NetteContainerBuilder $netteContainerBuilder, SymfonyContainerBuilder $symfonyContainerBuilder
+		NetteContainerBuilder $netteContainerBuilder,
+		SymfonyContainerBuilder $symfonyContainerBuilder
 	) {
-//		$netteContainerBuilder->prepareClassList();
-//		var_dump($netteContainerBuilder->findByTag('tactician.handler'));
+		$netteServiceDefinitions = $netteContainerBuilder->getDefinitions();
+
+		$symfonyServiceDefinitions = array_map(function (ServiceDefinition $netteServiceDefinition) {
+			return $this->serviceDefinitionTransformer->transformFromNetteToSymfony($netteServiceDefinition);
+		}, $netteServiceDefinitions);
+
+		$symfonyContainerBuilder->addDefinitions($symfonyServiceDefinitions);
 		return $symfonyContainerBuilder;
+	}
+
+
+	public function transformFromSymfonyToNette(
+		SymfonyContainerBuilder $symfonyContainerBuilder,
+		NetteContainerBuilder $netteContainerBuilder
+	) {
+		$symfonyServiceDefinitions = $symfonyContainerBuilder->getDefinitions();
+
+		foreach ($symfonyServiceDefinitions as $name => $symfonyServiceDefinition) {
+			if ( ! $netteContainerBuilder->getByType($symfonyServiceDefinition->getClass())) {
+				$netteContainerBuilder->addDefinition(
+					$name, $this->serviceDefinitionTransformer->transformFromSymfonyToNette($symfonyServiceDefinition)
+				);
+			}
+		}
 	}
 
 }
