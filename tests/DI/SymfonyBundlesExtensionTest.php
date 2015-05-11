@@ -25,25 +25,12 @@ class SymfonyBundlesExtensionTest extends PHPUnit_Framework_TestCase
 	}
 
 
-	public function testPersisUniqueName()
-	{
-		$builder = $this->extension->getContainerBuilder();
-		$builder->addDefinition('doctrine.orm.entity_manager');
-
-		$bundles = (new Loader)->load(__DIR__ . '/SymfonyBundlesExtensionSource/bundles.neon');
-		$this->extension->setConfig($bundles);
-		$this->extension->loadConfiguration();
-
-		$this->assertTrue($builder->hasDefinition('doctrine.orm.entity_manager'));
-		$this->assertTrue($builder->hasDefinition('symfonyBundles.doctrine.orm.entity_manager'));
-	}
-
-
 	public function testLoadBundlesEmpty()
 	{
 		$bundles = (new Loader)->load(__DIR__ . '/SymfonyBundlesExtensionSource/bundles.neon');
 		$this->extension->setConfig($bundles);
 		$this->extension->loadConfiguration();
+		$this->extension->beforeCompile();
 
 		$builder = $this->extension->getContainerBuilder();
 		$this->assertCount(17, $builder->getDefinitions());

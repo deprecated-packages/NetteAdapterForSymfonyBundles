@@ -8,91 +8,83 @@
 namespace Symnedi\SymfonyBundlesExtension\DI;
 
 use Nette\DI\CompilerExtension;
-use Symfony\Component\DependencyInjection\Compiler\PassConfig;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symnedi\SymfonyBundlesExtension\Compiler\FakeReferencesPass;
-use Symnedi\SymfonyBundlesExtension\Contract\DefinitionExtractorInterface;
-use Symnedi\SymfonyBundlesExtension\Contract\NetteServiceDefinitionFactoryInterface;
-use Symnedi\SymfonyBundlesExtension\DefinitionExtractor;
-use Symnedi\SymfonyBundlesExtension\NetteServiceDefinitionFactory;
 use Symnedi\SymfonyBundlesExtension\SymfonyContainerAdapter;
+use Symnedi\SymfonyBundlesExtension\Transformer\ContainerBuilderTransformer;
 
 
 class SymfonyBundlesExtension extends CompilerExtension
 {
 
 	/**
-	 * @var DefinitionExtractorInterface
+	 * @var string
 	 */
-	private $definitionExtractor;
+	const SYMFONY_CONTAINER_SERVICE_NAME = 'service_container';
 
 	/**
-	 * @var NetteServiceDefinitionFactoryInterface
+	 * @var SymfonyContainerBuilder
 	 */
-	private $netteServiceDefinitionFactory;
+	private $symfonyContainerBuilder;
+
+	/**
+	 * @var ContainerBuilderTransformer
+	 */
+	private $containerBuilderTransformer;
+
+
+	public function __construct()
+	{
+		$this->symfonyContainerBuilder = new SymfonyContainerBuilder;
+		$this->symfonyContainerBuilder->addCompilerPass(new FakeReferencesPass);
+		$this->containerBuilderTransformer = new ContainerBuilderTransformer;
+	}
 
 
 	public function loadConfiguration()
 	{
-		$builder = $this->getContainerBuilder();
 		$bundles = (array) $this->getConfig();
-
-		$serviceDefinitions = $this->getDefinitionExtractor()->extractFromBundles($bundles);
-		foreach ($serviceDefinitions as $name => $serviceDefinition) {
-			$builder->addDefinition(
-				$this->persistUniqueName($name),
-				$this->getNetteServiceDefinitionFactory()->create($serviceDefinition)
-			);
-		}
-
-		$this->addSymfonyContainerAdapter($builder);
+		$this->loadBundlesToSymfony($bundles);
 	}
 
 
-	/**
-	 * @param string $name
-	 * @return string
-	 */
-	private function persistUniqueName($name)
+	public function beforeCompile()
 	{
-		if ($this->getContainerBuilder()->hasDefinition($name)) {
-			$name = $this->prefix($name);
-		}
-		return $name;
-	}
+		$this->containerBuilderTransformer->transformFromNetteToSymfony(
+			$this->getContainerBuilder(), $this->symfonyContainerBuilder
+		);
 
+		$this->addSymfonyContainerAdapter();
+		$this->symfonyContainerBuilder->compile();
 
-	/**
-	 * @return DefinitionExtractorInterface
-	 */
-	private function getDefinitionExtractor()
-	{
-		if ($this->definitionExtractor === NULL) {
-			$containerBuilder = new ContainerBuilder;
-			$containerBuilder->addCompilerPass(new FakeReferencesPass, PassConfig::TYPE_BEFORE_OPTIMIZATION);
-			$this->definitionExtractor = new DefinitionExtractor($containerBuilder);
-		}
-		return $this->definitionExtractor;
-	}
-
-
-	/**
-	 * @return NetteServiceDefinitionFactoryInterface
-	 */
-	private function getNetteServiceDefinitionFactory()
-	{
-		if ($this->netteServiceDefinitionFactory === NULL) {
-			$this->netteServiceDefinitionFactory = new NetteServiceDefinitionFactory;
-		}
-		return $this->netteServiceDefinitionFactory;
+		$this->containerBuilderTransformer->transformFromSymfonyToNette(
+			$this->symfonyContainerBuilder, $this->getContainerBuilder()
+		);
 	}
 
 
 	private function addSymfonyContainerAdapter()
 	{
-		$builder = $this->getContainerBuilder();
-		$builder->addDefinition('service_container')
+		$this->getContainerBuilder()->addDefinition(self::SYMFONY_CONTAINER_SERVICE_NAME)
 			->setClass(SymfonyContainerAdapter::class);
+	}
+
+
+	/**
+	 * @param string[] $bundles
+	 */
+	private function loadBundlesToSymfony(array $bundles)
+	{
+		foreach ($bundles as $bundleClass) {
+			/** @var Bundle $bundle */
+			$bundle = new $bundleClass;
+			if ($extension = $bundle->getContainerExtension()) {
+				$this->symfonyContainerBuilder->registerExtension($extension);
+				$this->symfonyContainerBuilder->loadFromExtension($extension->getAlias());
+			}
+			$bundle->build($this->symfonyContainerBuilder);
+		}
 	}
 
 }
