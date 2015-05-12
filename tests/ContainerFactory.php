@@ -14,8 +14,17 @@ class ContainerFactory
 	 */
 	public function create()
 	{
+		return $this->createWithConfig(__DIR__ . '/config/default.neon');
+	}
+
+
+	/**
+	 * @return Container
+	 */
+	public function createWithConfig($config)
+	{
 		$configurator = new Configurator;
-		$configurator->addConfig(__DIR__ . '/config/default.neon');
+		$configurator->addConfig($config);
 		$configurator->setTempDirectory(TEMP_DIR);
 		return $configurator->createContainer();
 	}

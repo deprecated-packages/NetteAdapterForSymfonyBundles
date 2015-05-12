@@ -1,0 +1,13 @@
+extensions:
+	symfonyBundles: Symnedi\SymfonyBundlesExtension\DI\SymfonyBundlesExtension
+
+services:
+	-
+		class: Symnedi\SymfonyBundlesExtension\Tests\TacticianBundle\NetteTagsSource\SomeCommandHandler
+		tags:
+			tactician.handler:
+				- [command: Symnedi\SymfonyBundlesExtension\Tests\TacticianBundle\NetteTagsSource\SomeCommand]
+
+symfonyBundles:
+	bundles:
+		- League\Tactician\Bundle\TacticianBundle

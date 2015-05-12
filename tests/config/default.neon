@@ -1,13 +1,7 @@
 services:
-	- Symnedi\SymfonyBundlesExtension\Tests\Container\ParametersSource\CustomMiddleware
 	- Symnedi\SymfonyBundlesExtension\Tests\ContainerSource\ParameterStorage(1, [2, 3])
 	- Symnedi\SymfonyBundlesExtension\Tests\ContainerSource\EntityManager
 	- Symnedi\SymfonyBundlesExtension\Tests\ContainerSource\AutowiredService
-	-
-		class: Symnedi\SymfonyBundlesExtension\Tests\ContainerSource\SomeCommandHandler
-		tags:
-			tactician.handler:
-				- [command: SomeCommand]
 
 extensions:
 	symfonyBundles: Symnedi\SymfonyBundlesExtension\DI\SymfonyBundlesExtension
@@ -15,17 +9,9 @@ extensions:
 symfonyBundles:
 	bundles:
 		- Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle
+		- League\Tactician\Bundle\TacticianBundle
 		alice: Hautelook\AliceBundle\HautelookAliceBundle
-		tactician: League\Tactician\Bundle\TacticianBundle
 
 	parameters:
 		alice:
 			locale: cs_CZ
-
-		tactician:
-			commandbus:
-				default:
-					middleware:
-						- @Symnedi\SymfonyBundlesExtension\Tests\Container\ParametersSource\CustomMiddleware
-						- tactician.middleware.locking
-						- tactician.middleware.command_handler

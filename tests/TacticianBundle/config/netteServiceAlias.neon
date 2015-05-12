@@ -1,0 +1,18 @@
+extensions:
+	symfonyBundles: Symnedi\SymfonyBundlesExtension\DI\SymfonyBundlesExtension
+
+services:
+	- Symnedi\SymfonyBundlesExtension\Tests\Container\ParametersSource\CustomMiddleware
+
+symfonyBundles:
+	bundles:
+		tactician: League\Tactician\Bundle\TacticianBundle
+
+	parameters:
+		tactician:
+			commandbus:
+				default:
+					middleware:
+						- @Symnedi\SymfonyBundlesExtension\Tests\Container\ParametersSource\CustomMiddleware
+						- tactician.middleware.locking
+						- tactician.middleware.command_handler

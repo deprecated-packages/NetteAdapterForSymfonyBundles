@@ -64,15 +64,4 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 		$this->assertInstanceOf(Loader::class, $autowiredService->getLoader());
 	}
 
-
-	public function testTaggedServices()
-	{
-		/** @var HandlerLocator $handlerLocator */
-		$handlerLocator = $this->container->getByType(HandlerLocator::class);
-		$this->assertInstanceOf(HandlerLocator::class, $handlerLocator);
-		$this->assertInstanceOf(ContainerBasedHandlerLocator::class, $handlerLocator);
-
-		$this->assertCount(1, PHPUnit_Framework_Assert::getObjectAttribute($handlerLocator, 'commandToServiceId'));
-	}
-
 }

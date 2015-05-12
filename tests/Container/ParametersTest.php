@@ -2,14 +2,10 @@
 
 namespace Symnedi\SymfonyBundlesExtension\Tests\Container;
 
-use Closure;
-use League\Tactician\CommandBus;
-use League\Tactician\Exception\MissingHandlerException;
 use Nelmio\Alice\Loader\Yaml;
 use Nette\DI\Container;
 use PHPUnit_Framework_Assert;
 use PHPUnit_Framework_TestCase;
-use stdClass;
 use Symnedi\SymfonyBundlesExtension\Tests\ContainerFactory;
 use Symnedi\SymfonyBundlesExtension\Tests\ContainerSource\ParameterStorage;
 
@@ -47,20 +43,6 @@ class ParametersTest extends PHPUnit_Framework_TestCase
 		$this->assertInstanceOf(Yaml::class, $yamlLoader);
 
 		$this->assertSame('cs_CZ', PHPUnit_Framework_Assert::getObjectAttribute($yamlLoader, 'defaultLocale'));
-	}
-
-
-	public function testSymfonyServiceReferencing()
-	{
-		/** @var CommandBus $commandBus */
-		$commandBus = $this->container->getByType(CommandBus::class);
-		$this->assertInstanceOf(CommandBus::class, $commandBus);
-
-		/** @var Closure $middlewareChain */
-		$middlewareChain = PHPUnit_Framework_Assert::getObjectAttribute($commandBus, 'middlewareChain');
-
-		$output = $middlewareChain(new stdClass);
-		$this->assertInstanceOf(stdClass::class, $output);
 	}
 
 }
