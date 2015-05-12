@@ -14,7 +14,6 @@ use PHPUnit_Framework_Assert;
 use PHPUnit_Framework_TestCase;
 use Symnedi\SymfonyBundlesExtension\Tests\ContainerSource\AutowiredService;
 use Symnedi\SymfonyBundlesExtension\Tests\ContainerSource\EntityManager;
-use Symnedi\SymfonyBundlesExtension\Tests\ContainerSource\ParameterStorage;
 
 
 class ContainerTest extends PHPUnit_Framework_TestCase
