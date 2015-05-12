@@ -7,11 +7,25 @@
 
 namespace Symnedi\SymfonyBundlesExtension\Transformer;
 
+use Nette\DI\ContainerBuilder as NetteContainerBuilder;
+use ReflectionClass;
 use Symfony\Component\DependencyInjection\Reference;
 
 
 class ArgumentsTransformer
 {
+
+	/**
+	 * @var NetteContainerBuilder
+	 */
+	private $netteContainerBuilder;
+
+
+	public function __construct(NetteContainerBuilder $netteContainerBuilder)
+	{
+		$this->netteContainerBuilder = $netteContainerBuilder;
+	}
+
 
 	/**
 	 * @return array
@@ -20,7 +34,7 @@ class ArgumentsTransformer
 	{
 		foreach ($arguments as $key => $argument) {
 			if ($argument instanceof Reference) {
-				$arguments[$key] = '@' . (string) $argument;
+				$arguments[$key] = $this->determineServiceName($argument);
 
 			} elseif (is_array($argument)) {
 				$arguments[$key] = $this->transformFromSymfonyToNette($argument);
@@ -28,6 +42,21 @@ class ArgumentsTransformer
 		}
 
 		return $arguments;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	private function determineServiceName(Reference $argument)
+	{
+		$name = (string) $argument;
+		if ($name[0] === '@') {
+			$className = (new ReflectionClass(substr($name, 1)))->getName();
+			$this->netteContainerBuilder->prepareClassList();
+			$name = $this->netteContainerBuilder->getByType($className);
+		}
+		return '@' . $name;
 	}
 
 }

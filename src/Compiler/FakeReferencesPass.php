@@ -7,6 +7,7 @@
 
 namespace Symnedi\SymfonyBundlesExtension\Compiler;
 
+use ReflectionClass;
 use stdClass;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -38,7 +39,6 @@ class FakeReferencesPass implements CompilerPassInterface
 		$this->container = $container;
 
 		foreach ($container->getDefinitions() as $id => $definition) {
-			$this->sourceId = $id;
 			$this->processDefinition($definition);
 		}
 	}
@@ -66,6 +66,10 @@ class FakeReferencesPass implements CompilerPassInterface
 				&& ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE === $argument->getInvalidBehavior())
 			{
 				$destId = (string) $argument;
+				if (class_exists($destId)) {
+					$destId = (new ReflectionClass($destId))->getName();
+				}
+
 				if ( ! $this->container->has($destId)) {
 					$this->container->addDefinitions([
 						$destId => new Definition(stdClass::class)

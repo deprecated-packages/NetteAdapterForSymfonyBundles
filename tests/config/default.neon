@@ -1,4 +1,5 @@
 services:
+	- Symnedi\SymfonyBundlesExtension\Tests\Container\ParametersSource\CustomMiddleware
 	- Symnedi\SymfonyBundlesExtension\Tests\ContainerSource\ParameterStorage(1, [2, 3])
 	- Symnedi\SymfonyBundlesExtension\Tests\ContainerSource\EntityManager
 	- Symnedi\SymfonyBundlesExtension\Tests\ContainerSource\AutowiredService
@@ -25,5 +26,6 @@ symfonyBundles:
 			commandbus:
 				default:
 					middleware:
+						- @Symnedi\SymfonyBundlesExtension\Tests\Container\ParametersSource\CustomMiddleware
 						- tactician.middleware.locking
 						- tactician.middleware.command_handler

@@ -8,7 +8,10 @@
 namespace Symnedi\SymfonyBundlesExtension\Transformer;
 
 use Nette\DI\ContainerBuilder as NetteContainerBuilder;
+use Nette\Utils\Strings;
+use ReflectionClass;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 
 
 class ContainerBuilderTransformer
@@ -20,9 +23,9 @@ class ContainerBuilderTransformer
 	private $serviceDefinitionTransformer;
 
 
-	public function __construct()
+	public function __construct(NetteContainerBuilder $netteContainerBuilder)
 	{
-		$this->serviceDefinitionTransformer = new ServiceDefinitionTransformer;
+		$this->serviceDefinitionTransformer = new ServiceDefinitionTransformer($netteContainerBuilder);
 	}
 
 
@@ -50,12 +53,41 @@ class ContainerBuilderTransformer
 		$symfonyServiceDefinitions = $symfonyContainerBuilder->getDefinitions();
 
 		foreach ($symfonyServiceDefinitions as $name => $symfonyServiceDefinition) {
-			if ( ! $netteContainerBuilder->getByType($symfonyServiceDefinition->getClass())) {
+			$class = $this->determineClass($name, $symfonyServiceDefinition);
+			$name = $this->determineServiceName($name);
+
+			if ( ! $netteContainerBuilder->getByType($class)) {
 				$netteContainerBuilder->addDefinition(
 					$name, $this->serviceDefinitionTransformer->transformFromSymfonyToNette($symfonyServiceDefinition)
 				);
 			}
 		}
+	}
+
+
+	/**
+	 * @param string $name
+	 * @param Definition $symfonyServiceDefinition
+	 * @return string
+	 */
+	private function determineClass($name, Definition $symfonyServiceDefinition)
+	{
+		$class = $symfonyServiceDefinition->getClass();
+		if (class_exists($name)) {
+			$class = (new ReflectionClass($name))->getName();
+		}
+		return $class;
+	}
+
+
+	/**
+	 * @param string $name
+	 * @return string
+	 */
+	private function determineServiceName($name)
+	{
+		$name = Strings::webalize($name, '.');
+		return strtr($name, ['-' => '_']);
 	}
 
 }

@@ -46,7 +46,6 @@ class SymfonyBundlesExtension extends CompilerExtension
 	{
 		$this->symfonyContainerBuilder = new SymfonyContainerBuilder;
 		$this->symfonyContainerBuilder->addCompilerPass(new FakeReferencesPass);
-		$this->containerBuilderTransformer = new ContainerBuilderTransformer;
 	}
 
 
@@ -59,14 +58,14 @@ class SymfonyBundlesExtension extends CompilerExtension
 
 	public function beforeCompile()
 	{
-		$this->containerBuilderTransformer->transformFromNetteToSymfony(
+		$this->getContainerBuilderTransformer()->transformFromNetteToSymfony(
 			$this->getContainerBuilder(), $this->symfonyContainerBuilder
 		);
 
 		$this->addSymfonyContainerAdapter();
 		$this->symfonyContainerBuilder->compile();
 
-		$this->containerBuilderTransformer->transformFromSymfonyToNette(
+		$this->getContainerBuilderTransformer()->transformFromSymfonyToNette(
 			$this->symfonyContainerBuilder, $this->getContainerBuilder()
 		);
 	}
@@ -97,6 +96,18 @@ class SymfonyBundlesExtension extends CompilerExtension
 			}
 			$bundle->build($this->symfonyContainerBuilder);
 		}
+	}
+
+
+	/**
+	 * @return ContainerBuilderTransformer
+	 */
+	private function getContainerBuilderTransformer()
+	{
+		if ($this->containerBuilderTransformer === NULL) {
+			$this->containerBuilderTransformer = new ContainerBuilderTransformer($this->getContainerBuilder());
+		}
+		return $this->containerBuilderTransformer;
 	}
 
 }
