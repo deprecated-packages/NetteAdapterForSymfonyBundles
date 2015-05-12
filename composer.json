@@ -4,12 +4,12 @@
 	"keywords": ["nette", "symfony", "dependency injection", "interoperability"],
 	"license": "MIT",
 	"authors": [
-		{ "name": "Tomáš Votruba", "email": "tomas.vot@gmail.com" }
+		{ "name": "Tomáš Votruba", "email": "tomas.vot@gmail.com", "homepage": "http://tomasvotruba.cz" }
 	],
     "require": {
 		"php": ">=5.5",
-		"symfony/dependency-injection": "~2.6",
-		"nette/di": "~2.3"
+		"symfony/dependency-injection": "~2.6.0",
+		"nette/di": "~2.3.0"
     },
 	"require-dev": {
 		"doctrine/orm": "~2.5",
