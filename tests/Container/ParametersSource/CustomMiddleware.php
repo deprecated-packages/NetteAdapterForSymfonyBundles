@@ -13,8 +13,7 @@ class CustomMiddleware implements Middleware
 	 */
 	public function execute($command, callable $next)
 	{
-//		var_dump($command);
-//		die;
+		return $command;
 	}
 
 }
