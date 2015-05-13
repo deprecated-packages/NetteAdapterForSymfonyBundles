@@ -12,6 +12,7 @@ use Nette\Utils\Strings;
 use ReflectionClass;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
+use Symnedi\SymfonyBundlesExtension\Utils\Naming;
 
 
 class ArgumentsTransformer
@@ -42,12 +43,12 @@ class ArgumentsTransformer
 				$arguments[$key] = $this->transformFromSymfonyToNette($argument);
 
 			} elseif ($argument instanceof Definition) {
-				$name = Strings::webalize($argument->getClass());
-				$name = strtr($name, ['-' => '_']);
+				$name = Naming::sanitazeClassName($argument->getClass());
 				$this->netteContainerBuilder->addDefinition($name)
 					->setClass($argument->getClass())
 					->setArguments($argument->getArguments())
 					->setTags($argument->getTags());
+
 				$arguments[$key] = '@' . $argument->getClass();
 			}
 		}

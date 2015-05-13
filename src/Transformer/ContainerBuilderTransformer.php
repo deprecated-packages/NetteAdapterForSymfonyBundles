@@ -12,6 +12,7 @@ use Nette\Utils\Strings;
 use ReflectionClass;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Symnedi\SymfonyBundlesExtension\Utils\Naming;
 
 
 class ContainerBuilderTransformer
@@ -54,8 +55,7 @@ class ContainerBuilderTransformer
 
 		foreach ($symfonyServiceDefinitions as $name => $symfonyServiceDefinition) {
 			$class = $this->determineClass($name, $symfonyServiceDefinition);
-			$name = $this->determineServiceName($name);
-
+			$name = Naming::sanitazeClassName($name);
 			if ( ! $netteContainerBuilder->getByType($class)) {
 				$netteContainerBuilder->addDefinition(
 					$name, $this->serviceDefinitionTransformer->transformFromSymfonyToNette($symfonyServiceDefinition)
@@ -77,17 +77,6 @@ class ContainerBuilderTransformer
 			$class = (new ReflectionClass($name))->getName();
 		}
 		return $class;
-	}
-
-
-	/**
-	 * @param string $name
-	 * @return string
-	 */
-	private function determineServiceName($name)
-	{
-		$name = Strings::webalize($name, '.');
-		return strtr($name, ['-' => '_']);
 	}
 
 }
