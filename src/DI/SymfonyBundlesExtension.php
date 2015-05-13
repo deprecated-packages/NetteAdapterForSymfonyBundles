@@ -52,6 +52,8 @@ class SymfonyBundlesExtension extends CompilerExtension
 	public function loadConfiguration()
 	{
 		$config = $this->getConfig($this->defaults);
+
+		$this->loadParameters($config);
 		$this->loadBundlesToSymfonyContainerBuilder($config['bundles'], $config['parameters']);
 	}
 
@@ -71,10 +73,15 @@ class SymfonyBundlesExtension extends CompilerExtension
 	}
 
 
-	private function addSymfonyContainerAdapter()
+	private function loadParameters(array $config)
 	{
-		$this->getContainerBuilder()->addDefinition(self::SYMFONY_CONTAINER_SERVICE_NAME)
-			->setClass(SymfonyContainerAdapter::class);
+		$netteConfig = $this->compiler->getConfig()['parameters'];
+
+		$this->symfonyContainerBuilder->setParameter('kernel.bundles', $config['bundles']);
+		$this->symfonyContainerBuilder->setParameter('kernel.cache_dir', $netteConfig['tempDir']);
+		$this->symfonyContainerBuilder->setParameter('kernel.logs_dir', $netteConfig['tempDir']);
+		$this->symfonyContainerBuilder->setParameter('kernel.debug', $netteConfig['debugMode']);
+		$this->symfonyContainerBuilder->setParameter('kernel.environment', $netteConfig['environment']);
 	}
 
 
@@ -91,11 +98,22 @@ class SymfonyBundlesExtension extends CompilerExtension
 				$this->symfonyContainerBuilder->registerExtension($extension);
 				$this->symfonyContainerBuilder->loadFromExtension(
 					$extension->getAlias(),
-					isset($parameters[$name]) ? $parameters[$name] : []
+					$this->determineParameters($parameters, $name)
 				);
 			}
 			$bundle->build($this->symfonyContainerBuilder);
 		}
+	}
+
+
+	/**
+	 * @param array $parameters
+	 * @param string $name
+	 * @return array
+	 */
+	private function determineParameters(array $parameters, $name)
+	{
+		return isset($parameters[$name]) ? $parameters[$name] : [];
 	}
 
 
@@ -108,6 +126,13 @@ class SymfonyBundlesExtension extends CompilerExtension
 			$this->containerBuilderTransformer = new ContainerBuilderTransformer($this->getContainerBuilder());
 		}
 		return $this->containerBuilderTransformer;
+	}
+
+
+	private function addSymfonyContainerAdapter()
+	{
+		$this->getContainerBuilder()->addDefinition(self::SYMFONY_CONTAINER_SERVICE_NAME)
+			->setClass(SymfonyContainerAdapter::class);
 	}
 
 }
