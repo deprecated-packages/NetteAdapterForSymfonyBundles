@@ -21,7 +21,18 @@ class SymfonyBundlesExtensionTest extends PHPUnit_Framework_TestCase
 	protected function setUp()
 	{
 		$this->extension = new SymfonyBundlesExtension;
-		$this->extension->setCompiler(new Compiler(new ContainerBuilder), 'symfonyBundles');
+		$compiler = new Compiler(new ContainerBuilder);
+		$this->extension->setCompiler($compiler, 'symfonyBundles');
+
+		// simulates required Nette\Configurator default parameters
+		$compiler->addConfig([
+			'parameters' => [
+				'appDir' => '',
+				'tempDir' => '',
+				'debugMode' => TRUE,
+				'environment' => ''
+			]
+		]);
 	}
 
 
