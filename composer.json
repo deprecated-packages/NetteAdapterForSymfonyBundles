@@ -6,11 +6,11 @@
 	"authors": [
 		{ "name": "Tomáš Votruba", "email": "tomas.vot@gmail.com", "homepage": "http://tomasvotruba.cz" }
 	],
-    "require": {
+	"require": {
 		"php": ">=5.5",
 		"symfony/dependency-injection": "^2.3",
 		"nette/di": "^2.2"
-    },
+	},
 	"require-dev": {
 		"doctrine/orm": "~2.5",
 		"hautelook/alice-bundle": "0.2.*",
