@@ -8,7 +8,6 @@
 namespace Symnedi\SymfonyBundlesExtension\Transformer;
 
 use Nette\DI\ContainerBuilder as NetteContainerBuilder;
-use Nette\Utils\Strings;
 use ReflectionClass;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
