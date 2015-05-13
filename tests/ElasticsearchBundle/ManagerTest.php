@@ -2,6 +2,7 @@
 
 namespace Symnedi\SymfonyBundlesExtension\Tests\ElasticsearchBundle;
 
+use Elasticsearch\Client;
 use Nette\DI\Container;
 use ONGR\ElasticsearchBundle\Client\Connection;
 use ONGR\ElasticsearchBundle\ORM\Manager;
@@ -34,7 +35,7 @@ class ManagerTest extends PHPUnit_Framework_TestCase
 		$connection = $manager->getConnection();
 		$this->assertInstanceOf(Connection::class, $connection);
 
-//		$connection->createIndex($input->getOption('with-warmers'), $input->getOption('no-mapping') ? true : false);
+		$this->assertInstanceOf(Client::class, $connection->getClient());
 	}
 
 }

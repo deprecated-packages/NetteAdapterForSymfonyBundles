@@ -45,7 +45,7 @@ class ArgumentsTransformer
 				$name = Naming::sanitazeClassName($argument->getClass());
 				$this->netteContainerBuilder->addDefinition($name)
 					->setClass($argument->getClass())
-					->setArguments($argument->getArguments())
+					->setArguments($this->transformFromSymfonyToNette($argument->getArguments()))
 					->setTags($argument->getTags());
 
 				$arguments[$key] = '@' . $argument->getClass();
