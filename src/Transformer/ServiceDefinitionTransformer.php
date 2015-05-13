@@ -7,8 +7,10 @@
 
 namespace Symnedi\SymfonyBundlesExtension\Transformer;
 
+use Doctrine\Common\Persistence\Event\ManagerEventArgs;
 use Nette\DI\ContainerBuilder as NetteContainerBuilder;
 use Nette\DI\ServiceDefinition;
+use ONGR\ElasticsearchBundle\ORM\Manager;
 use Symfony\Component\DependencyInjection\Definition;
 
 

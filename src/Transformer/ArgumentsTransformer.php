@@ -8,7 +8,9 @@
 namespace Symnedi\SymfonyBundlesExtension\Transformer;
 
 use Nette\DI\ContainerBuilder as NetteContainerBuilder;
+use Nette\Utils\Strings;
 use ReflectionClass;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 
@@ -38,6 +40,15 @@ class ArgumentsTransformer
 
 			} elseif (is_array($argument)) {
 				$arguments[$key] = $this->transformFromSymfonyToNette($argument);
+
+			} elseif ($argument instanceof Definition) {
+				$name = Strings::webalize($argument->getClass());
+				$name = strtr($name, ['-' => '_']);
+				$this->netteContainerBuilder->addDefinition($name)
+					->setClass($argument->getClass())
+					->setArguments($argument->getArguments())
+					->setTags($argument->getTags());
+				$arguments[$key] = '@' . $argument->getClass();
 			}
 		}
 

@@ -1,0 +1,17 @@
+extensions:
+	symfonyBundles: Symnedi\SymfonyBundlesExtension\DI\SymfonyBundlesExtension
+
+symfonyBundles:
+	bundles:
+		ongr_elasticsearch: ONGR\ElasticsearchBundle\ONGRElasticsearchBundle
+
+	parameters:
+		ongr_elasticsearch:
+			connections:
+				default:
+					hosts:
+						- { host: 127.0.0.1:9200 }
+					index_name: someName
+			managers:
+				default:
+					connection: default

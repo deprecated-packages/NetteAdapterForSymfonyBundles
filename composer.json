@@ -8,15 +8,16 @@
 	],
     "require": {
 		"php": ">=5.5",
-		"symfony/dependency-injection": "~2.6.0",
-		"nette/di": "~2.3.0"
+		"symfony/dependency-injection": "^2.3",
+		"nette/di": "^2.2"
     },
 	"require-dev": {
 		"doctrine/orm": "~2.5",
 		"hautelook/alice-bundle": "0.2.*",
 		"league/tactician-bundle": "0.2.*",
 		"mockery/mockery": "0.9.*",
-		"nette/bootstrap": "~2.3"
+		"nette/bootstrap": "~2.3",
+		"ongr/elasticsearch-bundle": "0.9.*"
 	},
 	"autoload": {
 		"psr-4": {
