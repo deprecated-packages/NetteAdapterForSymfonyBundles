@@ -43,6 +43,11 @@ class SymfonyBundlesExtension extends CompilerExtension
 		'parameters' => []
 	];
 
+	/**
+	 * @var Bundle[]
+	 */
+	private $activeBundles = [];
+
 
 	public function __construct()
 	{
@@ -86,15 +91,12 @@ class SymfonyBundlesExtension extends CompilerExtension
 	 */
 	public function afterCompile(ClassType $class)
 	{
-		$bundles = $this->getConfig($this->defaults)['bundles'];
-
 		$initializerMethod = $class->getMethod('initialize');
 		$initializerMethod->addBody('
-			foreach (? as $bundleClass) {
-				$bundle = new $bundleClass;
+			foreach (? as $bundle) {
 				$bundle->setContainer($this->getService(?));
 				$bundle->boot();
-			}', [$bundles, self::SYMFONY_CONTAINER_SERVICE_NAME]
+			}', [$this->activeBundles, self::SYMFONY_CONTAINER_SERVICE_NAME]
 		);
 	}
 
@@ -121,6 +123,8 @@ class SymfonyBundlesExtension extends CompilerExtension
 		foreach ($bundles as $name => $bundleClass) {
 			/** @var Bundle $bundle */
 			$bundle = new $bundleClass;
+			$this->activeBundles[$name] = $bundle;
+
 			if ($extension = $bundle->getContainerExtension()) {
 				$this->symfonyContainerBuilder->registerExtension($extension);
 				$this->symfonyContainerBuilder->loadFromExtension(
