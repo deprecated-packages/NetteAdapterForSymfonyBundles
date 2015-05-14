@@ -2,20 +2,14 @@
 
 namespace Symnedi\SymfonyBundlesExtension\Tests;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Hautelook\AliceBundle\Alice\Loader;
-use League\Tactician\CommandBus;
 use Mockery;
-use Nelmio\Alice\LoaderInterface;
 use Nette\DI\Container;
-use PHPUnit_Framework_Assert;
 use PHPUnit_Framework_TestCase;
 use stdClass;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symfony\Component\DependencyInjection\ScopeInterface;
 use Symnedi\SymfonyBundlesExtension\SymfonyContainerAdapter;
-use Symnedi\SymfonyBundlesExtension\Tests\ContainerSource\AutowiredService;
 
 
 class SymfonyContainerAdapterTest extends PHPUnit_Framework_TestCase

@@ -7,7 +7,9 @@
 
 namespace Symnedi\SymfonyBundlesExtension\DI;
 
+use Nette;
 use Nette\DI\CompilerExtension;
+use Nette\PhpGenerator\ClassType;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symnedi\SymfonyBundlesExtension\Compiler\FakeReferencesPass;
@@ -34,7 +36,7 @@ class SymfonyBundlesExtension extends CompilerExtension
 	private $containerBuilderTransformer;
 
 	/**
-	 * @var array
+	 * @var array[]
 	 */
 	private $defaults = [
 		'bundles' => [],
@@ -49,6 +51,9 @@ class SymfonyBundlesExtension extends CompilerExtension
 	}
 
 
+	/**
+	 * Mirror to compiler passes
+	 */
 	public function loadConfiguration()
 	{
 		$config = $this->getConfig($this->defaults);
@@ -58,6 +63,9 @@ class SymfonyBundlesExtension extends CompilerExtension
 	}
 
 
+	/**
+	 * Mirror to $bundle->compile()
+	 */
 	public function beforeCompile()
 	{
 		$this->getContainerBuilderTransformer()->transformFromNetteToSymfony(
@@ -73,11 +81,30 @@ class SymfonyBundlesExtension extends CompilerExtension
 	}
 
 
+	/**
+	 * Mirror to $bundle->boot()
+	 */
+	public function afterCompile(ClassType $class)
+	{
+		$bundles = $this->getConfig($this->defaults)['bundles'];
+
+		$initializerMethod = $class->getMethod('initialize');
+		$initializerMethod->addBody('
+			foreach (? as $bundleClass) {
+				$bundle = new $bundleClass;
+				$bundle->setContainer($this->getService(?));
+				$bundle->boot();
+			}', [$bundles, self::SYMFONY_CONTAINER_SERVICE_NAME]
+		);
+	}
+
+
 	private function loadParameters(array $config)
 	{
-		$netteConfig = $this->compiler->getConfig()['parameters'];
-
 		$this->symfonyContainerBuilder->setParameter('kernel.bundles', $config['bundles']);
+
+		$netteConfig = $this->compiler->getConfig()['parameters'];
+		$this->symfonyContainerBuilder->setParameter('kernel.root_dir', $netteConfig['appDir']);
 		$this->symfonyContainerBuilder->setParameter('kernel.cache_dir', $netteConfig['tempDir']);
 		$this->symfonyContainerBuilder->setParameter('kernel.logs_dir', $netteConfig['tempDir']);
 		$this->symfonyContainerBuilder->setParameter('kernel.debug', $netteConfig['debugMode']);
@@ -131,7 +158,8 @@ class SymfonyBundlesExtension extends CompilerExtension
 
 	private function addSymfonyContainerAdapter()
 	{
-		$this->getContainerBuilder()->addDefinition(self::SYMFONY_CONTAINER_SERVICE_NAME)
+		$this->getContainerBuilder()
+			->addDefinition(self::SYMFONY_CONTAINER_SERVICE_NAME)
 			->setClass(SymfonyContainerAdapter::class);
 	}
 

@@ -12,6 +12,7 @@
 		"nette/di": "^2.2"
 	},
 	"require-dev": {
+		"doctrine/doctrine-bundle": "^1.4",
 		"doctrine/orm": "~2.5",
 		"hautelook/alice-bundle": "0.2.*",
 		"league/tactician-bundle": "0.2.*",

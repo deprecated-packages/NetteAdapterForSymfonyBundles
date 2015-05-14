@@ -1,0 +1,6 @@
+extensions:
+	symfonyBundles: Symnedi\SymfonyBundlesExtension\DI\SymfonyBundlesExtension
+
+symfonyBundles:
+	bundles:
+		- Doctrine\Bundle\DoctrineBundle\DoctrineBundle

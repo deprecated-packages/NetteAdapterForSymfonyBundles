@@ -48,7 +48,7 @@ class ArgumentsTransformer
 					->setArguments($this->transformFromSymfonyToNette($argument->getArguments()))
 					->setTags($argument->getTags());
 
-				$arguments[$key] = '@' . $argument->getClass();
+				$arguments[$key] = '@' . $name;
 			}
 		}
 
