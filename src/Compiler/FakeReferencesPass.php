@@ -71,9 +71,7 @@ class FakeReferencesPass implements CompilerPassInterface
 				}
 
 				if ( ! $this->container->has($serviceName)) {
-					$this->container->addDefinitions([
-						$serviceName => new Definition(stdClass::class)
-					]);
+					$this->container->setDefinition($serviceName, new Definition(stdClass::class));
 				}
 			}
 		}
