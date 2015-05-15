@@ -14,9 +14,9 @@ use Nette\PhpGenerator\ClassType;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Symnedi\SymfonyBundlesExtension\DInception\Transformer;
 use Symnedi\SymfonyBundlesExtension\SymfonyContainerAdapter;
 use Symnedi\SymfonyBundlesExtension\Transformer\ContainerBuilderTransformer;
+use Symnedi\SymfonyBundlesExtension\Transformer\DI\TransformerFactory;
 
 
 class SymfonyBundlesExtension extends CompilerExtension
@@ -50,17 +50,6 @@ class SymfonyBundlesExtension extends CompilerExtension
 	 */
 	private $activeBundles = [];
 
-	/**
-	 * @var Container
-	 */
-	private $transformer;
-
-
-//	public function __construct()
-//	{
-//		$this->symfonyContainerBuilder = new SymfonyContainerBuilder;
-//		$this->symfonyContainerBuilder->addCompilerPass(new FakeReferencesPass);
-//	}
 
 
 	/**
@@ -106,6 +95,16 @@ class SymfonyBundlesExtension extends CompilerExtension
 				$bundle->boot();
 			}', [$this->activeBundles, self::SYMFONY_CONTAINER_SERVICE_NAME]
 		);
+	}
+
+
+	private function initialize()
+	{
+		$tempDir = $this->compiler->getConfig()['parameters']['tempDir'];
+		$transformer = (new TransformerFactory($this->getContainerBuilder(), $tempDir))->create();
+
+		$this->symfonyContainerBuilder = $transformer->getByType(ContainerBuilder::class);
+		$this->containerBuilderTransformer = $transformer->getByType(ContainerBuilderTransformer::class);
 	}
 
 
@@ -159,31 +158,6 @@ class SymfonyBundlesExtension extends CompilerExtension
 		$this->getContainerBuilder()
 			->addDefinition(self::SYMFONY_CONTAINER_SERVICE_NAME)
 			->setClass(SymfonyContainerAdapter::class);
-	}
-
-
-	private function initialize()
-	{
-		if ($this->transformer === NULL) {
-			$transformer = $this->getTransformer();
-			$this->symfonyContainerBuilder = $transformer->getByType(ContainerBuilder::class);
-			$this->containerBuilderTransformer = $transformer->getByType(ContainerBuilderTransformer::class);
-		}
-	}
-
-
-	/**
-	 * @return Container
-	 */
-	private function getTransformer()
-	{
-		if ($this->transformer === NULL) {
-			$tempDir = $this->compiler->getConfig()['parameters']['tempDir'];
-
-			$transformer = new Transformer($this->getContainerBuilder(), $tempDir);
-			$this->transformer = $transformer->create();
-		}
-		return $this->transformer;
 	}
 
 }

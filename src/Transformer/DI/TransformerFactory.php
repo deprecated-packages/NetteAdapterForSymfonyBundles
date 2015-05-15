@@ -5,7 +5,7 @@
  * Copyright (c) 2014 Tomas Votruba (http://tomasvotruba.cz)
  */
 
-namespace Symnedi\SymfonyBundlesExtension\DInception;
+namespace Symnedi\SymfonyBundlesExtension\Transformer\DI;
 
 use Nette\Configurator;
 use Nette\DI\Container;
@@ -13,7 +13,7 @@ use Nette\DI\ContainerBuilder;
 use Symnedi\SymfonyBundlesExtension\Transformer\ArgumentsTransformer;
 
 
-class Transformer
+class TransformerFactory
 {
 
 	/**
