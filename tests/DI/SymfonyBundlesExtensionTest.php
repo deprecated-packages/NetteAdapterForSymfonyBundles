@@ -28,7 +28,7 @@ class SymfonyBundlesExtensionTest extends PHPUnit_Framework_TestCase
 		$compiler->addConfig([
 			'parameters' => [
 				'appDir' => '',
-				'tempDir' => '',
+				'tempDir' => TEMP_DIR,
 				'debugMode' => TRUE,
 				'environment' => ''
 			]

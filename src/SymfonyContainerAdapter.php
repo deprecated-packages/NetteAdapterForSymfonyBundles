@@ -12,6 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symfony\Component\DependencyInjection\ScopeInterface;
+use Symnedi\SymfonyBundlesExtension\Exception\UnsupportedApiException;
 
 
 class SymfonyContainerAdapter implements ContainerInterface
@@ -34,6 +35,7 @@ class SymfonyContainerAdapter implements ContainerInterface
 	 */
 	public function set($id, $service, $scope = self::SCOPE_CONTAINER)
 	{
+		throw new UnsupportedApiException;
 	}
 
 
@@ -91,6 +93,7 @@ class SymfonyContainerAdapter implements ContainerInterface
 	 */
 	public function setParameter($name, $value)
 	{
+		throw new UnsupportedApiException;
 	}
 
 
@@ -99,6 +102,7 @@ class SymfonyContainerAdapter implements ContainerInterface
 	 */
 	public function enterScope($name)
 	{
+		throw new UnsupportedApiException;
 	}
 
 
@@ -107,6 +111,7 @@ class SymfonyContainerAdapter implements ContainerInterface
 	 */
 	public function leaveScope($name)
 	{
+		throw new UnsupportedApiException;
 	}
 
 
@@ -115,6 +120,7 @@ class SymfonyContainerAdapter implements ContainerInterface
 	 */
 	public function addScope(ScopeInterface $scope)
 	{
+		throw new UnsupportedApiException;
 	}
 
 
@@ -123,6 +129,7 @@ class SymfonyContainerAdapter implements ContainerInterface
 	 */
 	public function hasScope($name)
 	{
+		throw new UnsupportedApiException;
 	}
 
 
@@ -131,6 +138,7 @@ class SymfonyContainerAdapter implements ContainerInterface
 	 */
 	public function isScopeActive($name)
 	{
+		throw new UnsupportedApiException;
 	}
 
 }

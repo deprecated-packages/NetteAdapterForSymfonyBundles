@@ -1,0 +1,9 @@
+services:
+	- Symnedi\SymfonyBundlesExtension\Compiler\FakeReferencesPass
+	- Symnedi\SymfonyBundlesExtension\Transformer\ArgumentsTransformer
+	- Symnedi\SymfonyBundlesExtension\Transformer\ContainerBuilderTransformer
+	- Symnedi\SymfonyBundlesExtension\Transformer\ServiceDefinitionTransformer
+	-
+		class: Symfony\Component\DependencyInjection\ContainerBuilder
+		setup:
+			- addCompilerPass(@Symnedi\SymfonyBundlesExtension\Compiler\FakeReferencesPass)
