@@ -16,6 +16,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symnedi\SymfonyBundlesExtension\SymfonyContainerAdapter;
 use Symnedi\SymfonyBundlesExtension\Transformer\ContainerBuilderTransformer;
 use Symnedi\SymfonyBundlesExtension\Transformer\DI\TransformerFactory;
+use Symnedi\SymfonyBundlesExtension\Transformer\ParametersTransformer;
 
 
 class SymfonyBundlesExtension extends CompilerExtension
@@ -25,16 +26,6 @@ class SymfonyBundlesExtension extends CompilerExtension
 	 * @var string
 	 */
 	const SYMFONY_CONTAINER_SERVICE_NAME = 'service_container';
-
-	/**
-	 * @var SymfonyContainerBuilder
-	 */
-	private $symfonyContainerBuilder;
-
-	/**
-	 * @var ContainerBuilderTransformer
-	 */
-	private $containerBuilderTransformer;
 
 	/**
 	 * @var array[]
@@ -47,8 +38,22 @@ class SymfonyBundlesExtension extends CompilerExtension
 	/**
 	 * @var Bundle[]
 	 */
-	private $activeBundles = [];
+	private $bundles = [];
 
+	/**
+	 * @var SymfonyContainerBuilder
+	 */
+	private $symfonyContainerBuilder;
+
+	/**
+	 * @var ContainerBuilderTransformer
+	 */
+	private $containerBuilderTransformer;
+
+	/**
+	 * @var ParametersTransformer
+	 */
+	private $parametersTransformer;
 
 
 	/**
@@ -56,11 +61,11 @@ class SymfonyBundlesExtension extends CompilerExtension
 	 */
 	public function loadConfiguration()
 	{
-		$this->initialize();
 		$config = $this->getConfig($this->defaults);
+		$this->initialize($config['bundles']);
 
-		$this->loadParameters($config);
-		$this->loadBundlesToSymfonyContainerBuilder($config['bundles'], $config['parameters']);
+		$this->parametersTransformer->transformFromNetteToSymfony($this->compiler, $config);
+		$this->loadBundlesToSymfonyContainerBuilder($config['parameters']);
 	}
 
 
@@ -92,45 +97,32 @@ class SymfonyBundlesExtension extends CompilerExtension
 			foreach (? as $bundle) {
 				$bundle->setContainer($this->getService(?));
 				$bundle->boot();
-			}', [$this->activeBundles, self::SYMFONY_CONTAINER_SERVICE_NAME]
+			}', [$this->bundles, self::SYMFONY_CONTAINER_SERVICE_NAME]
 		);
 	}
 
 
-	private function initialize()
+	/**
+	 * @param string[] $bundles
+	 */
+	private function initialize(array $bundles)
 	{
 		$tempDir = $this->compiler->getConfig()['parameters']['tempDir'];
 		$transformer = (new TransformerFactory($this->getContainerBuilder(), $tempDir))->create();
 
 		$this->symfonyContainerBuilder = $transformer->getByType(ContainerBuilder::class);
 		$this->containerBuilderTransformer = $transformer->getByType(ContainerBuilderTransformer::class);
+		$this->parametersTransformer = $transformer->getByType(ParametersTransformer::class);
+
+		foreach ($bundles as $name => $class) {
+			$this->bundles[$name] = new $class;
+		}
 	}
 
 
-	private function loadParameters(array $config)
+	private function loadBundlesToSymfonyContainerBuilder(array $parameters)
 	{
-		$this->symfonyContainerBuilder->setParameter('kernel.bundles', $config['bundles']);
-
-		$netteConfig = $this->compiler->getConfig()['parameters'];
-		$this->symfonyContainerBuilder->setParameter('kernel.root_dir', $netteConfig['appDir']);
-		$this->symfonyContainerBuilder->setParameter('kernel.cache_dir', $netteConfig['tempDir']);
-		$this->symfonyContainerBuilder->setParameter('kernel.logs_dir', $netteConfig['tempDir']);
-		$this->symfonyContainerBuilder->setParameter('kernel.debug', $netteConfig['debugMode']);
-		$this->symfonyContainerBuilder->setParameter('kernel.environment', $netteConfig['environment']);
-	}
-
-
-	/**
-	 * @param string[] $bundles
-	 * @param array[] $parameters
-	 */
-	private function loadBundlesToSymfonyContainerBuilder(array $bundles, array $parameters)
-	{
-		foreach ($bundles as $name => $bundleClass) {
-			/** @var Bundle $bundle */
-			$bundle = new $bundleClass;
-			$this->activeBundles[$name] = $bundle;
-
+		foreach ($this->bundles as $name => $bundle) {
 			if ($extension = $bundle->getContainerExtension()) {
 				$this->symfonyContainerBuilder->registerExtension($extension);
 				$extensionParameters = $this->determineParameters($parameters, $name);

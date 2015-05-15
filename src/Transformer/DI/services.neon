@@ -3,6 +3,7 @@ services:
 	- Symnedi\SymfonyBundlesExtension\Transformer\ArgumentsTransformer
 	- Symnedi\SymfonyBundlesExtension\Transformer\ContainerBuilderTransformer
 	- Symnedi\SymfonyBundlesExtension\Transformer\ServiceDefinitionTransformer
+	- Symnedi\SymfonyBundlesExtension\Transformer\ParametersTransformer
 	-
 		class: Symfony\Component\DependencyInjection\ContainerBuilder
 		setup:
