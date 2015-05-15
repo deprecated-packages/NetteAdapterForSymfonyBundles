@@ -9,6 +9,7 @@ use stdClass;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symfony\Component\DependencyInjection\ScopeInterface;
+use Symnedi\SymfonyBundlesExtension\Exception\UnsupportedApiException;
 use Symnedi\SymfonyBundlesExtension\SymfonyContainerAdapter;
 
 
@@ -62,17 +63,53 @@ class SymfonyContainerAdapterTest extends PHPUnit_Framework_TestCase
 	}
 
 
-	public function testEmptyMethods()
+	public function testUnsupportedMethodsAddScope()
 	{
 		$scopeMock = Mockery::mock(ScopeInterface::class);
 
+		$this->setExpectedException(UnsupportedApiException::class);
 		$this->symfonyContainerAdapter->addScope($scopeMock);
-		$this->symfonyContainerAdapter->enterScope('someScope');
-		$this->symfonyContainerAdapter->hasScope('someScope');
-		$this->symfonyContainerAdapter->leaveScope('someScope');
-		$this->symfonyContainerAdapter->isScopeActive('someScope');
+	}
 
+
+	public function testUnsupportedMethodsEnterScope()
+	{
+		$this->setExpectedException(UnsupportedApiException::class);
+		$this->symfonyContainerAdapter->enterScope('someScope');
+	}
+
+
+	public function testUnsupportedMethodsHasScope()
+	{
+		$this->setExpectedException(UnsupportedApiException::class);
+		$this->symfonyContainerAdapter->hasScope('someScope');
+	}
+
+
+	public function testUnsupportedMethodsLeaveScope()
+	{
+		$this->setExpectedException(UnsupportedApiException::class);
+		$this->symfonyContainerAdapter->leaveScope('someScope');
+	}
+
+
+	public function testUnsupportedMethodsIsScopeActive()
+	{
+		$this->setExpectedException(UnsupportedApiException::class);
+		$this->symfonyContainerAdapter->isScopeActive('someScope');
+	}
+
+
+	public function testUnsupportedMethodsSet()
+	{
+		$this->setExpectedException(UnsupportedApiException::class);
 		$this->symfonyContainerAdapter->set('someService', new stdClass);
+	}
+
+
+	public function testUnsupportedMethodsSetParameter()
+	{
+		$this->setExpectedException(UnsupportedApiException::class);
 		$this->symfonyContainerAdapter->setParameter('someParameter', 'someValue');
 	}
 
