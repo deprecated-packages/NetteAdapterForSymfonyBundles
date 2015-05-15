@@ -67,7 +67,7 @@ class FakeReferencesPass implements CompilerPassInterface
 			{
 				$serviceName = (string) $argument;
 				if (class_exists($serviceName)) {
-					$serviceName = (new ReflectionClass($serviceName))->getName();
+					$serviceName = (new ReflectionClass($serviceName))->name;
 				}
 
 				if ( ! $this->container->has($serviceName)) {
