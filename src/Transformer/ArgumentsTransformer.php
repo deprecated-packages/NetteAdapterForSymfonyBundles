@@ -23,7 +23,7 @@ class ArgumentsTransformer
 	private $netteContainerBuilder;
 
 
-	public function __construct(NetteContainerBuilder $netteContainerBuilder)
+	public function setContainerBuilder(NetteContainerBuilder $netteContainerBuilder)
 	{
 		$this->netteContainerBuilder = $netteContainerBuilder;
 	}

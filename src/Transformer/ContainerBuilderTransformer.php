@@ -23,9 +23,9 @@ class ContainerBuilderTransformer
 	private $serviceDefinitionTransformer;
 
 
-	public function __construct(NetteContainerBuilder $netteContainerBuilder)
+	public function __construct(ServiceDefinitionTransformer $serviceDefinitionTransformer)
 	{
-		$this->serviceDefinitionTransformer = new ServiceDefinitionTransformer($netteContainerBuilder);
+		$this->serviceDefinitionTransformer = $serviceDefinitionTransformer;
 	}
 
 

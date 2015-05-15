@@ -7,7 +7,6 @@
 
 namespace Symnedi\SymfonyBundlesExtension\Transformer;
 
-use Nette\DI\ContainerBuilder as NetteContainerBuilder;
 use Nette\DI\ServiceDefinition;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
@@ -22,9 +21,9 @@ class ServiceDefinitionTransformer
 	private $argumentsTransformer;
 
 
-	public function __construct(NetteContainerBuilder $netteContainerBuilder)
+	public function __construct(ArgumentsTransformer $argumentsTransformer)
 	{
-		$this->argumentsTransformer = new ArgumentsTransformer($netteContainerBuilder);
+		$this->argumentsTransformer = $argumentsTransformer;
 	}
 
 

@@ -9,10 +9,12 @@ namespace Symnedi\SymfonyBundlesExtension\DI;
 
 use Nette;
 use Nette\DI\CompilerExtension;
+use Nette\DI\Container;
 use Nette\PhpGenerator\ClassType;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Symnedi\SymfonyBundlesExtension\Compiler\FakeReferencesPass;
+use Symnedi\SymfonyBundlesExtension\DInception\Transformer;
 use Symnedi\SymfonyBundlesExtension\SymfonyContainerAdapter;
 use Symnedi\SymfonyBundlesExtension\Transformer\ContainerBuilderTransformer;
 
@@ -48,12 +50,17 @@ class SymfonyBundlesExtension extends CompilerExtension
 	 */
 	private $activeBundles = [];
 
+	/**
+	 * @var Container
+	 */
+	private $transformer;
 
-	public function __construct()
-	{
-		$this->symfonyContainerBuilder = new SymfonyContainerBuilder;
-		$this->symfonyContainerBuilder->addCompilerPass(new FakeReferencesPass);
-	}
+
+//	public function __construct()
+//	{
+//		$this->symfonyContainerBuilder = new SymfonyContainerBuilder;
+//		$this->symfonyContainerBuilder->addCompilerPass(new FakeReferencesPass);
+//	}
 
 
 	/**
@@ -61,6 +68,7 @@ class SymfonyBundlesExtension extends CompilerExtension
 	 */
 	public function loadConfiguration()
 	{
+		$this->initialize();
 		$config = $this->getConfig($this->defaults);
 
 		$this->loadParameters($config);
@@ -73,14 +81,14 @@ class SymfonyBundlesExtension extends CompilerExtension
 	 */
 	public function beforeCompile()
 	{
-		$this->getContainerBuilderTransformer()->transformFromNetteToSymfony(
+		$this->containerBuilderTransformer->transformFromNetteToSymfony(
 			$this->getContainerBuilder(), $this->symfonyContainerBuilder
 		);
 
 		$this->addSymfonyContainerAdapter();
 		$this->symfonyContainerBuilder->compile();
 
-		$this->getContainerBuilderTransformer()->transformFromSymfonyToNette(
+		$this->containerBuilderTransformer->transformFromSymfonyToNette(
 			$this->symfonyContainerBuilder, $this->getContainerBuilder()
 		);
 	}
@@ -132,7 +140,6 @@ class SymfonyBundlesExtension extends CompilerExtension
 			}
 			$bundle->build($this->symfonyContainerBuilder);
 		}
-
 	}
 
 
@@ -147,23 +154,36 @@ class SymfonyBundlesExtension extends CompilerExtension
 	}
 
 
-	/**
-	 * @return ContainerBuilderTransformer
-	 */
-	private function getContainerBuilderTransformer()
-	{
-		if ($this->containerBuilderTransformer === NULL) {
-			$this->containerBuilderTransformer = new ContainerBuilderTransformer($this->getContainerBuilder());
-		}
-		return $this->containerBuilderTransformer;
-	}
-
-
 	private function addSymfonyContainerAdapter()
 	{
 		$this->getContainerBuilder()
 			->addDefinition(self::SYMFONY_CONTAINER_SERVICE_NAME)
 			->setClass(SymfonyContainerAdapter::class);
+	}
+
+
+	private function initialize()
+	{
+		if ($this->transformer === NULL) {
+			$transformer = $this->getTransformer();
+			$this->symfonyContainerBuilder = $transformer->getByType(ContainerBuilder::class);
+			$this->containerBuilderTransformer = $transformer->getByType(ContainerBuilderTransformer::class);
+		}
+	}
+
+
+	/**
+	 * @return Container
+	 */
+	private function getTransformer()
+	{
+		if ($this->transformer === NULL) {
+			$tempDir = $this->compiler->getConfig()['parameters']['tempDir'];
+
+			$transformer = new Transformer($this->getContainerBuilder(), $tempDir);
+			$this->transformer = $transformer->create();
+		}
+		return $this->transformer;
 	}
 
 }
