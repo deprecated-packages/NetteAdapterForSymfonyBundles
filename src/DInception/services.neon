@@ -1,0 +1,5 @@
+services:
+	- Symnedi\SymfonyBundlesExtension\Compiler\FakeReferencesPass
+	- Symnedi\SymfonyBundlesExtension\Transformer\ArgumentTransformer
+	- Symnedi\SymfonyBundlesExtension\Transformer\ContainerBuilderTransformer
+	- Symnedi\SymfonyBundlesExtension\Transformer\ServiceDefinitionTransformer

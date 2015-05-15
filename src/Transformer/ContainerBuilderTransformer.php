@@ -60,6 +60,8 @@ class ContainerBuilderTransformer
 				);
 			}
 		}
+
+		$this->transformParamtersFromSymfonyToNette($symfonyContainerBuilder, $netteContainerBuilder);
 	}
 
 
@@ -75,6 +77,18 @@ class ContainerBuilderTransformer
 
 		} else {
 			return $symfonyServiceDefinition->getClass();
+		}
+	}
+
+
+	private function transformParamtersFromSymfonyToNette(
+		SymfonyContainerBuilder$symfonyContainerBuilder,
+		NetteContainerBuilder $netteContainerBuilder
+	) {
+		// transform parameters
+		$parameterBag = $symfonyContainerBuilder->getParameterBag();
+		foreach ($parameterBag->all() as $key => $value) {
+			$netteContainerBuilder->parameters[$key] = $value;
 		}
 	}
 

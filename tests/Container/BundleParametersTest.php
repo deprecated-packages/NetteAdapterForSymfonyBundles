@@ -30,9 +30,7 @@ class BundleParametersTest extends PHPUnit_Framework_TestCase
 	public function testBundleParameters()
 	{
 		$symfonyContainerAdapter = $this->getSymfonyContainerAdapter();
-
-		// todo: should be true
-		$this->assertFalse($symfonyContainerAdapter->hasParameter('doctrine.orm.proxy_namespace'));
+		$this->assertTrue($symfonyContainerAdapter->hasParameter('doctrine.orm.proxy_namespace'));
 	}
 
 
