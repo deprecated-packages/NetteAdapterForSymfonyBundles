@@ -2,6 +2,7 @@
 
 namespace Symnedi\SymfonyBundlesExtension\Tests\DoctrineBundle;
 
+use Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\Mapping\ClassMetadataFactory;
 use Nette\DI\Container;
@@ -24,21 +25,14 @@ class InitTest extends PHPUnit_Framework_TestCase
 	}
 
 
-	public function tests()
+	public function testGetService()
 	{
+		/** @var Configuration $configuration */
+		$configuration = $this->container->getByType(Configuration::class);
+		$this->assertInstanceOf(Configuration::class, $configuration);
+
+		$this->assertSame(ClassMetadataFactory::class, $configuration->getClassMetadataFactoryName());
+		$this->assertInstanceOf(MappingDriverChain::class, $configuration->getMetadataDriverImpl());
 	}
-
-
-//	public function testGetService()
-//	{
-//		/** @var Configuration $configuration */
-//		$configuration = $this->container->getByType(Configuration::class);
-//		$this->assertInstanceOf(Configuration::class, $configuration);
-//
-//		$this->assertSame(ClassMetadataFactory::class, $configuration->getClassMetadataFactoryName());
-//
-//		// probably result of DoctrinBundle->boot()
-//		$this->assertNotNull($configuration->getMetadataDriverImpl());
-//	}
 
 }

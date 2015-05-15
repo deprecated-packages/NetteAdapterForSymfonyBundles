@@ -9,7 +9,6 @@ namespace Symnedi\SymfonyBundlesExtension\DI;
 
 use Nette;
 use Nette\DI\CompilerExtension;
-use Nette\DI\Container;
 use Nette\PhpGenerator\ClassType;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

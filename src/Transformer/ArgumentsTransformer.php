@@ -42,11 +42,19 @@ class ArgumentsTransformer
 				$arguments[$key] = $this->transformFromSymfonyToNette($argument);
 
 			} elseif ($argument instanceof Definition) {
-				$name = Naming::sanitazeClassName($argument->getClass());
-				$this->netteContainerBuilder->addDefinition($name)
-					->setClass($argument->getClass())
-					->setArguments($this->transformFromSymfonyToNette($argument->getArguments()))
-					->setTags($argument->getTags());
+				$definition = $argument;
+
+				// todo: duplicate to ServiceDefinitionTransformer logic
+				$name = Naming::sanitazeClassName($definition->getClass());
+				$netteServiceDefinition = $this->netteContainerBuilder->addDefinition($name)
+					->setClass($definition->getClass())
+					->setArguments($this->transformFromSymfonyToNette($definition->getArguments()))
+					->setTags($definition->getTags());
+
+				foreach ($definition->getMethodCalls() as $methodCall) {
+					$methodCallArguments = $this->transformFromSymfonyToNette($methodCall[1]);
+					$netteServiceDefinition->addSetup($methodCall[0], $methodCallArguments);
+				}
 
 				$arguments[$key] = '@' . $name;
 			}

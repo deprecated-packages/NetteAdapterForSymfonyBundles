@@ -61,7 +61,7 @@ class ContainerBuilderTransformer
 			}
 		}
 
-		$this->transformParamtersFromSymfonyToNette($symfonyContainerBuilder, $netteContainerBuilder);
+		$this->transformParametersFromSymfonyToNette($symfonyContainerBuilder, $netteContainerBuilder);
 	}
 
 
@@ -81,7 +81,7 @@ class ContainerBuilderTransformer
 	}
 
 
-	private function transformParamtersFromSymfonyToNette(
+	private function transformParametersFromSymfonyToNette(
 		SymfonyContainerBuilder$symfonyContainerBuilder,
 		NetteContainerBuilder $netteContainerBuilder
 	) {
