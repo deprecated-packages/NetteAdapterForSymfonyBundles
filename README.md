@@ -31,7 +31,7 @@ Register Symfony bundles just like Nette extensions:
 
 ```yaml
 symfonyBundles:
-	bundles:    
+	bundles:
 		# list all bundles
 		alice: Hautelook\AliceBundle\HautelookAliceBundle
 	parameters:
@@ -41,3 +41,48 @@ symfonyBundles:
 ```
 
 That's it!
+
+
+## Features
+
+### Tags
+
+```yaml
+extensions:
+	symfonyBundles: Symnedi\SymfonyBundlesExtension\DI\SymfonyBundlesExtension
+
+services:
+	-
+		class: Symnedi\SymfonyBundlesExtension\Tests\TacticianBundle\NetteTagsSource\SomeCommandHandler
+		tags:
+			tactician.handler:
+				- [command: Symnedi\SymfonyBundlesExtension\Tests\TacticianBundle\NetteTagsSource\SomeCommand]
+
+symfonyBundles:
+	bundles:
+		- League\Tactician\Bundle\TacticianBundle
+```
+
+
+### Service references
+
+```yaml
+extensions:
+	symfonyBundles: Symnedi\SymfonyBundlesExtension\DI\SymfonyBundlesExtension
+
+services:
+	- Symnedi\SymfonyBundlesExtension\Tests\Container\ParametersSource\CustomMiddleware
+
+symfonyBundles:
+	bundles:
+		tactician: League\Tactician\Bundle\TacticianBundle
+
+	parameters:
+		tactician:
+			commandbus:
+				default:
+					middleware:
+						# this is reference to service registered in Nette
+						- @Symnedi\SymfonyBundlesExtension\Tests\Container\ParametersSource\CustomMiddleware
+						- tactician.middleware.command_handler
+```
