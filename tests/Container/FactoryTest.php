@@ -3,12 +3,9 @@
 namespace Symnedi\SymfonyBundlesExtension\Tests\Container;
 
 use Doctrine\ORM\EntityManager;
-use Nelmio\Alice\Loader\Yaml;
 use Nette\DI\Container;
-use PHPUnit_Framework_Assert;
 use PHPUnit_Framework_TestCase;
 use Symnedi\SymfonyBundlesExtension\Tests\ContainerFactory;
-use Symnedi\SymfonyBundlesExtension\Tests\ContainerSource\ParameterStorage;
 
 
 class FactoryTest extends PHPUnit_Framework_TestCase
