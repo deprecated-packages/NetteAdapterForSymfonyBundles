@@ -3,8 +3,6 @@
 namespace Symnedi\SymfonyBundlesExtension\Tests\DoctrineBundle;
 
 use Doctrine\ORM\Configuration;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadataFactory;
 use Nette\DI\Container;
 use PHPUnit_Framework_TestCase;
@@ -33,11 +31,9 @@ class InitTest extends PHPUnit_Framework_TestCase
 		$this->assertInstanceOf(Configuration::class, $configuration);
 
 		$this->assertSame(ClassMetadataFactory::class, $configuration->getClassMetadataFactoryName());
-		$this->assertNotNull($configuration->getMetadataDriverImpl());
 
-//		/** @var EntityManagerInterface $entityManager */
-//		$entityManager = $this->container->getByType(EntityManager::class);
-//		$this->assertInstanceOf(EntityManagerInterface::class, $entityManager);
+		// probably result of DoctrinBundle->boot()
+		$this->assertNotNull($configuration->getMetadataDriverImpl());
 	}
 
 }

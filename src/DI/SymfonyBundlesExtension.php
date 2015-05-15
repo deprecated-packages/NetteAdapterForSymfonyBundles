@@ -128,8 +128,6 @@ class SymfonyBundlesExtension extends CompilerExtension
 			if ($extension = $bundle->getContainerExtension()) {
 				$this->symfonyContainerBuilder->registerExtension($extension);
 				$extensionParameters = $this->determineParameters($parameters, $name);
-				// there it has no influence
-				// $this->loadBundleParametersToParameterBag($extensionParameters);
 				$this->symfonyContainerBuilder->loadFromExtension($extension->getAlias(), $extensionParameters);
 			}
 			$bundle->build($this->symfonyContainerBuilder);
@@ -166,28 +164,6 @@ class SymfonyBundlesExtension extends CompilerExtension
 		$this->getContainerBuilder()
 			->addDefinition(self::SYMFONY_CONTAINER_SERVICE_NAME)
 			->setClass(SymfonyContainerAdapter::class);
-
-	}
-
-
-	private function loadBundleParametersToParameterBag(array $parameters)
-	{
-		foreach ($this->activeBundles as $bundle) {
-			if ($extension = $bundle->getContainerExtension()) {
-				$alias = $extension->getAlias();
-				foreach ($parameters as $key => $value) {
-					$fqcName = $alias . '.' . $key;
-					$finalValue = $value;
-					if (is_array($value)) {
-						foreach ($value as $subKey => $subValue) {
-							$fqcName .= '.' . $subKey;
-							$finalValue = $subValue;
-						}
-					}
-					$this->symfonyContainerBuilder->setParameter($fqcName, $finalValue);
-				}
-			}
-		}
 	}
 
 }
