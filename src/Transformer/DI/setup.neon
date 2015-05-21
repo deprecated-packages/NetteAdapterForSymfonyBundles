@@ -1,0 +1,3 @@
+application:
+	scanDirs: FALSE
+	scanComposer: FALSE

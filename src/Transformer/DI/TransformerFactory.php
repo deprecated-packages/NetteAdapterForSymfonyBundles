@@ -46,6 +46,9 @@ class TransformerFactory
 		$configurator = new Configurator;
 		$configurator->addConfig(__DIR__ . '/services.neon');
 		$configurator->setTempDirectory($this->tempDir);
+		if (class_exists('Nette\Bridges\ApplicationDI\ApplicationExtension')) {
+			$configurator->addConfig(__DIR__ . '/setup.neon');
+		}
 		$container = $configurator->createContainer();
 
 		/** @var ArgumentsTransformer $argumentsTransformer */
