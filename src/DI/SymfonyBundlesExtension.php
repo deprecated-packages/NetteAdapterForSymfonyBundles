@@ -11,7 +11,6 @@ use Nette;
 use Nette\DI\CompilerExtension;
 use Nette\PhpGenerator\ClassType;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symnedi\SymfonyBundlesExtension\SymfonyContainerAdapter;
 use Symnedi\SymfonyBundlesExtension\Transformer\ContainerBuilderTransformer;
@@ -110,7 +109,7 @@ class SymfonyBundlesExtension extends CompilerExtension
 		$tempDir = $this->compiler->getConfig()['parameters']['tempDir'];
 		$transformer = (new TransformerFactory($this->getContainerBuilder(), $tempDir))->create();
 
-		$this->symfonyContainerBuilder = $transformer->getByType(ContainerBuilder::class);
+		$this->symfonyContainerBuilder = $transformer->getByType(SymfonyContainerBuilder::class);
 		$this->containerBuilderTransformer = $transformer->getByType(ContainerBuilderTransformer::class);
 		$this->parametersTransformer = $transformer->getByType(ParametersTransformer::class);
 

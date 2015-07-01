@@ -63,8 +63,8 @@ class FakeReferencesPass implements CompilerPassInterface
 
 			} elseif (
 				$argument instanceof Reference
-				&& ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE === $argument->getInvalidBehavior())
-			{
+				&& ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE === $argument->getInvalidBehavior()
+			) {
 				$serviceName = (string) $argument;
 				if (class_exists($serviceName)) {
 					$serviceName = (new ReflectionClass($serviceName))->name;

@@ -11,22 +11,12 @@ use Symnedi\SymfonyBundlesExtension\Tests\ContainerFactory;
 class FactoryTest extends PHPUnit_Framework_TestCase
 {
 
-	/**
-	 * @var Container
-	 */
-	private $container;
-
-
-	public function __construct()
-	{
-		$this->container = (new ContainerFactory)->createWithConfig(__DIR__ . '/FactorySource/config/init.neon');
-	}
-
-
 	public function testFactory()
 	{
+		$container = (new ContainerFactory)->createWithConfig(__DIR__ . '/FactorySource/config/init.neon');
+
 		/** @var EntityManager $entityManager */
-		$entityManager = $this->container->getByType(EntityManager::class);
+		$entityManager = $container->getByType(EntityManager::class);
 		$this->assertInstanceOf(EntityManager::class, $entityManager);
 	}
 

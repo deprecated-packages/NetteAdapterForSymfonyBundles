@@ -78,7 +78,6 @@ class SymfonyContainerAdapter implements ContainerInterface
 	}
 
 
-
 	/**
 	 * {@inheritdoc}
 	 */
