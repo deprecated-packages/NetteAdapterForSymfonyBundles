@@ -53,7 +53,8 @@ class ContainerBuilderTransformer
 		foreach ($symfonyServiceDefinitions as $name => $symfonyServiceDefinition) {
 			$class = $this->determineClass($name, $symfonyServiceDefinition);
 			$name = Naming::sanitazeClassName($name);
-			if ( ! $netteContainerBuilder->getByType($class)) {
+
+			if ($this->canServiceBeAdded($netteContainerBuilder, $name, $class)) {
 				$netteContainerBuilder->addDefinition(
 					$name,
 					$this->serviceDefinitionTransformer->transformFromSymfonyToNette($symfonyServiceDefinition)
@@ -90,6 +91,26 @@ class ContainerBuilderTransformer
 		foreach ($parameterBag->all() as $key => $value) {
 			$netteContainerBuilder->parameters[$key] = $value;
 		}
+	}
+
+
+	/**
+	 * @param NetteContainerBuilder $netteContainerBuilder
+	 * @param string $name
+	 * @param string $class
+	 * @return bool
+	 */
+	private function canServiceBeAdded(NetteContainerBuilder $netteContainerBuilder, $name, $class)
+	{
+		if ($netteContainerBuilder->hasDefinition($name)) {
+			return FALSE;
+		}
+
+		if ($netteContainerBuilder->getByType($class)) {
+			return FALSE;
+		}
+
+		return TRUE;
 	}
 
 }

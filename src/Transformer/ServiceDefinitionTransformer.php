@@ -71,7 +71,9 @@ class ServiceDefinitionTransformer
 			->setTags($netteDefinition->getTags());
 
 		if ($netteDefinition->getFactory()) {
-			$symfonyDefinition->setArguments($netteDefinition->getFactory()->arguments);
+			$factory = $netteDefinition->getFactory();
+			$symfonyDefinition->setFactory($factory->getEntity());
+			$symfonyDefinition->setArguments($factory->arguments);
 		}
 
 		return $symfonyDefinition;
