@@ -104,9 +104,8 @@ class ContainerBuilderTransformer
 	{
 		if ($netteContainerBuilder->hasDefinition($name)) {
 			return FALSE;
-		}
 
-		if ($netteContainerBuilder->getByType($class)) {
+		} elseif ($netteContainerBuilder->getByType($class)) {
 			return FALSE;
 		}
 

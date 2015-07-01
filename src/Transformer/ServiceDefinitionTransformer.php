@@ -29,9 +29,6 @@ class ServiceDefinitionTransformer
 
 	public function transformFromSymfonyToNette(Definition $symfonyDefinition)
 	{
-		// # Transformer in chain?
-		// 1. transform definitions
-		// 2. transform arguments
 		$arguments = $this->argumentsTransformer->transformFromSymfonyToNette($symfonyDefinition->getArguments());
 
 		$netteDefinition = (new ServiceDefinition)
@@ -42,8 +39,6 @@ class ServiceDefinitionTransformer
 			$methodCallArguments = $this->argumentsTransformer->transformFromSymfonyToNette($methodCall[1]);
 			$netteDefinition->addSetup($methodCall[0], $methodCallArguments);
 		}
-
-		// todo: methodCalls <=> setup
 
 		if ($factory = $symfonyDefinition->getFactory()) {
 			if (is_array($factory) && $factory[0] instanceof Reference) {
@@ -66,9 +61,10 @@ class ServiceDefinitionTransformer
 
 	public function transformFromNetteToSymfony(ServiceDefinition $netteDefinition)
 	{
+		$tags = $this->transformTagsFromNetteToSymfony($netteDefinition->getTags());
 		$symfonyDefinition = (new Definition)
 			->setClass($netteDefinition->getClass())
-			->setTags($netteDefinition->getTags());
+			->setTags($tags);
 
 		if ($netteDefinition->getFactory()) {
 			$factory = $netteDefinition->getFactory();
@@ -77,6 +73,20 @@ class ServiceDefinitionTransformer
 		}
 
 		return $symfonyDefinition;
+	}
+
+
+	/**
+	 * @return array
+	 */
+	private function transformTagsFromNetteToSymfony(array $tags)
+	{
+		foreach ($tags as $key => $tag) {
+			if ( ! is_array($tag)) {
+				$tags[$key] = [[$tag]];
+			}
+		}
+		return $tags;
 	}
 
 }

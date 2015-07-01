@@ -43,6 +43,39 @@ class ContainerBuilderTransformerTest extends PHPUnit_Framework_TestCase
 		$this->containerBuilderTransformer->transformFromSymfonyToNette(
 			$symfonyContainerBuilder, $netteContainerBuilder
 		);
+
+		$netteDefinition = $netteContainerBuilder->getDefinition('someservice');
+		$this->assertSame(stdClass::class, $netteDefinition->getClass());
+
+		$symfonyDefinition = $symfonyContainerBuilder->getDefinition('someservice');
+		$this->assertSame(stdClass::class, $symfonyDefinition->getClass());
+
+		$this->assertSame($netteDefinition->getClass(), $symfonyDefinition->getClass());
+	}
+
+
+	public function testTags()
+	{
+		$netteContainerBuilder = new ContainerBuilder;
+		$netteDefinition = $netteContainerBuilder->addDefinition('someService')
+			->setClass(stdClass::class)
+			->addTag('someTag');
+
+		$symfonyContainerBuilder = new SymfonyContainerBuilder;
+		$this->containerBuilderTransformer->transformFromNetteToSymfony(
+			$netteContainerBuilder, $symfonyContainerBuilder
+		);
+
+		$symfonyContainerBuilder->compile();
+
+		$symfonyDefinition = $symfonyContainerBuilder->getDefinition('someService');
+		$this->assertSame(['someTag' => [[TRUE]]], $symfonyDefinition->getTags());
+
+		$this->containerBuilderTransformer->transformFromSymfonyToNette(
+			$symfonyContainerBuilder, $netteContainerBuilder
+		);
+
+		$this->assertSame($netteDefinition, $netteContainerBuilder->getDefinition('someService'));
 	}
 
 }
