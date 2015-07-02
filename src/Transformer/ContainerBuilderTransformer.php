@@ -51,10 +51,8 @@ class ContainerBuilderTransformer
 		$symfonyServiceDefinitions = $symfonyContainerBuilder->getDefinitions();
 
 		foreach ($symfonyServiceDefinitions as $name => $symfonyServiceDefinition) {
-			$class = $this->determineClass($name, $symfonyServiceDefinition);
 			$name = Naming::sanitazeClassName($name);
-
-			if ($this->canServiceBeAdded($netteContainerBuilder, $name, $class)) {
+			if ($this->canServiceBeAdded($netteContainerBuilder, $name)) {
 				$netteContainerBuilder->addDefinition(
 					$name,
 					$this->serviceDefinitionTransformer->transformFromSymfonyToNette($symfonyServiceDefinition)
@@ -63,22 +61,6 @@ class ContainerBuilderTransformer
 		}
 
 		$this->transformParametersFromSymfonyToNette($symfonyContainerBuilder, $netteContainerBuilder);
-	}
-
-
-	/**
-	 * @param string $name
-	 * @param Definition $symfonyServiceDefinition
-	 * @return string
-	 */
-	private function determineClass($name, Definition $symfonyServiceDefinition)
-	{
-		if (class_exists($name)) {
-			return (new ReflectionClass($name))->getName();
-
-		} else {
-			return $symfonyServiceDefinition->getClass();
-		}
 	}
 
 
@@ -97,19 +79,29 @@ class ContainerBuilderTransformer
 	/**
 	 * @param NetteContainerBuilder $netteContainerBuilder
 	 * @param string $name
-	 * @param string $class
 	 * @return bool
 	 */
-	private function canServiceBeAdded(NetteContainerBuilder $netteContainerBuilder, $name, $class)
+	private function canServiceBeAdded(NetteContainerBuilder $netteContainerBuilder, $name)
 	{
-		if ($netteContainerBuilder->hasDefinition($name)) {
-			return FALSE;
-
-		} elseif ($netteContainerBuilder->getByType($class)) {
+		$serviceNames = $this->getLowercasedNames($netteContainerBuilder);
+		if (in_array($name, $serviceNames)) {
 			return FALSE;
 		}
 
 		return TRUE;
+	}
+
+
+	/**
+	 * @return string[]
+	 */
+	private function getLowercasedNames(NetteContainerBuilder $netteContainerBuilder)
+	{
+		$names = array_keys($netteContainerBuilder->getDefinitions());
+		foreach ($names as $key => $name) {
+			$names[$key] = strtolower($name);
+		}
+		return $names;
 	}
 
 }
