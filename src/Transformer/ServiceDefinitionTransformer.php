@@ -76,8 +76,6 @@ class ServiceDefinitionTransformer
 		Definition $symfonyDefinition,
 		ServiceDefinition $netteDefinition
 	) {
-		$arguments = $this->argumentsTransformer->transformFromSymfonyToNette($symfonyDefinition->getArguments());
-
 		if ($factory = $symfonyDefinition->getFactory()) {
 			if (is_array($factory) && $factory[0] instanceof Reference) {
 				$serviceReference = $factory[0];
@@ -86,12 +84,12 @@ class ServiceDefinitionTransformer
 				// note: possible issue - static vs dynamic?
 				$factory = ['@' . $serviceReference, $createMethod];
 			}
-
-			$netteDefinition->setFactory($factory, $arguments);
-
-		} else {
-			$netteDefinition->setArguments($arguments);
+			$netteDefinition->setFactory($factory);
 		}
+
+		$netteDefinition->setArguments(
+			$this->argumentsTransformer->transformFromSymfonyToNette($symfonyDefinition->getArguments())
+		);
 
 		return $netteDefinition;
 	}
