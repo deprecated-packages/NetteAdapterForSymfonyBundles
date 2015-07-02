@@ -13,12 +13,14 @@
 		"nette/di": "~2.3"
 	},
 	"require-dev": {
-		"doctrine/doctrine-bundle": "^1.4",
-		"doctrine/orm": "~2.5",
+		"doctrine/doctrine-bundle": "~1.5.0",
+		"doctrine/orm": "~2.5.0",
 		"hautelook/alice-bundle": "0.2.*",
 		"league/tactician-bundle": "0.2.*",
-		"mockery/mockery": "0.9.*",
-		"nette/bootstrap": "~2.3",
+		"nette/application": "~2.3.0",
+		"nette/bootstrap": "~2.3.0",
+		"nette/robot-loader": "~2.3.0",
+		"tracy/tracy": "~2.3.0",
 		"ongr/elasticsearch-bundle": "0.9.*"
 	},
 	"autoload": {
