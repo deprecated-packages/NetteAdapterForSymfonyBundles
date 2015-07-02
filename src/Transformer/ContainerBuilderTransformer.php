@@ -8,9 +8,7 @@
 namespace Symnedi\SymfonyBundlesExtension\Transformer;
 
 use Nette\DI\ContainerBuilder as NetteContainerBuilder;
-use ReflectionClass;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
 use Symnedi\SymfonyBundlesExtension\Utils\Naming;
 
 
