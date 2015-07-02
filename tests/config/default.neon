@@ -1,3 +1,7 @@
+application:
+	scanDirs: false
+	scanComposer: false
+
 services:
 	- Symnedi\SymfonyBundlesExtension\Tests\ContainerSource\ParameterStorage(1, [2, 3])
 	- Symnedi\SymfonyBundlesExtension\Tests\ContainerSource\EntityManager
