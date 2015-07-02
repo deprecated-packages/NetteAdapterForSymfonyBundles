@@ -2,7 +2,6 @@
 
 namespace Symnedi\SymfonyBundlesExtension\Tests;
 
-use Mockery;
 use Nette\DI\Container;
 use PHPUnit_Framework_TestCase;
 use stdClass;
@@ -24,13 +23,12 @@ class SymfonyContainerAdapterTest extends PHPUnit_Framework_TestCase
 
 	protected function setUp()
 	{
-		$containerMock = Mockery::mock(Container::class, [
-			'getParameters' => ['someParameter' => 'someValue'],
-		]);
-		$containerMock->shouldReceive('hasService')->with('someService')->andReturn(TRUE);
-		$containerMock->shouldReceive('hasService')->with('nonExistingService')->andReturn(FALSE);
-		$containerMock->shouldReceive('getService')->with('someService')->andReturn('service');
-		$this->symfonyContainerAdapter = new SymfonyContainerAdapter($containerMock);
+		$containerMock = $this->prophesize(Container::class);
+		$containerMock->getParameters()->willReturn(['someParameter' => 'someValue']);
+		$containerMock->hasService('someService')->willReturn(TRUE);
+		$containerMock->hasService('nonExistingService')->willReturn(FALSE);
+		$containerMock->getService('someService')->willReturn('service');
+		$this->symfonyContainerAdapter = new SymfonyContainerAdapter($containerMock->reveal());
 	}
 
 
@@ -65,10 +63,10 @@ class SymfonyContainerAdapterTest extends PHPUnit_Framework_TestCase
 
 	public function testUnsupportedMethodsAddScope()
 	{
-		$scopeMock = Mockery::mock(ScopeInterface::class);
+		$scopeMock = $this->prophesize(ScopeInterface::class);
 
 		$this->setExpectedException(UnsupportedApiException::class);
-		$this->symfonyContainerAdapter->addScope($scopeMock);
+		$this->symfonyContainerAdapter->addScope($scopeMock->reveal());
 	}
 
 
