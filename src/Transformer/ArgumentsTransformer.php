@@ -22,6 +22,11 @@ class ArgumentsTransformer
 	 */
 	private $netteContainerBuilder;
 
+	/**
+	 * @var ServiceDefinitionTransformer
+	 */
+	private $serviceDefinitionTransformer;
+
 
 	public function setContainerBuilder(NetteContainerBuilder $netteContainerBuilder)
 	{
@@ -35,32 +40,34 @@ class ArgumentsTransformer
 	public function transformFromSymfonyToNette(array $arguments)
 	{
 		foreach ($arguments as $key => $argument) {
-			if ($argument instanceof Reference) {
-				$arguments[$key] = $this->determineServiceName($argument);
+			$arguments[$key] = $this->transformArgument($argument);
+		}
+		return $arguments;
+	}
 
-			} elseif (is_array($argument)) {
-				$arguments[$key] = $this->transformFromSymfonyToNette($argument);
 
-			} elseif ($argument instanceof Definition) {
-				$definition = $argument;
+	/**
+	 * @param Reference|Definition|array $argument
+	 * @return null|string
+	 */
+	private function transformArgument($argument)
+	{
+		if ($argument instanceof Reference) {
+			return $this->determineServiceName($argument);
 
-				// todo: duplicate to ServiceDefinitionTransformer logic
-				$name = Naming::sanitazeClassName($definition->getClass());
-				$netteServiceDefinition = $this->netteContainerBuilder->addDefinition($name)
-					->setClass($definition->getClass())
-					->setArguments($this->transformFromSymfonyToNette($definition->getArguments()))
-					->setTags($definition->getTags());
+		} elseif (is_array($argument)) {
+			return $this->transformFromSymfonyToNette($argument);
 
-				foreach ($definition->getMethodCalls() as $methodCall) {
-					$methodCallArguments = $this->transformFromSymfonyToNette($methodCall[1]);
-					$netteServiceDefinition->addSetup($methodCall[0], $methodCallArguments);
-				}
-
-				$arguments[$key] = '@' . $name;
-			}
+		} elseif ($argument instanceof Definition) {
+			$name = Naming::sanitazeClassName($argument->getClass());
+			$netteServiceDefinition = $this->getServiceDefinitionTransformer()->transformFromSymfonyToNette(
+				$argument
+			);
+			$this->netteContainerBuilder->addDefinition($name, $netteServiceDefinition);
+			return '@' . $name;
 		}
 
-		return $arguments;
+		return $argument;
 	}
 
 
@@ -76,6 +83,18 @@ class ArgumentsTransformer
 			$name = $this->netteContainerBuilder->getByType($className);
 		}
 		return '@' . $name;
+	}
+
+
+	/**
+	 * @return ServiceDefinitionTransformer
+	 */
+	private function getServiceDefinitionTransformer()
+	{
+		if ($this->serviceDefinitionTransformer === NULL) {
+			$this->serviceDefinitionTransformer = new ServiceDefinitionTransformer($this);
+		}
+		return $this->serviceDefinitionTransformer;
 	}
 
 }
