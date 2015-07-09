@@ -19,13 +19,23 @@ class SymfonyContainerAdapter implements ContainerInterface
 {
 
 	/**
+	 * @var string[]
+	 */
+	private $symfonyToNetteServiceAliases;
+
+	/**
 	 * @var Container
 	 */
 	private $container;
 
 
-	public function __construct(Container $container)
+	/**
+	 * @param string[] $symfonyToNetteServiceAliases
+	 * @param Container $container
+	 */
+	public function __construct(array $symfonyToNetteServiceAliases, Container $container)
 	{
+		$this->symfonyToNetteServiceAliases = $symfonyToNetteServiceAliases;
 		$this->container = $container;
 	}
 
@@ -44,6 +54,10 @@ class SymfonyContainerAdapter implements ContainerInterface
 	 */
 	public function get($id, $invalidBehavior = self::EXCEPTION_ON_INVALID_REFERENCE)
 	{
+		if (isset($this->symfonyToNetteServiceAliases[$id])) {
+			$id = $this->symfonyToNetteServiceAliases[$id];
+		}
+
 		if ($this->has($id)) {
 			return $this->container->getService($id);
 		}

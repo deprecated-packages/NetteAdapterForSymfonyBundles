@@ -28,7 +28,7 @@ class SymfonyContainerAdapterTest extends PHPUnit_Framework_TestCase
 		$containerMock->hasService('someService')->willReturn(TRUE);
 		$containerMock->hasService('nonExistingService')->willReturn(FALSE);
 		$containerMock->getService('someService')->willReturn('service');
-		$this->symfonyContainerAdapter = new SymfonyContainerAdapter($containerMock->reveal());
+		$this->symfonyContainerAdapter = new SymfonyContainerAdapter([], $containerMock->reveal());
 	}
 
 

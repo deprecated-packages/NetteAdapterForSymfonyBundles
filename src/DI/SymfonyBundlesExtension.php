@@ -9,6 +9,7 @@ namespace Symnedi\SymfonyBundlesExtension\DI;
 
 use Nette;
 use Nette\DI\CompilerExtension;
+use Nette\DI\ContainerBuilder;
 use Nette\PhpGenerator\ClassType;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -147,7 +148,21 @@ class SymfonyBundlesExtension extends CompilerExtension
 	{
 		$this->getContainerBuilder()
 			->addDefinition(self::SYMFONY_CONTAINER_SERVICE_NAME)
-			->setClass(SymfonyContainerAdapter::class);
+			->setClass(SymfonyContainerAdapter::class)
+			->setArguments([$this->getSymfonyToNetteServiceAliases()]);
+	}
+
+
+	/**
+	 * @return string[] {[ Symfony name => Nette name ]}
+	 */
+	private function getSymfonyToNetteServiceAliases()
+	{
+		$names = [];
+		foreach ($this->getContainerBuilder()->getDefinitions() as $name => $definition) {
+			$names[strtolower($name)] = $name;
+		}
+		return $names;
 	}
 
 }
