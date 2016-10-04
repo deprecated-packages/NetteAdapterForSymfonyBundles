@@ -7,22 +7,24 @@
 		{ "name": "Tomáš Votruba", "email": "tomas.vot@gmail.com", "homepage": "http://tomasvotruba.cz" }
 	],
 	"require": {
-		"php": ">=5.6",
-		"symfony/dependency-injection": "~2.7.0",
-		"symfony/yaml": "~2.7",
-		"nette/di": "~2.3.0",
-		"nette/http": "~2.3.0"
+		"php": "^5.6|^7.0",
+		"symfony/dependency-injection": "~2.7|~3.0",
+		"symfony/yaml": "~2.7|~3.0",
+		"nette/di": "~2.3",
+		"nette/http": "~2.3"
 	},
 	"require-dev": {
-		"doctrine/doctrine-bundle": "~1.5.0",
-		"doctrine/orm": "~2.5.0",
+		"doctrine/doctrine-bundle": "~1.5",
+		"doctrine/orm": "~2.5",
 		"hautelook/alice-bundle": "0.2.*",
 		"league/tactician-bundle": "0.2.*",
-		"nette/application": "~2.3.0",
-		"nette/bootstrap": "~2.3.0",
-		"nette/robot-loader": "~2.3.0",
-		"tracy/tracy": "~2.3.0",
-		"ongr/elasticsearch-bundle": "0.9.*"
+		"nette/application": "~2.3",
+		"nette/bootstrap": "~2.3",
+		"nette/robot-loader": "~2.3",
+		"tracy/tracy": "~2.3",
+		"ongr/elasticsearch-bundle": "0.9.*",
+		"zenify/coding-standard": "^3.3",
+		"phpunit/phpunit": "^5.5"
 	},
 	"autoload": {
 		"psr-4": {
@@ -33,5 +35,8 @@
 		"psr-4": {
 			"Symnedi\\SymfonyBundlesExtension\\Tests\\": "tests"
 		}
+	},
+	"scripts": {
+		"check-cs": "vendor/bin/phpcs src tests --extensions=php --ignore=bootstrap --standard=vendor/zenify/coding-standard/src/ZenifyCodingStandard/ruleset.xml"
 	}
 }
