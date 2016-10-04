@@ -21,7 +21,6 @@ use Symfony\Component\DependencyInjection\Reference;
  *
  * Based on {@see Symfony\Component\DependencyInjection\Compiler\CheckExceptionOnInvalidReferenceBehaviorPass}
  */
-
 final class FakeReferencesPass implements CompilerPassInterface
 {
     /**
