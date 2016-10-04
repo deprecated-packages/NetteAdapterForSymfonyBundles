@@ -1,19 +1,19 @@
 language: php
 
 php:
-  - 7.0
   - 7.1
 
-install:
-  - composer create-project --prefer-source --dev --no-interaction zenify/ci vendor/ci @dev
-  - . vendor/ci/travis/coverage-init.sh
-  - composer update --prefer-source
+matrix:
+  include:
+    - php: 7.0
+      env: PHPUNIT_FLAGS="--coverage-clover coverage.clover" CHECK_CS=true
 
-before_script:
-  - . vendor/ci/travis/static-analysis.sh
+install:
+  - composer update --prefer-source
 
 script:
   - vendor/bin/phpunit $PHPUNIT_FLAGS
+  - if [[ "$CHECK_CS" != "" ]]; then composer check-cs; fi
 
 after_script:
-  - . vendor/ci/travis/coverage-send.sh
+  - if [[ "$PHPUNIT_FLAGS" != "" ]]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi
