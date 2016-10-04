@@ -1,8 +1,8 @@
 <?php
 
-/**
+/*
  * This file is part of Symnedi.
- * Copyright (c) 2014 Tomas Votruba (http://tomasvotruba.cz)
+ * Copyright (c) 2014 Tomas Votruba (http://tomasvotruba.cz).
  */
 
 namespace Symnedi\SymfonyBundlesExtension\Transformer;
@@ -11,103 +11,89 @@ use Nette\DI\ServiceDefinition;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-
-class ServiceDefinitionTransformer
+final class ServiceDefinitionTransformer
 {
+    /**
+     * @var ArgumentsTransformer
+     */
+    private $argumentsTransformer;
 
-	/**
-	 * @var ArgumentsTransformer
-	 */
-	private $argumentsTransformer;
+    public function __construct(ArgumentsTransformer $argumentsTransformer)
+    {
+        $this->argumentsTransformer = $argumentsTransformer;
+    }
 
+    public function transformFromSymfonyToNette(Definition $symfonyDefinition)
+    {
+        $netteDefinition = (new ServiceDefinition())
+            ->setClass($symfonyDefinition->getClass())
+            ->setTags($symfonyDefinition->getTags());
 
-	public function __construct(ArgumentsTransformer $argumentsTransformer)
-	{
-		$this->argumentsTransformer = $argumentsTransformer;
-	}
+        foreach ($symfonyDefinition->getMethodCalls() as $methodCall) {
+            $methodCallArguments = $this->argumentsTransformer->transformFromSymfonyToNette($methodCall[1]);
+            $netteDefinition->addSetup($methodCall[0], $methodCallArguments);
+        }
 
+        $netteDefinition = $this->transformFactoryFromSymfonyToNette($symfonyDefinition, $netteDefinition);
 
-	public function transformFromSymfonyToNette(Definition $symfonyDefinition)
-	{
-		$netteDefinition = (new ServiceDefinition)
-			->setClass($symfonyDefinition->getClass())
-			->setTags($symfonyDefinition->getTags());
+        return $netteDefinition;
+    }
 
-		foreach ($symfonyDefinition->getMethodCalls() as $methodCall) {
-			$methodCallArguments = $this->argumentsTransformer->transformFromSymfonyToNette($methodCall[1]);
-			$netteDefinition->addSetup($methodCall[0], $methodCallArguments);
-		}
+    public function transformFromNetteToSymfony(ServiceDefinition $netteDefinition)
+    {
+        $tags = $this->transformTagsFromNetteToSymfony($netteDefinition->getTags());
+        $symfonyDefinition = (new Definition())
+            ->setClass($netteDefinition->getClass())
+            ->setTags($tags);
 
-		$netteDefinition = $this->transformFactoryFromSymfonyToNette($symfonyDefinition, $netteDefinition);
-		return $netteDefinition;
-	}
+        $symfonyDefinition = $this->transformFactoryFromNetteToSymfony($netteDefinition, $symfonyDefinition);
 
+        return $symfonyDefinition;
+    }
 
-	public function transformFromNetteToSymfony(ServiceDefinition $netteDefinition)
-	{
-		$tags = $this->transformTagsFromNetteToSymfony($netteDefinition->getTags());
-		$symfonyDefinition = (new Definition)
-			->setClass($netteDefinition->getClass())
-			->setTags($tags);
+    private function transformTagsFromNetteToSymfony(array $tags) : array
+    {
+        foreach ($tags as $key => $tag) {
+            if (!is_array($tag)) {
+                $tags[$key] = [[$tag]];
+            }
+        }
 
-		$symfonyDefinition = $this->transformFactoryFromNetteToSymfony($netteDefinition, $symfonyDefinition);
-		return $symfonyDefinition;
-	}
+        return $tags;
+    }
 
+    private function transformFactoryFromSymfonyToNette(
+        Definition $symfonyDefinition,
+        ServiceDefinition $netteDefinition
+    ) : ServiceDefinition {
+        if ($factory = $symfonyDefinition->getFactory()) {
+            if (is_array($factory) && $factory[0] instanceof Reference) {
+                $serviceReference = $factory[0];
+                $createMethod = $factory[1];
 
-	/**
-	 * @return array
-	 */
-	private function transformTagsFromNetteToSymfony(array $tags)
-	{
-		foreach ($tags as $key => $tag) {
-			if ( ! is_array($tag)) {
-				$tags[$key] = [[$tag]];
-			}
-		}
-		return $tags;
-	}
+                // note: possible issue - static vs dynamic?
+                $factory = ['@'.$serviceReference, $createMethod];
+            }
+            $netteDefinition->setFactory($factory);
+        }
 
+        $netteDefinition->setArguments(
+            $this->argumentsTransformer->transformFromSymfonyToNette($symfonyDefinition->getArguments())
+        );
 
-	/**
-	 * @return ServiceDefinition
-	 */
-	private function transformFactoryFromSymfonyToNette(
-		Definition $symfonyDefinition,
-		ServiceDefinition $netteDefinition
-	) {
-		if ($factory = $symfonyDefinition->getFactory()) {
-			if (is_array($factory) && $factory[0] instanceof Reference) {
-				$serviceReference = $factory[0];
-				$createMethod = $factory[1];
+        return $netteDefinition;
+    }
 
-				// note: possible issue - static vs dynamic?
-				$factory = ['@' . $serviceReference, $createMethod];
-			}
-			$netteDefinition->setFactory($factory);
-		}
+    private function transformFactoryFromNetteToSymfony(
+        ServiceDefinition $netteDefinition,
+        Definition $symfonyDefinition
+    ) : Definition {
+        if ($netteDefinition->getFactory()) {
+            $factory = $netteDefinition->getFactory();
+            $symfonyDefinition->setFactory($factory->getEntity());
+            $symfonyDefinition->setArguments($factory->arguments);
+        }
 
-		$netteDefinition->setArguments(
-			$this->argumentsTransformer->transformFromSymfonyToNette($symfonyDefinition->getArguments())
-		);
-
-		return $netteDefinition;
-	}
-
-
-	/**
-	 * @return Definition
-	 */
-	private function transformFactoryFromNetteToSymfony(
-		ServiceDefinition $netteDefinition,
-		Definition $symfonyDefinition
-	) {
-		if ($netteDefinition->getFactory()) {
-			$factory = $netteDefinition->getFactory();
-			$symfonyDefinition->setFactory($factory->getEntity());
-			$symfonyDefinition->setArguments($factory->arguments);
-		}
-		return $symfonyDefinition;
-	}
-
+        return $symfonyDefinition;
+    }
 }

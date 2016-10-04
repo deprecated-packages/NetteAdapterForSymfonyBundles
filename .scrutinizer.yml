@@ -1,20 +1,9 @@
-before_commands:
-    - "composer install --prefer-source"
-
-filter:
-    excluded_paths:
-        - tests/*
-
 tools:
     external_code_coverage:
-        timeout: 900
+        timeout: 300
     sensiolabs_security_checker: true
     php_code_coverage:
         enabled: true
-    php_analyzer:
-        config:
-            verify_php_doc_comments:
-                suggest_more_specific_types: false
 
 checks:
     php:

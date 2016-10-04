@@ -4,29 +4,30 @@ namespace Symnedi\SymfonyBundlesExtension\Tests;
 
 use Nette\Configurator;
 use Nette\DI\Container;
+use Nette\Utils\FileSystem;
 
-
-class ContainerFactory
+final class ContainerFactory
 {
+    public function create() : Container
+    {
+        return $this->createWithConfig(__DIR__.'/config/default.neon');
+    }
 
-	/**
-	 * @return Container
-	 */
-	public function create()
-	{
-		return $this->createWithConfig(__DIR__ . '/config/default.neon');
-	}
+    public function createWithConfig(string $config) : Container
+    {
+        $configurator = new Configurator();
+        $configurator->addConfig($config);
+        $configurator->setTempDirectory($this->createAndReturnTempDir());
 
+        return $configurator->createContainer();
+    }
 
-	/**
-	 * @return Container
-	 */
-	public function createWithConfig($config)
-	{
-		$configurator = new Configurator;
-		$configurator->addConfig($config);
-		$configurator->setTempDirectory(TEMP_DIR);
-		return $configurator->createContainer();
-	}
+    public static function createAndReturnTempDir() : string
+    {
+        $tempDir = sys_get_temp_dir().'/php7_sculpin';
+        FileSystem::delete($tempDir);
+        FileSystem::createDir($tempDir);
 
+        return $tempDir;
+    }
 }

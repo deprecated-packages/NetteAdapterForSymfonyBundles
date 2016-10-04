@@ -1,8 +1,8 @@
 <?php
 
-/**
+/*
  * This file is part of Symnedi.
- * Copyright (c) 2014 Tomas Votruba (http://tomasvotruba.cz)
+ * Copyright (c) 2014 Tomas Votruba (http://tomasvotruba.cz).
  */
 
 namespace Symnedi\SymfonyBundlesExtension\Transformer\DI;
@@ -12,50 +12,38 @@ use Nette\DI\Container;
 use Nette\DI\ContainerBuilder;
 use Symnedi\SymfonyBundlesExtension\Transformer\ArgumentsTransformer;
 
-
-class TransformerFactory
+final class TransformerFactory
 {
+    /**
+     * @var ContainerBuilder
+     */
+    private $containerBuilder;
 
-	/**
-	 * @var ContainerBuilder
-	 */
-	private $containerBuilder;
+    /**
+     * @var string
+     */
+    private $tempDir;
 
-	/**
-	 * @var string
-	 */
-	private $tempDir;
+    public function __construct(ContainerBuilder $containerBuilder, string $tempDir)
+    {
+        $this->containerBuilder = $containerBuilder;
+        $this->tempDir = $tempDir;
+    }
 
+    public function create() : Container
+    {
+        $configurator = new Configurator();
+        $configurator->addConfig(__DIR__.'/services.neon');
+        $configurator->setTempDirectory($this->tempDir);
+        if (class_exists('Nette\Bridges\ApplicationDI\ApplicationExtension')) {
+            $configurator->addConfig(__DIR__.'/setup.neon');
+        }
+        $container = $configurator->createContainer();
 
-	/**
-	 * @param ContainerBuilder $containerBuilder
-	 * @param string $tempDir
-	 */
-	public function __construct(ContainerBuilder $containerBuilder, $tempDir)
-	{
-		$this->containerBuilder = $containerBuilder;
-		$this->tempDir = $tempDir;
-	}
+        /** @var ArgumentsTransformer $argumentsTransformer */
+        $argumentsTransformer = $container->getByType(ArgumentsTransformer::class);
+        $argumentsTransformer->setContainerBuilder($this->containerBuilder);
 
-
-	/**
-	 * @return Container
-	 */
-	public function create()
-	{
-		$configurator = new Configurator;
-		$configurator->addConfig(__DIR__ . '/services.neon');
-		$configurator->setTempDirectory($this->tempDir);
-		if (class_exists('Nette\Bridges\ApplicationDI\ApplicationExtension')) {
-			$configurator->addConfig(__DIR__ . '/setup.neon');
-		}
-		$container = $configurator->createContainer();
-
-		/** @var ArgumentsTransformer $argumentsTransformer */
-		$argumentsTransformer = $container->getByType(ArgumentsTransformer::class);
-		$argumentsTransformer->setContainerBuilder($this->containerBuilder);
-
-		return $container;
-	}
-
+        return $container;
+    }
 }
