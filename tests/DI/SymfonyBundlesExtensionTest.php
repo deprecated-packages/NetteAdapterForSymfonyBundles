@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Symnedi\SymfonyBundlesExtension\DI\SymfonyBundlesExtension;
 
 
-class SymfonyBundlesExtensionTest extends TestCase
+final class SymfonyBundlesExtensionTest extends TestCase
 {
 
 	/**
@@ -30,6 +30,7 @@ class SymfonyBundlesExtensionTest extends TestCase
 				'appDir' => '',
 				'tempDir' => TEMP_DIR,
 				'debugMode' => TRUE,
+				'productionMode' => TRUE,
 				'environment' => ''
 			]
 		]);
@@ -44,7 +45,7 @@ class SymfonyBundlesExtensionTest extends TestCase
 		$this->extension->beforeCompile();
 
 		$builder = $this->extension->getContainerBuilder();
-		$this->assertCount(17, $builder->getDefinitions());
+		$this->assertGreaterThan(17, $builder->getDefinitions());
 	}
 
 }

@@ -2,30 +2,25 @@
 
 namespace Symnedi\SymfonyBundlesExtension\Tests\ContainerSource;
 
-use Hautelook\AliceBundle\Alice\Loader;
 
-
-class AutowiredService
+final class AutowiredService
 {
 
 	/**
-	 * @var Loader
+	 * @var SomeService
 	 */
-	private $loader;
+	private $someService;
 
 
-	public function __construct(Loader $loader)
+	public function __construct(SomeService $someService)
 	{
-		$this->loader = $loader;
+		$this->someService = $someService;
 	}
 
 
-	/**
-	 * @return Loader
-	 */
-	public function getLoader()
+	public function getSomeService() : SomeService
 	{
-		return $this->loader;
+		return $this->someService;
 	}
 
 }

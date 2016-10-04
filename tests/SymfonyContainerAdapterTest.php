@@ -5,8 +5,6 @@ namespace Symnedi\SymfonyBundlesExtension\Tests;
 use Nette\DI\Container;
 use PHPUnit\Framework\TestCase;
 use stdClass;
-use Symfony\Component\DependencyInjection\ScopeInterface;
-use Symnedi\SymfonyBundlesExtension\Exception\UnsupportedApiException;
 use Symnedi\SymfonyBundlesExtension\SymfonyContainerAdapter;
 
 
@@ -60,54 +58,6 @@ final class SymfonyContainerAdapterTest extends TestCase
 	{
 		$this->assertFalse($this->symfonyContainerAdapter->has('nonExistingService'));
 		$this->symfonyContainerAdapter->get('nonExistingService');
-	}
-
-
-	/**
-	 * @expectedException \Symnedi\SymfonyBundlesExtension\Exception\UnsupportedApiException
-	 */
-	public function testUnsupportedMethodsAddScope()
-	{
-		$scopeMock = $this->prophesize(ScopeInterface::class);
-
-		$this->symfonyContainerAdapter->addScope($scopeMock->reveal());
-	}
-
-
-	/**
-	 * @expectedException \Symnedi\SymfonyBundlesExtension\Exception\UnsupportedApiException
-	 */
-	public function testUnsupportedMethodsEnterScope()
-	{
-		$this->symfonyContainerAdapter->enterScope('someScope');
-	}
-
-
-	/**
-	 * @expectedException \Symnedi\SymfonyBundlesExtension\Exception\UnsupportedApiException
-	 */
-	public function testUnsupportedMethodsHasScope()
-	{
-		$this->setExpectedException(UnsupportedApiException::class);
-		$this->symfonyContainerAdapter->hasScope('someScope');
-	}
-
-
-	/**
-	 * @expectedException \Symnedi\SymfonyBundlesExtension\Exception\UnsupportedApiException
-	 */
-	public function testUnsupportedMethodsLeaveScope()
-	{
-		$this->symfonyContainerAdapter->leaveScope('someScope');
-	}
-
-
-	/**
-	 * @expectedException \Symnedi\SymfonyBundlesExtension\Exception\UnsupportedApiException
-	 */
-	public function testUnsupportedMethodsIsScopeActive()
-	{
-		$this->symfonyContainerAdapter->isScopeActive('someScope');
 	}
 
 

@@ -2,7 +2,7 @@
 
 namespace Symnedi\SymfonyBundlesExtension\Tests\Container;
 
-use Nelmio\Alice\Loader\Yaml;
+use Hautelook\AliceBundle\Alice\DataFixtures\Fixtures\Loader;
 use Nette\DI\Container;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_Assert;
@@ -38,11 +38,15 @@ final class ParametersTest extends TestCase
 
 	public function testBundleParameters()
 	{
-		/** @var Yaml $yamlLoader */
-		$yamlLoader = $this->container->getByType(Yaml::class);
-		$this->assertInstanceOf(Yaml::class, $yamlLoader);
+		/** @var Loader $loader */
+		$loader = $this->container->getByType(Loader::class);
+		$this->assertInstanceOf(Loader::class, $loader);
 
-		$this->assertSame('cs_CZ', PHPUnit_Framework_Assert::getObjectAttribute($yamlLoader, 'defaultLocale'));
+		$fakerProcessorMethod = $loader->getFakerProcessorMethod();
+		$this->assertSame(
+			'cs_CZ',
+			PHPUnit_Framework_Assert::getObjectAttribute($fakerProcessorMethod, 'defaultLocale')
+		);
 	}
 
 }

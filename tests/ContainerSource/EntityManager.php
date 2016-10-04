@@ -3,8 +3,6 @@
 namespace Symnedi\SymfonyBundlesExtension\Tests\ContainerSource;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping;
-use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\ResultSetMapping;
 
 

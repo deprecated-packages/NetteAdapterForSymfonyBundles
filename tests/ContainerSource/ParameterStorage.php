@@ -3,7 +3,7 @@
 namespace Symnedi\SymfonyBundlesExtension\Tests\ContainerSource;
 
 
-class ParameterStorage
+final class ParameterStorage
 {
 
 	/**

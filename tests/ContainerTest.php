@@ -2,16 +2,13 @@
 
 namespace Symnedi\SymfonyBundlesExtension\Tests;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
-use Hautelook\AliceBundle\Alice\Loader;
 use League\Tactician\CommandBus;
-use Nelmio\Alice\LoaderInterface;
 use Nette\DI\Container;
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_Assert;
 use Symnedi\SymfonyBundlesExtension\Tests\ContainerSource\AutowiredService;
 use Symnedi\SymfonyBundlesExtension\Tests\ContainerSource\EntityManager;
+use Symnedi\SymfonyBundlesExtension\Tests\ContainerSource\SomeService;
 
 
 final class ContainerTest extends TestCase
@@ -31,16 +28,8 @@ final class ContainerTest extends TestCase
 
 	public function testFetchingService()
 	{
-		$loader = $this->container->getByType(Loader::class);
-		$this->assertInstanceOf(Loader::class, $loader);
-
-		/** @var Loader $loader */
-		$loaders = PHPUnit_Framework_Assert::getObjectAttribute($loader, 'loaders');
-		$this->assertCount(1, $loaders);
-		$this->assertArrayHasKey('yaml', $loaders);
-		$this->assertInstanceOf(LoaderInterface::class, $loaders['yaml']);
-
-		$this->assertInstanceOf(ArrayCollection::class, $loader->getReferences());
+		$someService = $this->container->getByType(SomeService::class);
+		$this->assertInstanceOf(SomeService::class, $someService);
 
 		$entityManager = $this->container->getByType(EntityManagerInterface::class);
 		$this->assertInstanceOf(EntityManager::class, $entityManager);
@@ -59,7 +48,7 @@ final class ContainerTest extends TestCase
 		/** @var AutowiredService $autowiredService */
 		$autowiredService = $this->container->getByType(AutowiredService::class);
 		$this->assertInstanceOf(AutowiredService::class, $autowiredService);
-		$this->assertInstanceOf(Loader::class, $autowiredService->getLoader());
+		$this->assertInstanceOf(SomeService::class, $autowiredService->getSomeService());
 	}
 
 }

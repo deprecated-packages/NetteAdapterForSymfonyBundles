@@ -11,7 +11,6 @@ use Nette\DI\Container;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
-use Symfony\Component\DependencyInjection\ScopeInterface;
 use Symnedi\SymfonyBundlesExtension\Exception\UnsupportedApiException;
 
 
@@ -43,7 +42,7 @@ final class SymfonyContainerAdapter implements ContainerInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function set($id, $service, $scope = self::SCOPE_CONTAINER)
+	public function set($id, $service)
 	{
 		throw new UnsupportedApiException;
 	}
@@ -113,45 +112,8 @@ final class SymfonyContainerAdapter implements ContainerInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function enterScope($name)
+	public function initialized($id)
 	{
-		throw new UnsupportedApiException;
+		return true;
 	}
-
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function leaveScope($name)
-	{
-		throw new UnsupportedApiException;
-	}
-
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function addScope(ScopeInterface $scope)
-	{
-		throw new UnsupportedApiException;
-	}
-
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function hasScope($name)
-	{
-		throw new UnsupportedApiException;
-	}
-
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function isScopeActive($name)
-	{
-		throw new UnsupportedApiException;
-	}
-
 }

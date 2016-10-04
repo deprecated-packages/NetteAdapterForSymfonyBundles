@@ -35,7 +35,10 @@ final class ParametersTransformer
 		$this->symfonyContainerBuilder->setParameter('kernel.cache_dir', $netteConfig['tempDir']);
 		$this->symfonyContainerBuilder->setParameter('kernel.logs_dir', $netteConfig['tempDir']);
 		$this->symfonyContainerBuilder->setParameter('kernel.debug', $netteConfig['debugMode']);
-		$this->symfonyContainerBuilder->setParameter('kernel.environment', $netteConfig['environment']);
+		$this->symfonyContainerBuilder->setParameter(
+			'kernel.environment',
+			$netteConfig['productionMode'] ? 'prod' : 'dev'
+		);
 	}
 
 }
