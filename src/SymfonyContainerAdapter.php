@@ -114,6 +114,7 @@ final class SymfonyContainerAdapter implements ContainerInterface
 	 */
 	public function initialized($id)
 	{
-		return true;
+		return TRUE;
 	}
+
 }

@@ -13,7 +13,7 @@ final class TransformerFactoryTest extends TestCase
 
 	public function testWithApplicationExtension()
 	{
-        $transformerFactory = new TransformerFactory(new ContainerBuilder, TEMP_DIR);
+		$transformerFactory = new TransformerFactory(new ContainerBuilder, TEMP_DIR);
 
 		$transformer = $transformerFactory->create();
 		$containerBuilderTransformer = $transformer->getByType(ContainerBuilderTransformer::class);
