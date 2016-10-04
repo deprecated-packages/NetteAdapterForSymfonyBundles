@@ -100,4 +100,4 @@ Rules are simple:
 - all tests must pass
 - 1 feature per PR
 
-I'd be happy to merge your feature then.
+We would be happy to merge your feature then!
