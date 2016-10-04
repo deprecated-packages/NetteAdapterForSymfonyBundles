@@ -1,13 +1,10 @@
-# SymfonyBundlesExtension
+# Register Symfony bundles as Nette extension
 
 [![Build Status](https://img.shields.io/travis/Symnedi/SymfonyBundlesExtension.svg?style=flat-square)](https://travis-ci.org/Symnedi/SymfonyBundlesExtension)
 [![Quality Score](https://img.shields.io/scrutinizer/g/Symnedi/SymfonyBundlesExtension.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symnedi/SymfonyBundlesExtension)
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Symnedi/SymfonyBundlesExtension.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symnedi/SymfonyBundlesExtension)
-[![Downloads this Month](https://img.shields.io/packagist/dm/symnedi/symfony-bundles-extension.svg?style=flat-square)](https://packagist.org/packages/symnedi/symfony-bundles-extension)
+[![Downloads](https://img.shields.io/packagist/dt/symnedi/symfony-bundles-extension.svg?style=flat-square)](https://packagist.org/packages/symnedi/symfony-bundles-extension)
 [![Latest stable](https://img.shields.io/packagist/v/symnedi/symfony-bundles-extension.svg?style=flat-square)](https://packagist.org/packages/symnedi/symfony-bundles-extension)
-
-Register Symfony Bundles as Nette Extensions with ease.
-
 
 ## Install
 
@@ -86,3 +83,21 @@ symfonyBundles:
 						- @Symnedi\SymfonyBundlesExtension\Tests\Container\ParametersSource\CustomMiddleware
 						- tactician.middleware.command_handler
 ```
+
+## Testing
+
+```bash
+composer check-cs # see "scripts" section of composer.json for more details 
+vendor/bin/phpunit
+```
+
+
+## Contributing
+
+Rules are simple:
+
+- new feature needs tests
+- all tests must pass
+- 1 feature per PR
+
+I'd be happy to merge your feature then.
