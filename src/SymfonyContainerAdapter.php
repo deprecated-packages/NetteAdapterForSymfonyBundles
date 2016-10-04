@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\ScopeInterface;
 use Symnedi\SymfonyBundlesExtension\Exception\UnsupportedApiException;
 
 
-class SymfonyContainerAdapter implements ContainerInterface
+final class SymfonyContainerAdapter implements ContainerInterface
 {
 
 	/**

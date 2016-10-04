@@ -22,7 +22,7 @@ use Symfony\Component\DependencyInjection\Reference;
  *
  * Based on {@see Symfony\Component\DependencyInjection\Compiler\CheckExceptionOnInvalidReferenceBehaviorPass}
  */
-class FakeReferencesPass implements CompilerPassInterface
+final class FakeReferencesPass implements CompilerPassInterface
 {
 
 	/**

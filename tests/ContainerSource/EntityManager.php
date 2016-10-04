@@ -8,7 +8,7 @@ use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\ResultSetMapping;
 
 
-class EntityManager implements EntityManagerInterface
+final class EntityManager implements EntityManagerInterface
 {
 
 	/**
