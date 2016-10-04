@@ -1,9 +1,10 @@
 <?php
 
-/**
+/*
  * This file is part of Symnedi.
  * Copyright (c) 2014 Tomas Votruba (http://tomasvotruba.cz).
  */
+
 namespace Symnedi\SymfonyBundlesExtension\Compiler;
 
 use ReflectionClass;
@@ -20,6 +21,7 @@ use Symfony\Component\DependencyInjection\Reference;
  *
  * Based on {@see Symfony\Component\DependencyInjection\Compiler\CheckExceptionOnInvalidReferenceBehaviorPass}
  */
+
 final class FakeReferencesPass implements CompilerPassInterface
 {
     /**

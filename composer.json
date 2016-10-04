@@ -23,7 +23,7 @@
 		"nette/bootstrap": "~2.3",
 		"nette/robot-loader": "~2.3",
 		"tracy/tracy": "~2.3",
-		"symplify/coding-standard": "^1.0",
+		"symplify/coding-standard": "^1.0.3",
 		"phpunit/phpunit": "^5.5",
 		"doctrine/doctrine-fixtures-bundle": "^2.3"
 	},
