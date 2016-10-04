@@ -4,6 +4,7 @@ namespace Symnedi\SymfonyBundlesExtension\Tests;
 
 use Nette\Configurator;
 use Nette\DI\Container;
+use Nette\Utils\FileSystem;
 
 final class ContainerFactory
 {
@@ -16,8 +17,17 @@ final class ContainerFactory
     {
         $configurator = new Configurator();
         $configurator->addConfig($config);
-        $configurator->setTempDirectory(TEMP_DIR);
+        $configurator->setTempDirectory($this->createAndReturnTempDir());
 
         return $configurator->createContainer();
+    }
+
+    public static function createAndReturnTempDir() : string
+    {
+        $tempDir = sys_get_temp_dir().'/php7_sculpin';
+        FileSystem::delete($tempDir);
+        FileSystem::createDir($tempDir);
+
+        return $tempDir;
     }
 }

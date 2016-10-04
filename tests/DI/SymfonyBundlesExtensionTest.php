@@ -25,7 +25,7 @@ final class SymfonyBundlesExtensionTest extends TestCase
         $compiler->addConfig([
             'parameters' => [
                 'appDir' => '',
-                'tempDir' => TEMP_DIR,
+                'tempDir' => ContainerFactory::createAndReturnTempDir(),
                 'debugMode' => true,
                 'productionMode' => true,
                 'environment' => '',
