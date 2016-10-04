@@ -5,14 +5,13 @@ namespace Symnedi\SymfonyBundlesExtension\Tests\TacticianBundle;
 use Closure;
 use League\Tactician\CommandBus;
 use Nette\DI\Container;
+use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_Assert;
-use PHPUnit_Framework_TestCase;
 use stdClass;
 use Symnedi\SymfonyBundlesExtension\Tests\ContainerFactory;
-use Symnedi\SymfonyBundlesExtension\Tests\ContainerSource\SomeCommand;
 
 
-class NetteServiceAliasTest extends PHPUnit_Framework_TestCase
+final class NetteServiceAliasTest extends TestCase
 {
 
 	/**

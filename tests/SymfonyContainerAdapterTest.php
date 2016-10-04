@@ -3,16 +3,14 @@
 namespace Symnedi\SymfonyBundlesExtension\Tests;
 
 use Nette\DI\Container;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use stdClass;
-use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
-use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symfony\Component\DependencyInjection\ScopeInterface;
 use Symnedi\SymfonyBundlesExtension\Exception\UnsupportedApiException;
 use Symnedi\SymfonyBundlesExtension\SymfonyContainerAdapter;
 
 
-class SymfonyContainerAdapterTest extends PHPUnit_Framework_TestCase
+final class SymfonyContainerAdapterTest extends TestCase
 {
 
 	/**
@@ -39,9 +37,11 @@ class SymfonyContainerAdapterTest extends PHPUnit_Framework_TestCase
 	}
 
 
+	/**
+	 * @expectedException \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
+	 */
 	public function testNonExistingParameters()
 	{
-		$this->setExpectedException(InvalidArgumentException::class);
 		$this->symfonyContainerAdapter->getParameter('nonExistingParameter');
 	}
 
@@ -53,30 +53,39 @@ class SymfonyContainerAdapterTest extends PHPUnit_Framework_TestCase
 	}
 
 
+	/**
+	 * @expectedException \Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException
+	 */
 	public function testNonExistingService()
 	{
 		$this->assertFalse($this->symfonyContainerAdapter->has('nonExistingService'));
-		$this->setExpectedException(ServiceNotFoundException::class);
 		$this->symfonyContainerAdapter->get('nonExistingService');
 	}
 
 
+	/**
+	 * @expectedException \Symnedi\SymfonyBundlesExtension\Exception\UnsupportedApiException
+	 */
 	public function testUnsupportedMethodsAddScope()
 	{
 		$scopeMock = $this->prophesize(ScopeInterface::class);
 
-		$this->setExpectedException(UnsupportedApiException::class);
 		$this->symfonyContainerAdapter->addScope($scopeMock->reveal());
 	}
 
 
+	/**
+	 * @expectedException \Symnedi\SymfonyBundlesExtension\Exception\UnsupportedApiException
+	 */
 	public function testUnsupportedMethodsEnterScope()
 	{
-		$this->setExpectedException(UnsupportedApiException::class);
 		$this->symfonyContainerAdapter->enterScope('someScope');
 	}
 
 
+	/**
+	 * @expectedException \Symnedi\SymfonyBundlesExtension\Exception\UnsupportedApiException
+	 */
 	public function testUnsupportedMethodsHasScope()
 	{
 		$this->setExpectedException(UnsupportedApiException::class);
@@ -84,30 +93,38 @@ class SymfonyContainerAdapterTest extends PHPUnit_Framework_TestCase
 	}
 
 
+	/**
+	 * @expectedException \Symnedi\SymfonyBundlesExtension\Exception\UnsupportedApiException
+	 */
 	public function testUnsupportedMethodsLeaveScope()
 	{
-		$this->setExpectedException(UnsupportedApiException::class);
 		$this->symfonyContainerAdapter->leaveScope('someScope');
 	}
 
 
+	/**
+	 * @expectedException \Symnedi\SymfonyBundlesExtension\Exception\UnsupportedApiException
+	 */
 	public function testUnsupportedMethodsIsScopeActive()
 	{
-		$this->setExpectedException(UnsupportedApiException::class);
 		$this->symfonyContainerAdapter->isScopeActive('someScope');
 	}
 
 
+	/**
+	 * @expectedException \Symnedi\SymfonyBundlesExtension\Exception\UnsupportedApiException
+	 */
 	public function testUnsupportedMethodsSet()
 	{
-		$this->setExpectedException(UnsupportedApiException::class);
 		$this->symfonyContainerAdapter->set('someService', new stdClass);
 	}
 
 
+	/**
+	 * @expectedException \Symnedi\SymfonyBundlesExtension\Exception\UnsupportedApiException
+	 */
 	public function testUnsupportedMethodsSetParameter()
 	{
-		$this->setExpectedException(UnsupportedApiException::class);
 		$this->symfonyContainerAdapter->setParameter('someParameter', 'someValue');
 	}
 

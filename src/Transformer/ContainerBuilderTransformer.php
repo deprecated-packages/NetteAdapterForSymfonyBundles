@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBu
 use Symnedi\SymfonyBundlesExtension\Utils\Naming;
 
 
-class ContainerBuilderTransformer
+final class ContainerBuilderTransformer
 {
 
 	/**
@@ -74,12 +74,7 @@ class ContainerBuilderTransformer
 	}
 
 
-	/**
-	 * @param NetteContainerBuilder $netteContainerBuilder
-	 * @param string $name
-	 * @return bool
-	 */
-	private function canServiceBeAdded(NetteContainerBuilder $netteContainerBuilder, $name)
+	private function canServiceBeAdded(NetteContainerBuilder $netteContainerBuilder, string $name) : bool
 	{
 		$serviceNames = $this->getLowercasedNames($netteContainerBuilder);
 		if (in_array($name, $serviceNames)) {
@@ -93,7 +88,7 @@ class ContainerBuilderTransformer
 	/**
 	 * @return string[]
 	 */
-	private function getLowercasedNames(NetteContainerBuilder $netteContainerBuilder)
+	private function getLowercasedNames(NetteContainerBuilder $netteContainerBuilder) : array
 	{
 		$names = array_keys($netteContainerBuilder->getDefinitions());
 		foreach ($names as $key => $name) {

@@ -5,18 +5,16 @@ namespace Symnedi\SymfonyBundlesExtension\Tests;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Hautelook\AliceBundle\Alice\Loader;
-use League\Tactician\Bundle\Handler\ContainerBasedHandlerLocator;
 use League\Tactician\CommandBus;
-use League\Tactician\Handler\Locator\HandlerLocator;
 use Nelmio\Alice\LoaderInterface;
 use Nette\DI\Container;
+use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_Assert;
-use PHPUnit_Framework_TestCase;
 use Symnedi\SymfonyBundlesExtension\Tests\ContainerSource\AutowiredService;
 use Symnedi\SymfonyBundlesExtension\Tests\ContainerSource\EntityManager;
 
 
-class ContainerTest extends PHPUnit_Framework_TestCase
+final class ContainerTest extends TestCase
 {
 
 	/**

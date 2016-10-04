@@ -4,11 +4,11 @@ namespace Symnedi\SymfonyBundlesExtension\Tests\ElasticsearchBundle;
 
 use Nette\DI\Container;
 use ONGR\ElasticsearchBundle\Client\IndexSuffixFinder;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Symnedi\SymfonyBundlesExtension\Tests\ContainerFactory;
 
 
-class InitTest extends PHPUnit_Framework_TestCase
+final class InitTest extends TestCase
 {
 
 	/**

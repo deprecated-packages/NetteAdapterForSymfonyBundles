@@ -7,9 +7,7 @@
 
 namespace Symnedi\SymfonyBundlesExtension\DI;
 
-use Nette;
 use Nette\DI\CompilerExtension;
-use Nette\DI\ContainerBuilder;
 use Nette\PhpGenerator\ClassType;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -19,7 +17,7 @@ use Symnedi\SymfonyBundlesExtension\Transformer\DI\TransformerFactory;
 use Symnedi\SymfonyBundlesExtension\Transformer\ParametersTransformer;
 
 
-class SymfonyBundlesExtension extends CompilerExtension
+final class SymfonyBundlesExtension extends CompilerExtension
 {
 
 	/**
@@ -133,14 +131,9 @@ class SymfonyBundlesExtension extends CompilerExtension
 	}
 
 
-	/**
-	 * @param array $parameters
-	 * @param string $name
-	 * @return array
-	 */
-	private function determineParameters(array $parameters, $name)
+	private function determineParameters(array $parameters, string $name) : array
 	{
-		return isset($parameters[$name]) ? $parameters[$name] : [];
+		return $parameters[$name] ?? [];
 	}
 
 
@@ -156,7 +149,7 @@ class SymfonyBundlesExtension extends CompilerExtension
 	/**
 	 * @return string[] {[ Symfony name => Nette name ]}
 	 */
-	private function getSymfonyToNetteServiceAliases()
+	private function getSymfonyToNetteServiceAliases() : array
 	{
 		$names = [];
 		foreach ($this->getContainerBuilder()->getDefinitions() as $name => $definition) {

@@ -13,7 +13,7 @@ use Nette\DI\ContainerBuilder;
 use Symnedi\SymfonyBundlesExtension\Transformer\ArgumentsTransformer;
 
 
-class TransformerFactory
+final class TransformerFactory
 {
 
 	/**
@@ -27,21 +27,14 @@ class TransformerFactory
 	private $tempDir;
 
 
-	/**
-	 * @param ContainerBuilder $containerBuilder
-	 * @param string $tempDir
-	 */
-	public function __construct(ContainerBuilder $containerBuilder, $tempDir)
+	public function __construct(ContainerBuilder $containerBuilder, string $tempDir)
 	{
 		$this->containerBuilder = $containerBuilder;
 		$this->tempDir = $tempDir;
 	}
 
 
-	/**
-	 * @return Container
-	 */
-	public function create()
+	public function create() : Container
 	{
 		$configurator = new Configurator;
 		$configurator->addConfig(__DIR__ . '/services.neon');

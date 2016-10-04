@@ -6,7 +6,7 @@ use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\CachedReader;
 use Doctrine\Common\Annotations\Reader;
 use Nette\DI\ContainerBuilder;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
 use Symnedi\SymfonyBundlesExtension\Tests\Transformer\ContainerBuilderTransformerSource\AutowireReader;
@@ -15,7 +15,7 @@ use Symnedi\SymfonyBundlesExtension\Transformer\ContainerBuilderTransformer;
 use Symnedi\SymfonyBundlesExtension\Transformer\ServiceDefinitionTransformer;
 
 
-class ContainerBuilderTransformerTest extends PHPUnit_Framework_TestCase
+final class ContainerBuilderTransformerTest extends TestCase
 {
 
 	/**

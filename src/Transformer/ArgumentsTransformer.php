@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\Reference;
 use Symnedi\SymfonyBundlesExtension\Utils\Naming;
 
 
-class ArgumentsTransformer
+final class ArgumentsTransformer
 {
 
 	/**
@@ -34,10 +34,7 @@ class ArgumentsTransformer
 	}
 
 
-	/**
-	 * @return array
-	 */
-	public function transformFromSymfonyToNette(array $arguments)
+	public function transformFromSymfonyToNette(array $arguments) : array
 	{
 		foreach ($arguments as $key => $argument) {
 			$arguments[$key] = $this->transformArgument($argument);
@@ -71,10 +68,7 @@ class ArgumentsTransformer
 	}
 
 
-	/**
-	 * @return string
-	 */
-	private function determineServiceName(Reference $argument)
+	private function determineServiceName(Reference $argument) : string
 	{
 		$name = (string) $argument;
 		if ($name[0] === '@') {
@@ -86,10 +80,7 @@ class ArgumentsTransformer
 	}
 
 
-	/**
-	 * @return ServiceDefinitionTransformer
-	 */
-	private function getServiceDefinitionTransformer()
+	private function getServiceDefinitionTransformer() : ServiceDefinitionTransformer
 	{
 		if ($this->serviceDefinitionTransformer === NULL) {
 			$this->serviceDefinitionTransformer = new ServiceDefinitionTransformer($this);

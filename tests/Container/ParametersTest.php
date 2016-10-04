@@ -4,13 +4,13 @@ namespace Symnedi\SymfonyBundlesExtension\Tests\Container;
 
 use Nelmio\Alice\Loader\Yaml;
 use Nette\DI\Container;
+use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_Assert;
-use PHPUnit_Framework_TestCase;
 use Symnedi\SymfonyBundlesExtension\Tests\ContainerFactory;
 use Symnedi\SymfonyBundlesExtension\Tests\ContainerSource\ParameterStorage;
 
 
-class ParametersTest extends PHPUnit_Framework_TestCase
+final class ParametersTest extends TestCase
 {
 
 	/**

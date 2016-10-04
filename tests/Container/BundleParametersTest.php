@@ -2,15 +2,14 @@
 
 namespace Symnedi\SymfonyBundlesExtension\Tests\Container;
 
-use Doctrine\ORM\EntityManager;
 use Nette\DI\Container;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Symnedi\SymfonyBundlesExtension\DI\SymfonyBundlesExtension;
 use Symnedi\SymfonyBundlesExtension\SymfonyContainerAdapter;
 use Symnedi\SymfonyBundlesExtension\Tests\ContainerFactory;
 
 
-class BundleParametersTest extends PHPUnit_Framework_TestCase
+final class BundleParametersTest extends TestCase
 {
 
 	/**
@@ -34,10 +33,7 @@ class BundleParametersTest extends PHPUnit_Framework_TestCase
 	}
 
 
-	/**
-	 * @return SymfonyContainerAdapter
-	 */
-	private function getSymfonyContainerAdapter()
+	private function getSymfonyContainerAdapter() : SymfonyContainerAdapter
 	{
 		return $this->container->getService(
 			SymfonyBundlesExtension::SYMFONY_CONTAINER_SERVICE_NAME

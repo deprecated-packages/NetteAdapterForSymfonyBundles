@@ -3,14 +3,13 @@
 namespace Symnedi\SymfonyBundlesExtension\Tests\Transformer;
 
 use Nette\DI\ContainerBuilder;
-use PHPUnit_Framework_TestCase;
-use Prophecy\Argument;
+use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symfony\Component\DependencyInjection\Reference;
 use Symnedi\SymfonyBundlesExtension\Transformer\ArgumentsTransformer;
 
 
-class ArgumentTransformerTest extends PHPUnit_Framework_TestCase
+final class ArgumentTransformerTest extends TestCase
 {
 
 	/**

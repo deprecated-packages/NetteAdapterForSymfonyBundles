@@ -6,11 +6,11 @@ use Elasticsearch\Client;
 use Nette\DI\Container;
 use ONGR\ElasticsearchBundle\Client\Connection;
 use ONGR\ElasticsearchBundle\ORM\Manager;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Symnedi\SymfonyBundlesExtension\Tests\ContainerFactory;
 
 
-class ManagerTest extends PHPUnit_Framework_TestCase
+final class ManagerTest extends TestCase
 {
 
 	/**

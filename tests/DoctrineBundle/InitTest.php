@@ -6,11 +6,11 @@ use Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\Mapping\ClassMetadataFactory;
 use Nette\DI\Container;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Symnedi\SymfonyBundlesExtension\Tests\ContainerFactory;
 
 
-class InitTest extends PHPUnit_Framework_TestCase
+final class InitTest extends TestCase
 {
 
 	/**

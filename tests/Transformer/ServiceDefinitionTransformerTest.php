@@ -3,13 +3,13 @@
 namespace Symnedi\SymfonyBundlesExtension\Tests\Transformer;
 
 use Nette\DI\ServiceDefinition;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symnedi\SymfonyBundlesExtension\Transformer\ArgumentsTransformer;
 use Symnedi\SymfonyBundlesExtension\Transformer\ServiceDefinitionTransformer;
 
 
-class ServiceDefinitionTransformerTest extends PHPUnit_Framework_TestCase
+final class ServiceDefinitionTransformerTest extends TestCase
 {
 
 	/**

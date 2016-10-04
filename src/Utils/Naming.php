@@ -10,14 +10,10 @@ namespace Symnedi\SymfonyBundlesExtension\Utils;
 use Nette\Utils\Strings;
 
 
-class Naming
+final class Naming
 {
 
-	/**
-	 * @param string $name
-	 * @return string
-	 */
-	public static function sanitazeClassName($name)
+	public static function sanitazeClassName(string $name) : string
 	{
 		$name = Strings::webalize($name, '.');
 		$name = strtr($name, ['-' => '_']);

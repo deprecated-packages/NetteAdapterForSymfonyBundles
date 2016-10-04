@@ -10,7 +10,7 @@ namespace Symnedi\SymfonyBundlesExtension\Exception;
 use RuntimeException;
 
 
-class UnsupportedApiException extends RuntimeException
+final class UnsupportedApiException extends RuntimeException
 {
 
 }

@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 
-class ServiceDefinitionTransformer
+final class ServiceDefinitionTransformer
 {
 
 	/**
@@ -55,10 +55,7 @@ class ServiceDefinitionTransformer
 	}
 
 
-	/**
-	 * @return array
-	 */
-	private function transformTagsFromNetteToSymfony(array $tags)
+	private function transformTagsFromNetteToSymfony(array $tags) : array
 	{
 		foreach ($tags as $key => $tag) {
 			if ( ! is_array($tag)) {
@@ -69,13 +66,10 @@ class ServiceDefinitionTransformer
 	}
 
 
-	/**
-	 * @return ServiceDefinition
-	 */
 	private function transformFactoryFromSymfonyToNette(
 		Definition $symfonyDefinition,
 		ServiceDefinition $netteDefinition
-	) {
+	) : ServiceDefinition {
 		if ($factory = $symfonyDefinition->getFactory()) {
 			if (is_array($factory) && $factory[0] instanceof Reference) {
 				$serviceReference = $factory[0];
@@ -95,13 +89,10 @@ class ServiceDefinitionTransformer
 	}
 
 
-	/**
-	 * @return Definition
-	 */
 	private function transformFactoryFromNetteToSymfony(
 		ServiceDefinition $netteDefinition,
 		Definition $symfonyDefinition
-	) {
+	) : Definition {
 		if ($netteDefinition->getFactory()) {
 			$factory = $netteDefinition->getFactory();
 			$symfonyDefinition->setFactory($factory->getEntity());

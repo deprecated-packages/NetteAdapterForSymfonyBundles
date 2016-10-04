@@ -4,12 +4,12 @@ namespace Symnedi\SymfonyBundlesExtension\Tests\TacticianBundle;
 
 use League\Tactician\CommandBus;
 use Nette\DI\Container;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Symnedi\SymfonyBundlesExtension\Tests\ContainerFactory;
 use Symnedi\SymfonyBundlesExtension\Tests\TacticianBundle\NetteTagsSource\SomeCommand;
 
 
-class NetteTagsTest extends PHPUnit_Framework_TestCase
+final class NetteTagsTest extends TestCase
 {
 
 	/**

@@ -11,7 +11,7 @@ use Nette\DI\Compiler;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
 
 
-class ParametersTransformer
+final class ParametersTransformer
 {
 
 	/**
@@ -26,10 +26,6 @@ class ParametersTransformer
 	}
 
 
-	/**
-	 * @param Compiler $compiler
-	 * @param $extensionConfig
-	 */
 	public function transformFromNetteToSymfony(Compiler $compiler, array $extensionConfig)
 	{
 		$this->symfonyContainerBuilder->setParameter('kernel.bundles', $extensionConfig['bundles']);
