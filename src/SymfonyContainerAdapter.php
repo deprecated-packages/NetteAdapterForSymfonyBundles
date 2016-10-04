@@ -2,9 +2,8 @@
 
 /**
  * This file is part of Symnedi.
- * Copyright (c) 2014 Tomas Votruba (http://tomasvotruba.cz)
+ * Copyright (c) 2014 Tomas Votruba (http://tomasvotruba.cz).
  */
-
 namespace Symnedi\SymfonyBundlesExtension;
 
 use Nette\DI\Container;
@@ -13,108 +12,97 @@ use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symnedi\SymfonyBundlesExtension\Exception\UnsupportedApiException;
 
-
 final class SymfonyContainerAdapter implements ContainerInterface
 {
+    /**
+     * @var string[]
+     */
+    private $symfonyToNetteServiceAliases;
 
-	/**
-	 * @var string[]
-	 */
-	private $symfonyToNetteServiceAliases;
+    /**
+     * @var Container
+     */
+    private $container;
 
-	/**
-	 * @var Container
-	 */
-	private $container;
+    /**
+     * @param string[] $symfonyToNetteServiceAliases
+     * @param Container $container
+     */
+    public function __construct(array $symfonyToNetteServiceAliases, Container $container)
+    {
+        $this->symfonyToNetteServiceAliases = $symfonyToNetteServiceAliases;
+        $this->container = $container;
+    }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function set($id, $service)
+    {
+        throw new UnsupportedApiException();
+    }
 
-	/**
-	 * @param string[] $symfonyToNetteServiceAliases
-	 * @param Container $container
-	 */
-	public function __construct(array $symfonyToNetteServiceAliases, Container $container)
-	{
-		$this->symfonyToNetteServiceAliases = $symfonyToNetteServiceAliases;
-		$this->container = $container;
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function get($id, $invalidBehavior = self::EXCEPTION_ON_INVALID_REFERENCE)
+    {
+        if (isset($this->symfonyToNetteServiceAliases[$id])) {
+            $id = $this->symfonyToNetteServiceAliases[$id];
+        }
 
+        if ($this->has($id)) {
+            return $this->container->getService($id);
+        }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function set($id, $service)
-	{
-		throw new UnsupportedApiException;
-	}
+        throw new ServiceNotFoundException(
+            sprintf('Service "%s" was not found.', $id)
+        );
+    }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function has($id)
+    {
+        return $this->container->hasService($id);
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function get($id, $invalidBehavior = self::EXCEPTION_ON_INVALID_REFERENCE)
-	{
-		if (isset($this->symfonyToNetteServiceAliases[$id])) {
-			$id = $this->symfonyToNetteServiceAliases[$id];
-		}
+    /**
+     * {@inheritdoc}
+     */
+    public function getParameter($name)
+    {
+        if ($this->hasParameter($name)) {
+            return $this->container->getParameters()[$name];
+        }
 
-		if ($this->has($id)) {
-			return $this->container->getService($id);
-		}
+        throw new InvalidArgumentException(
+            sprintf('Parameter "%s" was not found.', $name)
+        );
+    }
 
-		throw new ServiceNotFoundException(
-			sprintf('Service "%s" was not found.', $id)
-		);
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function hasParameter($name)
+    {
+        return isset($this->container->getParameters()[$name]);
+    }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function setParameter($name, $value)
+    {
+        throw new UnsupportedApiException();
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function has($id)
-	{
-		return $this->container->hasService($id);
-	}
-
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getParameter($name)
-	{
-		if ($this->hasParameter($name)) {
-			return $this->container->getParameters()[$name];
-		}
-
-		throw new InvalidArgumentException(
-			sprintf('Parameter "%s" was not found.', $name)
-		);
-	}
-
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function hasParameter($name)
-	{
-		return isset($this->container->getParameters()[$name]);
-	}
-
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function setParameter($name, $value)
-	{
-		throw new UnsupportedApiException;
-	}
-
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function initialized($id)
-	{
-		return TRUE;
-	}
-
+    /**
+     * {@inheritdoc}
+     */
+    public function initialized($id)
+    {
+        throw new UnsupportedApiException();
+    }
 }

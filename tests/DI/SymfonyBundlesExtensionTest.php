@@ -8,44 +8,39 @@ use Nette\DI\ContainerBuilder;
 use PHPUnit\Framework\TestCase;
 use Symnedi\SymfonyBundlesExtension\DI\SymfonyBundlesExtension;
 
-
 final class SymfonyBundlesExtensionTest extends TestCase
 {
+    /**
+     * @var SymfonyBundlesExtension
+     */
+    private $extension;
 
-	/**
-	 * @var SymfonyBundlesExtension
-	 */
-	private $extension;
+    protected function setUp()
+    {
+        $this->extension = new SymfonyBundlesExtension();
+        $compiler = new Compiler(new ContainerBuilder());
+        $this->extension->setCompiler($compiler, 'symfonyBundles');
 
+        // simulates required Nette\Configurator default parameters
+        $compiler->addConfig([
+            'parameters' => [
+                'appDir' => '',
+                'tempDir' => TEMP_DIR,
+                'debugMode' => true,
+                'productionMode' => true,
+                'environment' => '',
+            ],
+        ]);
+    }
 
-	protected function setUp()
-	{
-		$this->extension = new SymfonyBundlesExtension;
-		$compiler = new Compiler(new ContainerBuilder);
-		$this->extension->setCompiler($compiler, 'symfonyBundles');
+    public function testLoadBundlesEmpty()
+    {
+        $bundles = (new Loader())->load(__DIR__.'/SymfonyBundlesExtensionSource/bundles.neon');
+        $this->extension->setConfig($bundles);
+        $this->extension->loadConfiguration();
+        $this->extension->beforeCompile();
 
-		// simulates required Nette\Configurator default parameters
-		$compiler->addConfig([
-			'parameters' => [
-				'appDir' => '',
-				'tempDir' => TEMP_DIR,
-				'debugMode' => TRUE,
-				'productionMode' => TRUE,
-				'environment' => ''
-			]
-		]);
-	}
-
-
-	public function testLoadBundlesEmpty()
-	{
-		$bundles = (new Loader)->load(__DIR__ . '/SymfonyBundlesExtensionSource/bundles.neon');
-		$this->extension->setConfig($bundles);
-		$this->extension->loadConfiguration();
-		$this->extension->beforeCompile();
-
-		$builder = $this->extension->getContainerBuilder();
-		$this->assertGreaterThan(17, $builder->getDefinitions());
-	}
-
+        $builder = $this->extension->getContainerBuilder();
+        $this->assertGreaterThan(17, $builder->getDefinitions());
+    }
 }

@@ -23,7 +23,7 @@
 		"nette/bootstrap": "~2.3",
 		"nette/robot-loader": "~2.3",
 		"tracy/tracy": "~2.3",
-		"zenify/coding-standard": "^3.3",
+		"symplify/coding-standard": "^1.0",
 		"phpunit/phpunit": "^5.5",
 		"doctrine/doctrine-fixtures-bundle": "^2.3"
 	},
@@ -38,6 +38,7 @@
 		}
 	},
 	"scripts": {
-		"check-cs": "vendor/bin/phpcs src tests --extensions=php --ignore=bootstrap --standard=vendor/zenify/coding-standard/src/ZenifyCodingStandard/ruleset.xml"
+		"check-cs": "vendor/bin/symplify-cs check src tests",
+		"fix-cs": "vendor/bin/symplify-cs fix src tests"
 	}
 }

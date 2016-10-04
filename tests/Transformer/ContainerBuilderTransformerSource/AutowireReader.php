@@ -4,19 +4,15 @@ namespace Symnedi\SymfonyBundlesExtension\Tests\Transformer\ContainerBuilderTran
 
 use Doctrine\Common\Annotations\Reader;
 
-
 class AutowireReader
 {
+    /**
+     * @var Reader
+     */
+    private $reader;
 
-	/**
-	 * @var Reader
-	 */
-	private $reader;
-
-
-	public function __construct(Reader $reader)
-	{
-		$this->reader = $reader;
-	}
-
+    public function __construct(Reader $reader)
+    {
+        $this->reader = $reader;
+    }
 }
