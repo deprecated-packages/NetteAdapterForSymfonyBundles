@@ -3,28 +3,18 @@ language: php
 php:
   - 5.6
   - 7.0
-  - hhvm
-
-env:
-  matrix:
-    - PREFER_LOWEST="--prefer-lowest"
-    - PREFER_LOWEST=""
-
-matrix:
-  fast_finish: true
-  allow_failures:
-    - php: 7.0
+  - 7.1
 
 install:
   - composer create-project --prefer-source --dev --no-interaction zenify/ci vendor/ci @dev
   - . vendor/ci/travis/coverage-init.sh
-  - composer update --prefer-source $PREFER_LOWEST
+  - composer update --prefer-source
 
 before_script:
   - . vendor/ci/travis/static-analysis.sh
 
 script:
-  - phpunit $PHPUNIT_FLAGS
+  - vendor/bin/phpunit $PHPUNIT_FLAGS
 
 after_script:
   - . vendor/ci/travis/coverage-send.sh
