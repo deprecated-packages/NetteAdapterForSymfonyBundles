@@ -8,15 +8,14 @@
 
 ## Install
 
-Via Composer:
-
 ```sh
-$ composer require symplify/nette-adapter-for-symfony-bundles
+composer require symplify/nette-adapter-for-symfony-bundles
 ```
 
-Register extension in your `config.neon`:
+Register extension:
 
 ```yaml
+# app/config/config.neon
 extensions:
 	symfonyBundles: Symplify\NetteAdapterForSymfonyBundles\DI\NetteAdapterForSymfonyBundles
 ```
@@ -29,7 +28,7 @@ Register Symfony bundles just like Nette extensions:
 ```yaml
 symfonyBundles:
 	bundles:
-		# list all bundles
+		# list all bundles like "your key": "bundle class"
 		alice: Hautelook\AliceBundle\HautelookAliceBundle
 	parameters:
 		# and it's parameters (bound by same key name)
