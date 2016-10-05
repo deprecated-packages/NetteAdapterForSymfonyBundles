@@ -17,6 +17,16 @@ use Symplify\NetteAdapaterForSymfonyBundles\Transformer\ServiceDefinitionTransfo
 final class ContainerBuilderTransformerTest extends TestCase
 {
     /**
+     * @var ContainerBuilder
+     */
+    private $netteContainerBuilder;
+
+    /**
+     * @var SymfonyContainerBuilder
+     */
+    private $symfonyContainerBuilder;
+
+    /**
      * @var ContainerBuilderTransformer
      */
     private $containerBuilderTransformer;
@@ -25,30 +35,31 @@ final class ContainerBuilderTransformerTest extends TestCase
     {
         $serviceDefinitionTransformer = new ServiceDefinitionTransformer(new ArgumentsTransformer());
         $this->containerBuilderTransformer = new ContainerBuilderTransformer($serviceDefinitionTransformer);
+
+        $this->netteContainerBuilder = new ContainerBuilder();
+        $this->symfonyContainerBuilder = new SymfonyContainerBuilder();
     }
 
     public function testAddingAlreadyExistingService()
     {
-        $netteContainerBuilder = new ContainerBuilder();
-        $netteContainerBuilder->addDefinition('someservice')
+        $this->netteContainerBuilder->addDefinition('someservice')
             ->setClass(stdClass::class)
             ->setAutowired(false);
 
-        $symfonyContainerBuilder = new SymfonyContainerBuilder();
         $this->containerBuilderTransformer->transformFromNetteToSymfony(
-            $netteContainerBuilder,
-            $symfonyContainerBuilder
+            $this->netteContainerBuilder,
+            $this->symfonyContainerBuilder
         );
 
         $this->containerBuilderTransformer->transformFromSymfonyToNette(
-            $symfonyContainerBuilder,
-            $netteContainerBuilder
+            $this->symfonyContainerBuilder,
+            $this->netteContainerBuilder
         );
 
-        $netteDefinition = $netteContainerBuilder->getDefinition('someservice');
+        $netteDefinition = $this->netteContainerBuilder->getDefinition('someservice');
         $this->assertSame(stdClass::class, $netteDefinition->getClass());
 
-        $symfonyDefinition = $symfonyContainerBuilder->getDefinition('someservice');
+        $symfonyDefinition = $this->symfonyContainerBuilder->getDefinition('someservice');
         $this->assertSame(stdClass::class, $symfonyDefinition->getClass());
 
         $this->assertSame($netteDefinition->getClass(), $symfonyDefinition->getClass());
@@ -56,86 +67,76 @@ final class ContainerBuilderTransformerTest extends TestCase
 
     public function testTags()
     {
-        $netteContainerBuilder = new ContainerBuilder();
-        $netteDefinition = $netteContainerBuilder->addDefinition('someService')
+        $netteDefinition = $this->netteContainerBuilder->addDefinition('someService')
             ->setClass(stdClass::class)
             ->addTag('someTag');
 
-        $symfonyContainerBuilder = new SymfonyContainerBuilder();
-        $this->transformFromNetteToSymfonyAndCompile($netteContainerBuilder, $symfonyContainerBuilder);
+        $this->transformFromNetteToSymfonyAndCompile();
 
-        $symfonyDefinition = $symfonyContainerBuilder->getDefinition('someService');
+        $symfonyDefinition = $this->symfonyContainerBuilder->getDefinition('someService');
         $this->assertSame(['someTag' => [[true]]], $symfonyDefinition->getTags());
 
         $this->containerBuilderTransformer->transformFromSymfonyToNette(
-            $symfonyContainerBuilder,
-            $netteContainerBuilder
+            $this->symfonyContainerBuilder,
+            $this->netteContainerBuilder
         );
 
-        $this->assertSame($netteDefinition, $netteContainerBuilder->getDefinition('someService'));
+        $this->assertSame($netteDefinition, $this->netteContainerBuilder->getDefinition('someService'));
     }
 
     public function testAutowiringStep2()
     {
-        $netteContainerBuilder = new ContainerBuilder();
-        $netteDefinition = $netteContainerBuilder->addDefinition('someService')
+        $netteDefinition = $this->netteContainerBuilder->addDefinition('someService')
             ->setClass(stdClass::class)
             ->addTag('someTag');
 
-        $symfonyContainerBuilder = new SymfonyContainerBuilder();
+        $this->transformFromNetteToSymfonyAndCompile();
 
-        $this->transformFromNetteToSymfonyAndCompile($netteContainerBuilder, $symfonyContainerBuilder);
-
-        $symfonyDefinition = $symfonyContainerBuilder->getDefinition('someService');
+        $symfonyDefinition = $this->symfonyContainerBuilder->getDefinition('someService');
         $this->assertSame(['someTag' => [[true]]], $symfonyDefinition->getTags());
 
         $this->containerBuilderTransformer->transformFromSymfonyToNette(
-            $symfonyContainerBuilder,
-            $netteContainerBuilder
+            $this->symfonyContainerBuilder,
+            $this->netteContainerBuilder
         );
 
-        $this->assertSame($netteDefinition, $netteContainerBuilder->getDefinition('someService'));
+        $this->assertSame($netteDefinition, $this->netteContainerBuilder->getDefinition('someService'));
     }
 
     public function testPreventDuplicating()
     {
-        $netteContainerBuilder = new ContainerBuilder();
-        $netteContainerBuilder->addDefinition('annotationReader')
+        $this->netteContainerBuilder->addDefinition('annotationReader')
             ->setClass(AnnotationReader::class)
             ->setAutowired(false);
 
-        $netteContainerBuilder->addDefinition('reader')
+        $this->netteContainerBuilder->addDefinition('reader')
             ->setClass(Reader::class)
             ->setFactory(CachedReader::class);
 
-        $netteContainerBuilder->addDefinition('autowireReader')
+        $this->netteContainerBuilder->addDefinition('autowireReader')
             ->setClass(AutowireReader::class);
 
-        $symfonyContainerBuilder = new SymfonyContainerBuilder();
-
-        $this->transformFromNetteToSymfonyAndCompile($netteContainerBuilder, $symfonyContainerBuilder);
+        $this->transformFromNetteToSymfonyAndCompile();
 
         $this->containerBuilderTransformer->transformFromSymfonyToNette(
-            $symfonyContainerBuilder,
-            $netteContainerBuilder
+            $this->symfonyContainerBuilder,
+            $this->netteContainerBuilder
         );
 
-        $this->assertCount(3, $netteContainerBuilder->getDefinitions());
+        $this->assertCount(3, $this->netteContainerBuilder->getDefinitions());
 
-        $netteContainerBuilder->prepareClassList();
-        $readerDefinition = $netteContainerBuilder->getDefinition($netteContainerBuilder->getByType(Reader::class));
+        $this->netteContainerBuilder->prepareClassList();
+        $readerDefinition = $this->netteContainerBuilder->getDefinition($this->netteContainerBuilder->getByType(Reader::class));
         $this->assertSame(Reader::class, $readerDefinition->getClass());
     }
 
-    private function transformFromNetteToSymfonyAndCompile(
-        ContainerBuilder $netteContainerBuilder,
-        SymfonyContainerBuilder $symfonyContainerBuilder
-    ) {
+    private function transformFromNetteToSymfonyAndCompile()
+    {
         $this->containerBuilderTransformer->transformFromNetteToSymfony(
-            $netteContainerBuilder,
-            $symfonyContainerBuilder
+            $this->netteContainerBuilder,
+            $this->symfonyContainerBuilder
         );
 
-        $symfonyContainerBuilder->compile();
+        $this->symfonyContainerBuilder->compile();
     }
 }
