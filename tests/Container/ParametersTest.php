@@ -27,7 +27,7 @@ final class ParametersTest extends TestCase
         $parameterStorage = $this->container->getByType(ParameterStorage::class);
         $this->assertInstanceOf(ParameterStorage::class, $parameterStorage);
 
-        $this->assertSame(1, $parameterStorage->getParameter());
+        $this->assertSame('1', $parameterStorage->getParameter());
         $this->assertSame([2, 3], $parameterStorage->getGroupOfParameters());
     }
 

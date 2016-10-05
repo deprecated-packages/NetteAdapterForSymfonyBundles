@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of Symplify.
  * Copyright (c) 2016 Tomas Votruba (http://tomasvotruba.cz).
@@ -117,7 +119,7 @@ final class NetteAdapaterForSymfonyBundlesExtension extends CompilerExtension
         foreach ($this->bundles as $name => $bundle) {
             if ($extension = $bundle->getContainerExtension()) {
                 $this->symfonyContainerBuilder->registerExtension($extension);
-                $extensionParameters = $this->determineParameters($parameters, $name);
+                $extensionParameters = $this->determineParameters($parameters, (string) $name);
                 $this->symfonyContainerBuilder->loadFromExtension($extension->getAlias(), $extensionParameters);
             }
             $bundle->build($this->symfonyContainerBuilder);
@@ -144,7 +146,7 @@ final class NetteAdapaterForSymfonyBundlesExtension extends CompilerExtension
     {
         $names = [];
         foreach ($this->getContainerBuilder()->getDefinitions() as $name => $definition) {
-            $names[strtolower($name)] = $name;
+            $names[strtolower((string) $name)] = $name;
         }
 
         return $names;

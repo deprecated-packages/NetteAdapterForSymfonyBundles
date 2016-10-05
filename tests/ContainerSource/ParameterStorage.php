@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Symplify\NetteAdapaterForSymfonyBundles\Tests\ContainerSource;
 
 final class ParameterStorage
@@ -12,30 +14,20 @@ final class ParameterStorage
     /**
      * @var array
      */
-    private $groupOfParameters;
+    private $groupOfParameters = [];
 
-    /**
-     * @param string $parameter
-     * @param array $groupOfParameters
-     */
-    public function __construct($parameter, array $groupOfParameters)
+    public function __construct(string $parameter, array $groupOfParameters)
     {
         $this->parameter = $parameter;
         $this->groupOfParameters = $groupOfParameters;
     }
 
-    /**
-     * @return string
-     */
-    public function getParameter()
+    public function getParameter() : string
     {
         return $this->parameter;
     }
 
-    /**
-     * @return array
-     */
-    public function getGroupOfParameters()
+    public function getGroupOfParameters() : array
     {
         return $this->groupOfParameters;
     }

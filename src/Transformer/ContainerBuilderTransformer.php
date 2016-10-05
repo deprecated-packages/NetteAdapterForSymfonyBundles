@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of Symplify.
  * Copyright (c) 2016 Tomas Votruba (http://tomasvotruba.cz).
@@ -44,7 +46,7 @@ final class ContainerBuilderTransformer
         $symfonyServiceDefinitions = $symfonyContainerBuilder->getDefinitions();
 
         foreach ($symfonyServiceDefinitions as $name => $symfonyServiceDefinition) {
-            $name = Naming::sanitazeClassName($name);
+            $name = Naming::sanitazeClassName((string) $name);
             if ($this->canServiceBeAdded($netteContainerBuilder, $name)) {
                 $netteContainerBuilder->addDefinition(
                     $name,
@@ -84,7 +86,7 @@ final class ContainerBuilderTransformer
     {
         $names = array_keys($netteContainerBuilder->getDefinitions());
         foreach ($names as $key => $name) {
-            $names[$key] = strtolower($name);
+            $names[$key] = strtolower((string) $name);
         }
 
         return $names;
