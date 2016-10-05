@@ -1,16 +1,16 @@
 <?php
 
 /*
- * This file is part of Symnedi.
+ * This file is part of Symplify.
  * Copyright (c) 2014 Tomas Votruba (http://tomasvotruba.cz).
  */
 
-namespace Symnedi\SymfonyBundlesExtension\Transformer\DI;
+namespace Symplify\SymfonyBundlesExtension\Transformer\DI;
 
 use Nette\Configurator;
 use Nette\DI\Container;
 use Nette\DI\ContainerBuilder;
-use Symnedi\SymfonyBundlesExtension\Transformer\ArgumentsTransformer;
+use Symplify\SymfonyBundlesExtension\Transformer\ArgumentsTransformer;
 
 final class TransformerFactory
 {

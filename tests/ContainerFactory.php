@@ -1,6 +1,6 @@
 <?php
 
-namespace Symnedi\SymfonyBundlesExtension\Tests;
+namespace Symplify\SymfonyBundlesExtension\Tests;
 
 use Nette\Configurator;
 use Nette\DI\Container;

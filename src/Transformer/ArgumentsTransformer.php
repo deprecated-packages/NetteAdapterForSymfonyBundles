@@ -1,17 +1,17 @@
 <?php
 
 /*
- * This file is part of Symnedi.
+ * This file is part of Symplify.
  * Copyright (c) 2014 Tomas Votruba (http://tomasvotruba.cz).
  */
 
-namespace Symnedi\SymfonyBundlesExtension\Transformer;
+namespace Symplify\SymfonyBundlesExtension\Transformer;
 
 use Nette\DI\ContainerBuilder as NetteContainerBuilder;
 use ReflectionClass;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
-use Symnedi\SymfonyBundlesExtension\Utils\Naming;
+use Symplify\SymfonyBundlesExtension\Utils\Naming;
 
 final class ArgumentsTransformer
 {

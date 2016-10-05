@@ -1,11 +1,11 @@
 <?php
 
 /*
- * This file is part of Symnedi.
+ * This file is part of Symplify.
  * Copyright (c) 2014 Tomas Votruba (http://tomasvotruba.cz).
  */
 
-namespace Symnedi\SymfonyBundlesExtension\Compiler;
+namespace Symplify\SymfonyBundlesExtension\Compiler;
 
 use ReflectionClass;
 use stdClass;

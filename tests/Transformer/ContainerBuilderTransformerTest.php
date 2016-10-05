@@ -1,6 +1,6 @@
 <?php
 
-namespace Symnedi\SymfonyBundlesExtension\Tests\Transformer;
+namespace Symplify\SymfonyBundlesExtension\Tests\Transformer;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\CachedReader;
@@ -9,10 +9,10 @@ use Nette\DI\ContainerBuilder;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
-use Symnedi\SymfonyBundlesExtension\Tests\Transformer\ContainerBuilderTransformerSource\AutowireReader;
-use Symnedi\SymfonyBundlesExtension\Transformer\ArgumentsTransformer;
-use Symnedi\SymfonyBundlesExtension\Transformer\ContainerBuilderTransformer;
-use Symnedi\SymfonyBundlesExtension\Transformer\ServiceDefinitionTransformer;
+use Symplify\SymfonyBundlesExtension\Tests\Transformer\ContainerBuilderTransformerSource\AutowireReader;
+use Symplify\SymfonyBundlesExtension\Transformer\ArgumentsTransformer;
+use Symplify\SymfonyBundlesExtension\Transformer\ContainerBuilderTransformer;
+use Symplify\SymfonyBundlesExtension\Transformer\ServiceDefinitionTransformer;
 
 final class ContainerBuilderTransformerTest extends TestCase
 {
