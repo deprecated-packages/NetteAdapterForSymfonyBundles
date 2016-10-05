@@ -65,7 +65,7 @@ final class FakeReferencesPass implements CompilerPassInterface
     /**
      * @param mixed $argument
      */
-    private function isMissingDefinitionReference($argument)
+    private function isMissingDefinitionReference($argument) : bool
     {
         return $argument instanceof Reference
             && $argument->getInvalidBehavior() === ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE;
