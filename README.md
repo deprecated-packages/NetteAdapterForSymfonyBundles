@@ -11,7 +11,7 @@
 Via Composer:
 
 ```sh
-$ composer require Symplify/symfony-bundles-extension
+$ composer require symplify/symfony-bundles-extension
 ```
 
 Register extension in your `config.neon`:
