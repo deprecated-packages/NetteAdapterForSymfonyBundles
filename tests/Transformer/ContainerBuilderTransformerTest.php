@@ -125,7 +125,9 @@ final class ContainerBuilderTransformerTest extends TestCase
         $this->assertCount(3, $this->netteContainerBuilder->getDefinitions());
 
         $this->netteContainerBuilder->prepareClassList();
-        $readerDefinition = $this->netteContainerBuilder->getDefinition($this->netteContainerBuilder->getByType(Reader::class));
+        $readerDefinition = $this->netteContainerBuilder->getDefinition(
+            $this->netteContainerBuilder->getByType(Reader::class)
+        );
         $this->assertSame(Reader::class, $readerDefinition->getClass());
     }
 
@@ -142,6 +144,7 @@ final class ContainerBuilderTransformerTest extends TestCase
     private function createContainerBuilderTransformer() : ContainerBuilderTransformer
     {
         $serviceDefinitionTransformer = new ServiceDefinitionTransformer(new ArgumentsTransformer());
+
         return new ContainerBuilderTransformer($serviceDefinitionTransformer);
     }
 }
