@@ -1,20 +1,20 @@
 <?php
 
 /*
- * This file is part of Symnedi.
+ * This file is part of Symplify.
  * Copyright (c) 2014 Tomas Votruba (http://tomasvotruba.cz).
  */
 
-namespace Symnedi\SymfonyBundlesExtension\DI;
+namespace Symplify\SymfonyBundlesExtension\DI;
 
 use Nette\DI\CompilerExtension;
 use Nette\PhpGenerator\ClassType;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Symnedi\SymfonyBundlesExtension\SymfonyContainerAdapter;
-use Symnedi\SymfonyBundlesExtension\Transformer\ContainerBuilderTransformer;
-use Symnedi\SymfonyBundlesExtension\Transformer\DI\TransformerFactory;
-use Symnedi\SymfonyBundlesExtension\Transformer\ParametersTransformer;
+use Symplify\SymfonyBundlesExtension\SymfonyContainerAdapter;
+use Symplify\SymfonyBundlesExtension\Transformer\ContainerBuilderTransformer;
+use Symplify\SymfonyBundlesExtension\Transformer\DI\TransformerFactory;
+use Symplify\SymfonyBundlesExtension\Transformer\ParametersTransformer;
 
 final class SymfonyBundlesExtension extends CompilerExtension
 {

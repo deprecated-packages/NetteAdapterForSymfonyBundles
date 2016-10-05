@@ -1,12 +1,12 @@
 <?php
 
-namespace Symnedi\SymfonyBundlesExtension\Tests\Transformer;
+namespace Symplify\SymfonyBundlesExtension\Tests\Transformer;
 
 use Nette\DI\ContainerBuilder;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symfony\Component\DependencyInjection\Reference;
-use Symnedi\SymfonyBundlesExtension\Transformer\ArgumentsTransformer;
+use Symplify\SymfonyBundlesExtension\Transformer\ArgumentsTransformer;
 
 final class ArgumentTransformerTest extends TestCase
 {

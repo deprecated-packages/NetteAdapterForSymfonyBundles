@@ -1,12 +1,12 @@
 <?php
 
-namespace Symnedi\SymfonyBundlesExtension\Tests\Transformer\DI;
+namespace Symplify\SymfonyBundlesExtension\Tests\Transformer\DI;
 
 use Nette\DI\ContainerBuilder;
 use PHPUnit\Framework\TestCase;
-use Symnedi\SymfonyBundlesExtension\Tests\ContainerFactory;
-use Symnedi\SymfonyBundlesExtension\Transformer\ContainerBuilderTransformer;
-use Symnedi\SymfonyBundlesExtension\Transformer\DI\TransformerFactory;
+use Symplify\SymfonyBundlesExtension\Tests\ContainerFactory;
+use Symplify\SymfonyBundlesExtension\Transformer\ContainerBuilderTransformer;
+use Symplify\SymfonyBundlesExtension\Transformer\DI\TransformerFactory;
 
 final class TransformerFactoryTest extends TestCase
 {

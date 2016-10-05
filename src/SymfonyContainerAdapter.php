@@ -1,17 +1,17 @@
 <?php
 
 /*
- * This file is part of Symnedi.
+ * This file is part of Symplify.
  * Copyright (c) 2014 Tomas Votruba (http://tomasvotruba.cz).
  */
 
-namespace Symnedi\SymfonyBundlesExtension;
+namespace Symplify\SymfonyBundlesExtension;
 
 use Nette\DI\Container;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
-use Symnedi\SymfonyBundlesExtension\Exception\UnsupportedApiException;
+use Symplify\SymfonyBundlesExtension\Exception\UnsupportedApiException;
 
 final class SymfonyContainerAdapter implements ContainerInterface
 {

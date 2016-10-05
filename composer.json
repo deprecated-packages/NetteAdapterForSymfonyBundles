@@ -1,5 +1,5 @@
 {
-	"name": "symnedi/symfony-bundles-extension",
+	"name": "Symplify/symfony-bundles-extension",
 	"description": "Register Symfony Bundles as Nette Extensions with ease.",
 	"keywords": ["nette", "symfony", "dependency injection", "interoperability"],
 	"license": "MIT",
@@ -29,12 +29,12 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"Symnedi\\SymfonyBundlesExtension\\": "src"
+			"Symplify\\SymfonyBundlesExtension\\": "src"
 		}
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"Symnedi\\SymfonyBundlesExtension\\Tests\\": "tests"
+			"Symplify\\SymfonyBundlesExtension\\Tests\\": "tests"
 		}
 	},
 	"scripts": {

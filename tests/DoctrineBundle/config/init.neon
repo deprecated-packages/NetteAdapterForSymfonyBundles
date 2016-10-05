@@ -3,7 +3,7 @@ application:
 	scanComposer: false
 
 extensions:
-	symfonyBundles: Symnedi\SymfonyBundlesExtension\DI\SymfonyBundlesExtension
+	symfonyBundles: Symplify\SymfonyBundlesExtension\DI\SymfonyBundlesExtension
 
 symfonyBundles:
 	bundles:

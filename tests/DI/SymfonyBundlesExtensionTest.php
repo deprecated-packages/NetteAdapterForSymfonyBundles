@@ -1,12 +1,12 @@
 <?php
 
-namespace Symnedi\SymfonyBundlesExtension\Tests;
+namespace Symplify\SymfonyBundlesExtension\Tests;
 
 use Nette\DI\Compiler;
 use Nette\DI\Config\Loader;
 use Nette\DI\ContainerBuilder;
 use PHPUnit\Framework\TestCase;
-use Symnedi\SymfonyBundlesExtension\DI\SymfonyBundlesExtension;
+use Symplify\SymfonyBundlesExtension\DI\SymfonyBundlesExtension;
 
 final class SymfonyBundlesExtensionTest extends TestCase
 {

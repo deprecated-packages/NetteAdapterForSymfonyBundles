@@ -1,6 +1,6 @@
 <?php
 
-namespace Symnedi\SymfonyBundlesExtension\Tests\Container\ParametersSource;
+namespace Symplify\SymfonyBundlesExtension\Tests\Container\ParametersSource;
 
 use League\Tactician\Middleware;
 

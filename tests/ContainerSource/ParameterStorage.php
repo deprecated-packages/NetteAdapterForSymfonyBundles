@@ -1,6 +1,6 @@
 <?php
 
-namespace Symnedi\SymfonyBundlesExtension\Tests\ContainerSource;
+namespace Symplify\SymfonyBundlesExtension\Tests\ContainerSource;
 
 final class ParameterStorage
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace Symnedi\SymfonyBundlesExtension\Tests\Container;
+namespace Symplify\SymfonyBundlesExtension\Tests\Container;
 
 use Nette\DI\Container;
 use PHPUnit\Framework\TestCase;
-use Symnedi\SymfonyBundlesExtension\DI\SymfonyBundlesExtension;
-use Symnedi\SymfonyBundlesExtension\SymfonyContainerAdapter;
-use Symnedi\SymfonyBundlesExtension\Tests\ContainerFactory;
+use Symplify\SymfonyBundlesExtension\DI\SymfonyBundlesExtension;
+use Symplify\SymfonyBundlesExtension\SymfonyContainerAdapter;
+use Symplify\SymfonyBundlesExtension\Tests\ContainerFactory;
 
 final class BundleParametersTest extends TestCase
 {

@@ -1,24 +1,24 @@
 # Register Symfony bundles as Nette extension
 
-[![Build Status](https://img.shields.io/travis/Symnedi/SymfonyBundlesExtension.svg?style=flat-square)](https://travis-ci.org/Symnedi/SymfonyBundlesExtension)
-[![Quality Score](https://img.shields.io/scrutinizer/g/Symnedi/SymfonyBundlesExtension.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symnedi/SymfonyBundlesExtension)
-[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Symnedi/SymfonyBundlesExtension.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symnedi/SymfonyBundlesExtension)
-[![Downloads](https://img.shields.io/packagist/dt/symnedi/symfony-bundles-extension.svg?style=flat-square)](https://packagist.org/packages/symnedi/symfony-bundles-extension)
-[![Latest stable](https://img.shields.io/packagist/v/symnedi/symfony-bundles-extension.svg?style=flat-square)](https://packagist.org/packages/symnedi/symfony-bundles-extension)
+[![Build Status](https://img.shields.io/travis/Symplify/SymfonyBundlesExtension.svg?style=flat-square)](https://travis-ci.org/Symplify/SymfonyBundlesExtension)
+[![Quality Score](https://img.shields.io/scrutinizer/g/Symplify/SymfonyBundlesExtension.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/SymfonyBundlesExtension)
+[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Symplify/SymfonyBundlesExtension.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/SymfonyBundlesExtension)
+[![Downloads](https://img.shields.io/packagist/dt/Symplify/symfony-bundles-extension.svg?style=flat-square)](https://packagist.org/packages/Symplify/symfony-bundles-extension)
+[![Latest stable](https://img.shields.io/packagist/v/Symplify/symfony-bundles-extension.svg?style=flat-square)](https://packagist.org/packages/Symplify/symfony-bundles-extension)
 
 ## Install
 
 Via Composer:
 
 ```sh
-$ composer require symnedi/symfony-bundles-extension
+$ composer require Symplify/symfony-bundles-extension
 ```
 
 Register extension in your `config.neon`:
 
 ```yaml
 extensions:
-	symfonyBundles: Symnedi\SymfonyBundlesExtension\DI\SymfonyBundlesExtension
+	symfonyBundles: Symplify\SymfonyBundlesExtension\DI\SymfonyBundlesExtension
 ```
 
 
@@ -46,14 +46,14 @@ That's it!
 
 ```yaml
 extensions:
-	symfonyBundles: Symnedi\SymfonyBundlesExtension\DI\SymfonyBundlesExtension
+	symfonyBundles: Symplify\SymfonyBundlesExtension\DI\SymfonyBundlesExtension
 
 services:
 	-
-		class: Symnedi\SymfonyBundlesExtension\Tests\TacticianBundle\NetteTagsSource\SomeCommandHandler
+		class: Symplify\SymfonyBundlesExtension\Tests\TacticianBundle\NetteTagsSource\SomeCommandHandler
 		tags:
 			tactician.handler:
-				- [command: Symnedi\SymfonyBundlesExtension\Tests\TacticianBundle\NetteTagsSource\SomeCommand]
+				- [command: Symplify\SymfonyBundlesExtension\Tests\TacticianBundle\NetteTagsSource\SomeCommand]
 
 symfonyBundles:
 	bundles:
@@ -65,10 +65,10 @@ symfonyBundles:
 
 ```yaml
 extensions:
-	symfonyBundles: Symnedi\SymfonyBundlesExtension\DI\SymfonyBundlesExtension
+	symfonyBundles: Symplify\SymfonyBundlesExtension\DI\SymfonyBundlesExtension
 
 services:
-	- Symnedi\SymfonyBundlesExtension\Tests\Container\ParametersSource\CustomMiddleware
+	- Symplify\SymfonyBundlesExtension\Tests\Container\ParametersSource\CustomMiddleware
 
 symfonyBundles:
 	bundles:
@@ -80,7 +80,7 @@ symfonyBundles:
 				default:
 					middleware:
 						# this is reference to service registered in Nette
-						- @Symnedi\SymfonyBundlesExtension\Tests\Container\ParametersSource\CustomMiddleware
+						- @Symplify\SymfonyBundlesExtension\Tests\Container\ParametersSource\CustomMiddleware
 						- tactician.middleware.command_handler
 ```
 

@@ -1,13 +1,13 @@
 <?php
 
-namespace Symnedi\SymfonyBundlesExtension\Tests\DoctrineBundle;
+namespace Symplify\SymfonyBundlesExtension\Tests\DoctrineBundle;
 
 use Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\Mapping\ClassMetadataFactory;
 use Nette\DI\Container;
 use PHPUnit\Framework\TestCase;
-use Symnedi\SymfonyBundlesExtension\Tests\ContainerFactory;
+use Symplify\SymfonyBundlesExtension\Tests\ContainerFactory;
 
 final class InitTest extends TestCase
 {
