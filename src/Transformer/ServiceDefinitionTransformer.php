@@ -2,10 +2,10 @@
 
 /*
  * This file is part of Symplify.
- * Copyright (c) 2014 Tomas Votruba (http://tomasvotruba.cz).
+ * Copyright (c) 2016 Tomas Votruba (http://tomasvotruba.cz).
  */
 
-namespace Symplify\SymfonyBundlesExtension\Transformer;
+namespace Symplify\NetteAdapaterForSymfonyBundles\Transformer;
 
 use Nette\DI\ServiceDefinition;
 use Symfony\Component\DependencyInjection\Definition;

@@ -2,21 +2,21 @@
 
 /*
  * This file is part of Symplify.
- * Copyright (c) 2014 Tomas Votruba (http://tomasvotruba.cz).
+ * Copyright (c) 2016 Tomas Votruba (http://tomasvotruba.cz).
  */
 
-namespace Symplify\SymfonyBundlesExtension\DI;
+namespace Symplify\NetteAdapaterForSymfonyBundles\DI;
 
 use Nette\DI\CompilerExtension;
 use Nette\PhpGenerator\ClassType;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Symplify\SymfonyBundlesExtension\SymfonyContainerAdapter;
-use Symplify\SymfonyBundlesExtension\Transformer\ContainerBuilderTransformer;
-use Symplify\SymfonyBundlesExtension\Transformer\DI\TransformerFactory;
-use Symplify\SymfonyBundlesExtension\Transformer\ParametersTransformer;
+use Symplify\NetteAdapaterForSymfonyBundles\SymfonyContainerAdapter;
+use Symplify\NetteAdapaterForSymfonyBundles\Transformer\ContainerBuilderTransformer;
+use Symplify\NetteAdapaterForSymfonyBundles\Transformer\DI\TransformerFactory;
+use Symplify\NetteAdapaterForSymfonyBundles\Transformer\ParametersTransformer;
 
-final class SymfonyBundlesExtension extends CompilerExtension
+final class NetteAdapaterForSymfonyBundlesExtension extends CompilerExtension
 {
     /**
      * @var string

@@ -1,10 +1,10 @@
 <?php
 
-namespace Symplify\SymfonyBundlesExtension\Tests\Container;
+namespace Symplify\NetteAdapaterForSymfonyBundles\Tests\Container;
 
 use Doctrine\ORM\EntityManager;
 use PHPUnit\Framework\TestCase;
-use Symplify\SymfonyBundlesExtension\Tests\ContainerFactory;
+use Symplify\NetteAdapaterForSymfonyBundles\Tests\ContainerFactory;
 
 final class FactoryTest extends TestCase
 {

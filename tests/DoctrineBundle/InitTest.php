@@ -1,13 +1,13 @@
 <?php
 
-namespace Symplify\SymfonyBundlesExtension\Tests\DoctrineBundle;
+namespace Symplify\NetteAdapaterForSymfonyBundles\Tests\DoctrineBundle;
 
 use Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\Mapping\ClassMetadataFactory;
 use Nette\DI\Container;
 use PHPUnit\Framework\TestCase;
-use Symplify\SymfonyBundlesExtension\Tests\ContainerFactory;
+use Symplify\NetteAdapaterForSymfonyBundles\Tests\ContainerFactory;
 
 final class InitTest extends TestCase
 {

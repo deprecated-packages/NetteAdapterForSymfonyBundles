@@ -1,11 +1,11 @@
 <?php
 
-namespace Symplify\SymfonyBundlesExtension\Tests;
+namespace Symplify\NetteAdapaterForSymfonyBundles\Tests;
 
 use Nette\DI\Container;
 use PHPUnit\Framework\TestCase;
 use stdClass;
-use Symplify\SymfonyBundlesExtension\SymfonyContainerAdapter;
+use Symplify\NetteAdapaterForSymfonyBundles\SymfonyContainerAdapter;
 
 final class SymfonyContainerAdapterTest extends TestCase
 {
@@ -54,7 +54,7 @@ final class SymfonyContainerAdapterTest extends TestCase
     }
 
     /**
-     * @expectedException \Symplify\SymfonyBundlesExtension\Exception\UnsupportedApiException
+     * @expectedException \Symplify\NetteAdapaterForSymfonyBundles\Exception\UnsupportedApiException
      */
     public function testUnsupportedMethodsSet()
     {
@@ -62,7 +62,7 @@ final class SymfonyContainerAdapterTest extends TestCase
     }
 
     /**
-     * @expectedException \Symplify\SymfonyBundlesExtension\Exception\UnsupportedApiException
+     * @expectedException \Symplify\NetteAdapaterForSymfonyBundles\Exception\UnsupportedApiException
      */
     public function testUnsupportedMethodsSetParameter()
     {
@@ -70,7 +70,7 @@ final class SymfonyContainerAdapterTest extends TestCase
     }
 
     /**
-     * @expectedException \Symplify\SymfonyBundlesExtension\Exception\UnsupportedApiException
+     * @expectedException \Symplify\NetteAdapaterForSymfonyBundles\Exception\UnsupportedApiException
      */
     public function testUnsupportedMethodsInitialized()
     {

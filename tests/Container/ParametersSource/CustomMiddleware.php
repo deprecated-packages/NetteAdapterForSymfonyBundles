@@ -1,6 +1,6 @@
 <?php
 
-namespace Symplify\SymfonyBundlesExtension\Tests\Container\ParametersSource;
+namespace Symplify\NetteAdapaterForSymfonyBundles\Tests\Container\ParametersSource;
 
 use League\Tactician\Middleware;
 

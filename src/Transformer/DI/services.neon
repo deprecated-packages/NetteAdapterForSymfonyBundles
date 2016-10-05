@@ -1,10 +1,10 @@
 services:
-	- Symplify\SymfonyBundlesExtension\Compiler\FakeReferencesPass
-	- Symplify\SymfonyBundlesExtension\Transformer\ArgumentsTransformer
-	- Symplify\SymfonyBundlesExtension\Transformer\ContainerBuilderTransformer
-	- Symplify\SymfonyBundlesExtension\Transformer\ServiceDefinitionTransformer
-	- Symplify\SymfonyBundlesExtension\Transformer\ParametersTransformer
+	- Symplify\NetteAdapaterForSymfonyBundles\Compiler\FakeReferencesPass
+	- Symplify\NetteAdapaterForSymfonyBundles\Transformer\ArgumentsTransformer
+	- Symplify\NetteAdapaterForSymfonyBundles\Transformer\ContainerBuilderTransformer
+	- Symplify\NetteAdapaterForSymfonyBundles\Transformer\ServiceDefinitionTransformer
+	- Symplify\NetteAdapaterForSymfonyBundles\Transformer\ParametersTransformer
 	-
 		class: Symfony\Component\DependencyInjection\ContainerBuilder
 		setup:
-			- addCompilerPass(@Symplify\SymfonyBundlesExtension\Compiler\FakeReferencesPass)
+			- addCompilerPass(@Symplify\NetteAdapaterForSymfonyBundles\Compiler\FakeReferencesPass)

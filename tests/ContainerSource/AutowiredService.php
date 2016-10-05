@@ -1,6 +1,6 @@
 <?php
 
-namespace Symplify\SymfonyBundlesExtension\Tests\ContainerSource;
+namespace Symplify\NetteAdapaterForSymfonyBundles\Tests\ContainerSource;
 
 final class AutowiredService
 {

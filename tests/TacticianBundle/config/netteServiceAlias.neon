@@ -3,10 +3,10 @@ application:
 	scanComposer: false
 
 extensions:
-	symfonyBundles: Symplify\SymfonyBundlesExtension\DI\SymfonyBundlesExtension
+	symfonyBundles: Symplify\NetteAdapaterForSymfonyBundles\DI\NetteAdapaterForSymfonyBundlesExtension
 
 services:
-	- Symplify\SymfonyBundlesExtension\Tests\Container\ParametersSource\CustomMiddleware
+	- Symplify\NetteAdapaterForSymfonyBundles\Tests\Container\ParametersSource\CustomMiddleware
 
 symfonyBundles:
 	bundles:
@@ -17,6 +17,6 @@ symfonyBundles:
 			commandbus:
 				default:
 					middleware:
-						- @Symplify\SymfonyBundlesExtension\Tests\Container\ParametersSource\CustomMiddleware
+						- @Symplify\NetteAdapaterForSymfonyBundles\Tests\Container\ParametersSource\CustomMiddleware
 						- tactician.middleware.locking
 						- tactician.middleware.command_handler

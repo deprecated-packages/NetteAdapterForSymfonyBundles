@@ -2,15 +2,15 @@
 
 /*
  * This file is part of Symplify.
- * Copyright (c) 2014 Tomas Votruba (http://tomasvotruba.cz).
+ * Copyright (c) 2016 Tomas Votruba (http://tomasvotruba.cz).
  */
 
-namespace Symplify\SymfonyBundlesExtension\Transformer\DI;
+namespace Symplify\NetteAdapaterForSymfonyBundles\Transformer\DI;
 
 use Nette\Configurator;
 use Nette\DI\Container;
 use Nette\DI\ContainerBuilder;
-use Symplify\SymfonyBundlesExtension\Transformer\ArgumentsTransformer;
+use Symplify\NetteAdapaterForSymfonyBundles\Transformer\ArgumentsTransformer;
 
 final class TransformerFactory
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace Symplify\SymfonyBundlesExtension\Tests\Transformer;
+namespace Symplify\NetteAdapaterForSymfonyBundles\Tests\Transformer;
 
 use Nette\DI\ServiceDefinition;
 use PHPUnit\Framework\TestCase;
 use stdClass;
-use Symplify\SymfonyBundlesExtension\Transformer\ArgumentsTransformer;
-use Symplify\SymfonyBundlesExtension\Transformer\ServiceDefinitionTransformer;
+use Symplify\NetteAdapaterForSymfonyBundles\Transformer\ArgumentsTransformer;
+use Symplify\NetteAdapaterForSymfonyBundles\Transformer\ServiceDefinitionTransformer;
 
 final class ServiceDefinitionTransformerTest extends TestCase
 {

@@ -1,8 +1,8 @@
 # Register Symfony bundles as Nette extension
 
-[![Build Status](https://img.shields.io/travis/Symplify/SymfonyBundlesExtension.svg?style=flat-square)](https://travis-ci.org/Symplify/SymfonyBundlesExtension)
-[![Quality Score](https://img.shields.io/scrutinizer/g/Symplify/SymfonyBundlesExtension.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/SymfonyBundlesExtension)
-[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Symplify/SymfonyBundlesExtension.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/SymfonyBundlesExtension)
+[![Build Status](https://img.shields.io/travis/Symplify/NetteAdapterForSymfonyBundles.svg?style=flat-square)](https://travis-ci.org/Symplify/NetteAdapterForSymfonyBundles)
+[![Quality Score](https://img.shields.io/scrutinizer/g/Symplify/NetteAdapterForSymfonyBundles.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/NetteAdapterForSymfonyBundles)
+[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Symplify/NetteAdapterForSymfonyBundles.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/NetteAdapterForSymfonyBundles)
 [![Downloads](https://img.shields.io/packagist/dt/Symplify/nette-adapter-for-symfony-bundles.svg?style=flat-square)](https://packagist.org/packages/Symplify/nette-adapter-for-symfony-bundles)
 [![Latest stable](https://img.shields.io/packagist/v/Symplify/nette-adapter-for-symfony-bundles.svg?style=flat-square)](https://packagist.org/packages/Symplify/nette-adapter-for-symfony-bundles)
 
@@ -18,7 +18,7 @@ Register extension in your `config.neon`:
 
 ```yaml
 extensions:
-	symfonyBundles: Symplify\SymfonyBundlesExtension\DI\SymfonyBundlesExtension
+	symfonyBundles: Symplify\NetteAdapterForSymfonyBundles\DI\NetteAdapterForSymfonyBundles
 ```
 
 
@@ -46,14 +46,14 @@ That's it!
 
 ```yaml
 extensions:
-	symfonyBundles: Symplify\SymfonyBundlesExtension\DI\SymfonyBundlesExtension
+	symfonyBundles: Symplify\NetteAdapterForSymfonyBundles\DI\NetteAdapterForSymfonyBundles
 
 services:
 	-
-		class: Symplify\SymfonyBundlesExtension\Tests\TacticianBundle\NetteTagsSource\SomeCommandHandler
+		class: Symplify\NetteAdapterForSymfonyBundles\Tests\TacticianBundle\NetteTagsSource\SomeCommandHandler
 		tags:
 			tactician.handler:
-				- [command: Symplify\SymfonyBundlesExtension\Tests\TacticianBundle\NetteTagsSource\SomeCommand]
+				- [command: Symplify\NetteAdapterForSymfonyBundles\Tests\TacticianBundle\NetteTagsSource\SomeCommand]
 
 symfonyBundles:
 	bundles:
@@ -65,10 +65,10 @@ symfonyBundles:
 
 ```yaml
 extensions:
-	symfonyBundles: Symplify\SymfonyBundlesExtension\DI\SymfonyBundlesExtension
+	symfonyBundles: Symplify\NetteAdapterForSymfonyBundles\DI\NetteAdapterForSymfonyBundles
 
 services:
-	- Symplify\SymfonyBundlesExtension\Tests\Container\ParametersSource\CustomMiddleware
+	- Symplify\NetteAdapterForSymfonyBundles\Tests\Container\ParametersSource\CustomMiddleware
 
 symfonyBundles:
 	bundles:
@@ -80,7 +80,7 @@ symfonyBundles:
 				default:
 					middleware:
 						# this is reference to service registered in Nette
-						- @Symplify\SymfonyBundlesExtension\Tests\Container\ParametersSource\CustomMiddleware
+						- @Symplify\NetteAdapterForSymfonyBundles\Tests\Container\ParametersSource\CustomMiddleware
 						- tactician.middleware.command_handler
 ```
 

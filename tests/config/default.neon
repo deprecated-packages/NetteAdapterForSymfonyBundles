@@ -3,12 +3,12 @@ application:
 	scanComposer: false
 
 services:
-	- Symplify\SymfonyBundlesExtension\Tests\ContainerSource\ParameterStorage(1, [2, 3])
-	- Symplify\SymfonyBundlesExtension\Tests\ContainerSource\AutowiredService
-	- Symplify\SymfonyBundlesExtension\Tests\ContainerSource\SomeService
+	- Symplify\NetteAdapaterForSymfonyBundles\Tests\ContainerSource\ParameterStorage(1, [2, 3])
+	- Symplify\NetteAdapaterForSymfonyBundles\Tests\ContainerSource\AutowiredService
+	- Symplify\NetteAdapaterForSymfonyBundles\Tests\ContainerSource\SomeService
 
 extensions:
-	symfonyBundles: Symplify\SymfonyBundlesExtension\DI\SymfonyBundlesExtension
+	symfonyBundles: Symplify\NetteAdapaterForSymfonyBundles\DI\NetteAdapaterForSymfonyBundlesExtension
 
 symfonyBundles:
 	bundles:

@@ -1,13 +1,13 @@
 <?php
 
-namespace Symplify\SymfonyBundlesExtension\Tests\Container;
+namespace Symplify\NetteAdapaterForSymfonyBundles\Tests\Container;
 
 use Hautelook\AliceBundle\Alice\DataFixtures\Fixtures\Loader;
 use Nette\DI\Container;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_Assert;
-use Symplify\SymfonyBundlesExtension\Tests\ContainerFactory;
-use Symplify\SymfonyBundlesExtension\Tests\ContainerSource\ParameterStorage;
+use Symplify\NetteAdapaterForSymfonyBundles\Tests\ContainerFactory;
+use Symplify\NetteAdapaterForSymfonyBundles\Tests\ContainerSource\ParameterStorage;
 
 final class ParametersTest extends TestCase
 {

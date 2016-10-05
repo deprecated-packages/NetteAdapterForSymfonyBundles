@@ -1,6 +1,6 @@
 <?php
 
-namespace Symplify\SymfonyBundlesExtension\Tests\TacticianBundle\NetteTagsSource;
+namespace Symplify\NetteAdapaterForSymfonyBundles\Tests\TacticianBundle\NetteTagsSource;
 
 class SomeCommandHandler
 {

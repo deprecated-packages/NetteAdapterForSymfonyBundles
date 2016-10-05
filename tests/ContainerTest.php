@@ -1,12 +1,12 @@
 <?php
 
-namespace Symplify\SymfonyBundlesExtension\Tests;
+namespace Symplify\NetteAdapaterForSymfonyBundles\Tests;
 
 use League\Tactician\CommandBus;
 use Nette\DI\Container;
 use PHPUnit\Framework\TestCase;
-use Symplify\SymfonyBundlesExtension\Tests\ContainerSource\AutowiredService;
-use Symplify\SymfonyBundlesExtension\Tests\ContainerSource\SomeService;
+use Symplify\NetteAdapaterForSymfonyBundles\Tests\ContainerSource\AutowiredService;
+use Symplify\NetteAdapaterForSymfonyBundles\Tests\ContainerSource\SomeService;
 
 final class ContainerTest extends TestCase
 {

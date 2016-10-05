@@ -1,6 +1,6 @@
 <?php
 
-namespace Symplify\SymfonyBundlesExtension\Tests\TacticianBundle;
+namespace Symplify\NetteAdapaterForSymfonyBundles\Tests\TacticianBundle;
 
 use Closure;
 use League\Tactician\CommandBus;
@@ -8,7 +8,7 @@ use Nette\DI\Container;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_Assert;
 use stdClass;
-use Symplify\SymfonyBundlesExtension\Tests\ContainerFactory;
+use Symplify\NetteAdapaterForSymfonyBundles\Tests\ContainerFactory;
 
 final class NetteServiceAliasTest extends TestCase
 {

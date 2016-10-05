@@ -1,12 +1,12 @@
 <?php
 
-namespace Symplify\SymfonyBundlesExtension\Tests\Container;
+namespace Symplify\NetteAdapaterForSymfonyBundles\Tests\Container;
 
 use Nette\DI\Container;
 use PHPUnit\Framework\TestCase;
-use Symplify\SymfonyBundlesExtension\DI\SymfonyBundlesExtension;
-use Symplify\SymfonyBundlesExtension\SymfonyContainerAdapter;
-use Symplify\SymfonyBundlesExtension\Tests\ContainerFactory;
+use Symplify\NetteAdapaterForSymfonyBundles\DI\NetteAdapaterForSymfonyBundlesExtension;
+use Symplify\NetteAdapaterForSymfonyBundles\SymfonyContainerAdapter;
+use Symplify\NetteAdapaterForSymfonyBundles\Tests\ContainerFactory;
 
 final class BundleParametersTest extends TestCase
 {
@@ -31,7 +31,7 @@ final class BundleParametersTest extends TestCase
     private function getSymfonyContainerAdapter() : SymfonyContainerAdapter
     {
         return $this->container->getService(
-            SymfonyBundlesExtension::SYMFONY_CONTAINER_SERVICE_NAME
+            NetteAdapaterForSymfonyBundlesExtension::SYMFONY_CONTAINER_SERVICE_NAME
         );
     }
 }

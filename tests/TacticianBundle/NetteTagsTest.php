@@ -1,12 +1,12 @@
 <?php
 
-namespace Symplify\SymfonyBundlesExtension\Tests\TacticianBundle;
+namespace Symplify\NetteAdapaterForSymfonyBundles\Tests\TacticianBundle;
 
 use League\Tactician\CommandBus;
 use Nette\DI\Container;
 use PHPUnit\Framework\TestCase;
-use Symplify\SymfonyBundlesExtension\Tests\ContainerFactory;
-use Symplify\SymfonyBundlesExtension\Tests\TacticianBundle\NetteTagsSource\SomeCommand;
+use Symplify\NetteAdapaterForSymfonyBundles\Tests\ContainerFactory;
+use Symplify\NetteAdapaterForSymfonyBundles\Tests\TacticianBundle\NetteTagsSource\SomeCommand;
 
 final class NetteTagsTest extends TestCase
 {

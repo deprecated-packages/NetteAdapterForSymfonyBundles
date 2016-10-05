@@ -1,6 +1,6 @@
 <?php
 
-namespace Symplify\SymfonyBundlesExtension\Tests\Transformer\ContainerBuilderTransformerSource;
+namespace Symplify\NetteAdapaterForSymfonyBundles\Tests\Transformer\ContainerBuilderTransformerSource;
 
 use Doctrine\Common\Annotations\Reader;
 

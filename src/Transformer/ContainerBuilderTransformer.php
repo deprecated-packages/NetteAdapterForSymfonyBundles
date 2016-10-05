@@ -2,14 +2,14 @@
 
 /*
  * This file is part of Symplify.
- * Copyright (c) 2014 Tomas Votruba (http://tomasvotruba.cz).
+ * Copyright (c) 2016 Tomas Votruba (http://tomasvotruba.cz).
  */
 
-namespace Symplify\SymfonyBundlesExtension\Transformer;
+namespace Symplify\NetteAdapaterForSymfonyBundles\Transformer;
 
 use Nette\DI\ContainerBuilder as NetteContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
-use Symplify\SymfonyBundlesExtension\Utils\Naming;
+use Symplify\NetteAdapaterForSymfonyBundles\Utils\Naming;
 
 final class ContainerBuilderTransformer
 {

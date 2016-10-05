@@ -2,16 +2,16 @@
 
 /*
  * This file is part of Symplify.
- * Copyright (c) 2014 Tomas Votruba (http://tomasvotruba.cz).
+ * Copyright (c) 2016 Tomas Votruba (http://tomasvotruba.cz).
  */
 
-namespace Symplify\SymfonyBundlesExtension;
+namespace Symplify\NetteAdapaterForSymfonyBundles;
 
 use Nette\DI\Container;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
-use Symplify\SymfonyBundlesExtension\Exception\UnsupportedApiException;
+use Symplify\NetteAdapaterForSymfonyBundles\Exception\UnsupportedApiException;
 
 final class SymfonyContainerAdapter implements ContainerInterface
 {

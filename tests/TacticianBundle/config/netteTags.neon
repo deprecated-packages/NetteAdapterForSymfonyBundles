@@ -3,14 +3,14 @@ application:
 	scanComposer: false
 
 extensions:
-	symfonyBundles: Symplify\SymfonyBundlesExtension\DI\SymfonyBundlesExtension
+	symfonyBundles: Symplify\NetteAdapaterForSymfonyBundles\DI\NetteAdapaterForSymfonyBundlesExtension
 
 services:
 	-
-		class: Symplify\SymfonyBundlesExtension\Tests\TacticianBundle\NetteTagsSource\SomeCommandHandler
+		class: Symplify\NetteAdapaterForSymfonyBundles\Tests\TacticianBundle\NetteTagsSource\SomeCommandHandler
 		tags:
 			tactician.handler:
-				- [command: Symplify\SymfonyBundlesExtension\Tests\TacticianBundle\NetteTagsSource\SomeCommand]
+				- [command: Symplify\NetteAdapaterForSymfonyBundles\Tests\TacticianBundle\NetteTagsSource\SomeCommand]
 
 symfonyBundles:
 	bundles:
