@@ -4,7 +4,6 @@ application:
 
 services:
 	- Symnedi\SymfonyBundlesExtension\Tests\ContainerSource\ParameterStorage(1, [2, 3])
-	- Symnedi\SymfonyBundlesExtension\Tests\ContainerSource\EntityManager
 	- Symnedi\SymfonyBundlesExtension\Tests\ContainerSource\AutowiredService
 	- Symnedi\SymfonyBundlesExtension\Tests\ContainerSource\SomeService
 
