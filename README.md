@@ -3,15 +3,15 @@
 [![Build Status](https://img.shields.io/travis/Symplify/SymfonyBundlesExtension.svg?style=flat-square)](https://travis-ci.org/Symplify/SymfonyBundlesExtension)
 [![Quality Score](https://img.shields.io/scrutinizer/g/Symplify/SymfonyBundlesExtension.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/SymfonyBundlesExtension)
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Symplify/SymfonyBundlesExtension.svg?style=flat-square)](https://scrutinizer-ci.com/g/Symplify/SymfonyBundlesExtension)
-[![Downloads](https://img.shields.io/packagist/dt/Symplify/symfony-bundles-extension.svg?style=flat-square)](https://packagist.org/packages/Symplify/symfony-bundles-extension)
-[![Latest stable](https://img.shields.io/packagist/v/Symplify/symfony-bundles-extension.svg?style=flat-square)](https://packagist.org/packages/Symplify/symfony-bundles-extension)
+[![Downloads](https://img.shields.io/packagist/dt/Symplify/nette-adapter-for-symfony-bundles.svg?style=flat-square)](https://packagist.org/packages/Symplify/nette-adapter-for-symfony-bundles)
+[![Latest stable](https://img.shields.io/packagist/v/Symplify/nette-adapter-for-symfony-bundles.svg?style=flat-square)](https://packagist.org/packages/Symplify/nette-adapter-for-symfony-bundles)
 
 ## Install
 
 Via Composer:
 
 ```sh
-$ composer require symplify/symfony-bundles-extension
+$ composer require symplify/nette-adapter-for-symfony-bundles
 ```
 
 Register extension in your `config.neon`:
