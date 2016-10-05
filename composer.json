@@ -1,5 +1,5 @@
 {
-	"name": "Symplify/symfony-bundles-extension",
+	"name": "symplify/symfony-bundles-extension",
 	"description": "Register Symfony Bundles as Nette Extensions with ease.",
 	"keywords": ["nette", "symfony", "dependency injection", "interoperability"],
 	"license": "MIT",
