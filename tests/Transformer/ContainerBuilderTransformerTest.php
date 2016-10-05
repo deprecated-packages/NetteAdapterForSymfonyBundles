@@ -33,8 +33,7 @@ final class ContainerBuilderTransformerTest extends TestCase
 
     protected function setUp()
     {
-        $serviceDefinitionTransformer = new ServiceDefinitionTransformer(new ArgumentsTransformer());
-        $this->containerBuilderTransformer = new ContainerBuilderTransformer($serviceDefinitionTransformer);
+        $this->containerBuilderTransformer = $this->createContainerBuilderTransformer();
 
         $this->netteContainerBuilder = new ContainerBuilder();
         $this->symfonyContainerBuilder = new SymfonyContainerBuilder();
@@ -138,5 +137,11 @@ final class ContainerBuilderTransformerTest extends TestCase
         );
 
         $this->symfonyContainerBuilder->compile();
+    }
+
+    private function createContainerBuilderTransformer() : ContainerBuilderTransformer
+    {
+        $serviceDefinitionTransformer = new ServiceDefinitionTransformer(new ArgumentsTransformer());
+        return new ContainerBuilderTransformer($serviceDefinitionTransformer);
     }
 }
