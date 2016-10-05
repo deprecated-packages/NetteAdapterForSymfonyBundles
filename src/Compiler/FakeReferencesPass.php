@@ -21,7 +21,7 @@ use Symfony\Component\DependencyInjection\Reference;
  * This compiler pass will disable all missing references to named services.
  * Missing parameter resolution shall be resolved in Nette's ContainerBuilder.
  *
- * Based on {@see Symfony\Component\DependencyInjection\Compiler\CheckExceptionOnInvalidReferenceBehaviorPass}
+ * Based on @see \Symfony\Component\DependencyInjection\Compiler\CheckExceptionOnInvalidReferenceBehaviorPass
  */
 final class FakeReferencesPass implements CompilerPassInterface
 {
@@ -42,23 +42,52 @@ final class FakeReferencesPass implements CompilerPassInterface
         }
     }
 
-    private function processDefinition(Definition $definition)
+    /**
+     * @param mixed $definition
+     */
+    private function processDefinition($definition)
     {
+        if (!$definition instanceof Definition) {
+            return;
+        }
+
         $this->processReferences($definition->getArguments());
         $this->processReferences($definition->getMethodCalls());
         $this->processReferences($definition->getProperties());
     }
 
-    private function processReferences(array $arguments)
+    /**
+     * @param mixed $arguments
+     */
+    private function processReferences($arguments)
     {
+        if (!is_array($arguments)) {
+            return;
+        }
+
         foreach ($arguments as $argument) {
-            if (is_array($argument)) {
-                $this->processReferences($argument);
-            } elseif ($argument instanceof Definition) {
-                $this->processDefinition($argument);
-            } elseif ($this->isMissingDefinitionReference($argument)) {
-                $this->addMissingDefinitionReferenceToContainer($argument);
-            }
+            $this->processReferences($argument);
+            $this->processDefinition($argument);
+            $this->addMissingDefinitionReferenceToContainer($argument);
+        }
+    }
+
+    /**
+     * @param mixed $argument
+     */
+    private function addMissingDefinitionReferenceToContainer($argument)
+    {
+        if (!$this->isMissingDefinitionReference($argument)) {
+            return;
+        }
+
+        $serviceName = (string) $argument;
+        if (class_exists($serviceName)) {
+            $serviceName = (new ReflectionClass($serviceName))->name;
+        }
+
+        if (!$this->container->has($serviceName)) {
+            $this->container->setDefinition($serviceName, new Definition(stdClass::class));
         }
     }
 
@@ -68,18 +97,6 @@ final class FakeReferencesPass implements CompilerPassInterface
     private function isMissingDefinitionReference($argument) : bool
     {
         return $argument instanceof Reference
-            && $argument->getInvalidBehavior() === ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE;
-    }
-
-    private function addMissingDefinitionReferenceToContainer(Reference $argument)
-    {
-        $serviceName = (string) $argument;
-        if (class_exists($serviceName)) {
-            $serviceName = (new ReflectionClass($serviceName))->name;
-        }
-
-        if (!$this->container->has($serviceName)) {
-            $this->container->setDefinition($serviceName, new Definition(stdClass::class));
-        }
+        && $argument->getInvalidBehavior() === ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE;
     }
 }
