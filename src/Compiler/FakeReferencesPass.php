@@ -56,18 +56,30 @@ final class FakeReferencesPass implements CompilerPassInterface
                 $this->processReferences($argument);
             } elseif ($argument instanceof Definition) {
                 $this->processDefinition($argument);
-            } elseif ($argument instanceof Reference
-                && $argument->getInvalidBehavior() === ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE
-            ) {
-                $serviceName = (string) $argument;
-                if (class_exists($serviceName)) {
-                    $serviceName = (new ReflectionClass($serviceName))->name;
-                }
-
-                if (!$this->container->has($serviceName)) {
-                    $this->container->setDefinition($serviceName, new Definition(stdClass::class));
-                }
+            } elseif ($this->isMissingDefinitionReference($argument)) {
+                $this->addMissingDefinitionReferenceToContainer($argument);
             }
+        }
+    }
+
+    /**
+     * @param mixed $argument
+     */
+    private function isMissingDefinitionReference($argument)
+    {
+        return $argument instanceof Reference
+            && $argument->getInvalidBehavior() === ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE;
+    }
+
+    private function addMissingDefinitionReferenceToContainer(Reference $argument)
+    {
+        $serviceName = (string) $argument;
+        if (class_exists($serviceName)) {
+            $serviceName = (new ReflectionClass($serviceName))->name;
+        }
+
+        if (!$this->container->has($serviceName)) {
+            $this->container->setDefinition($serviceName, new Definition(stdClass::class));
         }
     }
 }
